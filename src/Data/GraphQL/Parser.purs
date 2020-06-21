@@ -7,7 +7,6 @@ import Data.Array (many, singleton, some)
 import Data.Enum (toEnum)
 import Data.Foldable (fold)
 import Data.GraphQL.AST as AST
-import Data.GraphQL.AST as AST
 import Data.Int as DI
 import Data.List as L
 import Data.Maybe (Maybe(..), maybe)
