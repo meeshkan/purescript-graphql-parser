@@ -8,7 +8,7 @@ import Test.Data.GraphQL.ParseFull0 (testFullDoc)
 import Test.Spec.Reporter.Console (consoleReporter)
 import Test.Spec.Runner (runSpec)
 
-main :: Effect Unit
+main ∷ Effect Unit
 main =
   launchAff_
     $ runSpec [ consoleReporter ] do
