@@ -1,0 +1,17 @@
+{
+  "name": "purescript-graphql-parser",
+  "license": ["Apache-2.0"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meeshkan/purescript-graphql-parser"
+  },
+  "ignore": ["**/.*", "node_modules", "bower_components", "output"],
+  "dependencies": {
+    "purescript-console": "^v4.4.0",
+    "purescript-effect": "^v2.0.1",
+    "purescript-psci-support": "^v4.0.0",
+    "purescript-generics-rep": "^v6.1.1",
+    "purescript-numbers": "^v7.0.0",
+    "purescript-parsing": "^v5.0.3"
+  }
+}
