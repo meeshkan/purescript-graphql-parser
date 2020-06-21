@@ -165,16 +165,16 @@ simpleUnicodeString =
 simpleEscapedString ∷ ∀ s. StringLike s ⇒ Parser s String
 simpleEscapedString =
   char '\\' *> oneOf [ '"', '\\', '/', 'b', 'f', 'n', 'r', 't' ]
-    >>= ( \x -> case x of
-          '"' -> pure '"'
-          '\\' -> pure '\\'
-          '/' -> pure '/'
-          'n' -> pure '\n'
-          'r' -> pure '\r'
-          't' -> pure '\t'
-          'b' -> fail "Cannot handle backspace yet"
-          'f' -> fail "Cannot handle formfeed yet"
-          _ -> fail "No clue how to parse this escapedString"
+    >>= ( \x → case x of
+          '"' → pure '"'
+          '\\' → pure '\\'
+          '/' → pure '/'
+          'n' → pure '\n'
+          'r' → pure '\r'
+          't' → pure '\t'
+          'b' → fail "Cannot handle backspace yet"
+          'f' → fail "Cannot handle formfeed yet"
+          _ → fail "No clue how to parse this escapedString"
       )
     >>= c2str
 
@@ -192,7 +192,7 @@ simpleStringValue =
     )
 
 notTripleQuote ∷ ∀ s. StringLike s ⇒ Parser s String
-notTripleQuote = (lookAhead (sequence [ anyChar, anyChar, anyChar ])) >>= (\s -> if (s == [ '"', '"', '"' ]) then (fail "this is a triple quote") else anyChar >>= c2str)
+notTripleQuote = (lookAhead (sequence [ anyChar, anyChar, anyChar ])) >>= (\s → if (s == [ '"', '"', '"' ]) then (fail "this is a triple quote") else anyChar >>= c2str)
 
 blockStringValue ∷ ∀ s. StringLike s ⇒ Parser s String
 blockStringValue = between tripleQuote tripleQuote (fold <$> many notTripleQuote)

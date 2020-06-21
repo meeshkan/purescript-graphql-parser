@@ -6,160 +6,160 @@ import Data.Generic.Rep.Show (genericShow)
 import Data.List (List)
 import Data.Maybe (Maybe)
 
-derive instance documentGeneric :: Generic Document _
+derive instance documentGeneric ∷ Generic Document _
 
-instance documentShow :: Show Document where
+instance documentShow ∷ Show Document where
   show v = genericShow v
 
-derive instance documentEq :: Eq Document
+derive instance documentEq ∷ Eq Document
 
 data Document
   = Document (List Definition)
 
-derive instance definitionGeneric :: Generic Definition _
+derive instance definitionGeneric ∷ Generic Definition _
 
-instance definitionShow :: Show Definition where
+instance definitionShow ∷ Show Definition where
   show v = genericShow v
 
-derive instance definitionEq :: Eq Definition
+derive instance definitionEq ∷ Eq Definition
 
 data Definition
   = Definition_ExecutableDefinition ExecutableDefinition
   | Definition_TypeSystemDefinition TypeSystemDefinition
   | Definition_TypeSystemExtension TypeSystemExtension
 
-derive instance executableDefinitionGeneric :: Generic ExecutableDefinition _
+derive instance executableDefinitionGeneric ∷ Generic ExecutableDefinition _
 
-instance executableDefinitionShow :: Show ExecutableDefinition where
+instance executableDefinitionShow ∷ Show ExecutableDefinition where
   show v = genericShow v
 
-derive instance executableDefinitionEq :: Eq ExecutableDefinition
+derive instance executableDefinitionEq ∷ Eq ExecutableDefinition
 
 data ExecutableDefinition
   = ExecutableDefinition_OperationDefinition OperationDefinition
   | ExecutableDefinition_FragmentDefinition FragmentDefinition
 
-derive instance operationDefinitionGeneric :: Generic OperationDefinition _
+derive instance operationDefinitionGeneric ∷ Generic OperationDefinition _
 
-instance operationDefinitionShow :: Show OperationDefinition where
+instance operationDefinitionShow ∷ Show OperationDefinition where
   show v = genericShow v
 
-derive instance operationDefinitionEq :: Eq OperationDefinition
+derive instance operationDefinitionEq ∷ Eq OperationDefinition
 
 data OperationDefinition
   = OperationDefinition_SelectionSet SelectionSet
-  | OperationDefinition_OperationType { operationType :: OperationType, name :: (Maybe String), variableDefinitions :: (Maybe VariableDefinitions), directives :: (Maybe Directives), selectionSet :: SelectionSet }
+  | OperationDefinition_OperationType { operationType ∷ OperationType, name ∷ (Maybe String), variableDefinitions ∷ (Maybe VariableDefinitions), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
 
-derive instance operationTypeGeneric :: Generic OperationType _
+derive instance operationTypeGeneric ∷ Generic OperationType _
 
-instance operationTypeShow :: Show OperationType where
+instance operationTypeShow ∷ Show OperationType where
   show v = genericShow v
 
-derive instance operationTypeEq :: Eq OperationType
+derive instance operationTypeEq ∷ Eq OperationType
 
 data OperationType
   = Query
   | Mutation
   | Subscription
 
-derive instance selectionSetGeneric :: Generic SelectionSet _
+derive instance selectionSetGeneric ∷ Generic SelectionSet _
 
-instance selectionSetShow :: Show SelectionSet where
+instance selectionSetShow ∷ Show SelectionSet where
   show v = genericShow v
 
-derive instance selectionSetEq :: Eq SelectionSet
+derive instance selectionSetEq ∷ Eq SelectionSet
 
 data SelectionSet
   = SelectionSet (List Selection)
 
-derive instance selectionGeneric :: Generic Selection _
+derive instance selectionGeneric ∷ Generic Selection _
 
-instance selectionShow :: Show Selection where
+instance selectionShow ∷ Show Selection where
   show v = genericShow v
 
-derive instance selectionEq :: Eq Selection
+derive instance selectionEq ∷ Eq Selection
 
 data Selection
   = Selection_Field Field
   | Selection_FragmentSpread FragmentSpread
   | Selection_InlineFragment InlineFragment
 
-derive instance fieldGeneric :: Generic Field _
+derive instance fieldGeneric ∷ Generic Field _
 
-instance fieldShow :: Show Field where
+instance fieldShow ∷ Show Field where
   show v = genericShow v
 
-derive instance fieldEq :: Eq Field
+derive instance fieldEq ∷ Eq Field
 
 data Field
-  = Field { alias :: (Maybe String), name :: String, arguments :: (Maybe Arguments), directives :: (Maybe Directives), selectionSet :: (Maybe SelectionSet) }
+  = Field { alias ∷ (Maybe String), name ∷ String, arguments ∷ (Maybe Arguments), directives ∷ (Maybe Directives), selectionSet ∷ (Maybe SelectionSet) }
 
-derive instance argumentsGeneric :: Generic Arguments _
+derive instance argumentsGeneric ∷ Generic Arguments _
 
-instance argumentsShow :: Show Arguments where
+instance argumentsShow ∷ Show Arguments where
   show v = genericShow v
 
-derive instance argumentsEq :: Eq Arguments
+derive instance argumentsEq ∷ Eq Arguments
 
 data Arguments
   = Arguments (List Argument)
 
-derive instance argumentGeneric :: Generic Argument _
+derive instance argumentGeneric ∷ Generic Argument _
 
-instance argumentShow :: Show Argument where
+instance argumentShow ∷ Show Argument where
   show v = genericShow v
 
-derive instance argumentEq :: Eq Argument
+derive instance argumentEq ∷ Eq Argument
 
 data Argument
   = Argument String Value
 
-derive instance fragmentSpreadGeneric :: Generic FragmentSpread _
+derive instance fragmentSpreadGeneric ∷ Generic FragmentSpread _
 
-instance fragmentSpreadShow :: Show FragmentSpread where
+instance fragmentSpreadShow ∷ Show FragmentSpread where
   show v = genericShow v
 
-derive instance fragmentSpreadEq :: Eq FragmentSpread
+derive instance fragmentSpreadEq ∷ Eq FragmentSpread
 
 data FragmentSpread
-  = FragmentSpread { fragmentName :: String, directives :: Maybe Directives }
+  = FragmentSpread { fragmentName ∷ String, directives ∷ Maybe Directives }
 
-derive instance inlineFragmentGeneric :: Generic InlineFragment _
+derive instance inlineFragmentGeneric ∷ Generic InlineFragment _
 
-instance inlineFragmentShow :: Show InlineFragment where
+instance inlineFragmentShow ∷ Show InlineFragment where
   show v = genericShow v
 
-derive instance inlineFragmentEq :: Eq InlineFragment
+derive instance inlineFragmentEq ∷ Eq InlineFragment
 
 data InlineFragment
-  = InlineFragment { typeCondition :: (Maybe TypeCondition), directives :: (Maybe Directives), selectionSet :: SelectionSet }
+  = InlineFragment { typeCondition ∷ (Maybe TypeCondition), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
 
-derive instance fragmentDefinitionGeneric :: Generic FragmentDefinition _
+derive instance fragmentDefinitionGeneric ∷ Generic FragmentDefinition _
 
-instance fragmentDefinitionShow :: Show FragmentDefinition where
+instance fragmentDefinitionShow ∷ Show FragmentDefinition where
   show v = genericShow v
 
-derive instance fragmentDefinitionEq :: Eq FragmentDefinition
+derive instance fragmentDefinitionEq ∷ Eq FragmentDefinition
 
 data FragmentDefinition
-  = FragmentDefinition { fragmentName :: String, typeCondition :: TypeCondition, directives :: (Maybe Directives), selectionSet :: SelectionSet }
+  = FragmentDefinition { fragmentName ∷ String, typeCondition ∷ TypeCondition, directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
 
-derive instance typeConditionGeneric :: Generic TypeCondition _
+derive instance typeConditionGeneric ∷ Generic TypeCondition _
 
-instance typeConditionShow :: Show TypeCondition where
+instance typeConditionShow ∷ Show TypeCondition where
   show v = genericShow v
 
-derive instance typeConditionEq :: Eq TypeCondition
+derive instance typeConditionEq ∷ Eq TypeCondition
 
 data TypeCondition
   = TypeCondition NamedType
 
-derive instance valueGeneric :: Generic Value _
+derive instance valueGeneric ∷ Generic Value _
 
-instance valueShow :: Show Value where
+instance valueShow ∷ Show Value where
   show v = genericShow v
 
-derive instance valueEq :: Eq Value
+derive instance valueEq ∷ Eq Value
 
 data Value
   = Value_Variable Variable
@@ -172,259 +172,259 @@ data Value
   | Value_ListValue ListValue
   | Value_ObjectValue ObjectValue
 
-derive instance intValueGeneric :: Generic IntValue _
+derive instance intValueGeneric ∷ Generic IntValue _
 
-instance intValueShow :: Show IntValue where
+instance intValueShow ∷ Show IntValue where
   show v = genericShow v
 
-derive instance intValueEq :: Eq IntValue
+derive instance intValueEq ∷ Eq IntValue
 
 data IntValue
   = IntValue Int
 
-derive instance floatValueGeneric :: Generic FloatValue _
+derive instance floatValueGeneric ∷ Generic FloatValue _
 
-instance floatValueShow :: Show FloatValue where
+instance floatValueShow ∷ Show FloatValue where
   show v = genericShow v
 
-derive instance floatValueEq :: Eq FloatValue
+derive instance floatValueEq ∷ Eq FloatValue
 
 data FloatValue
   = FloatValue Number
 
-derive instance booleanValueGeneric :: Generic BooleanValue _
+derive instance booleanValueGeneric ∷ Generic BooleanValue _
 
-instance booleanValueShow :: Show BooleanValue where
+instance booleanValueShow ∷ Show BooleanValue where
   show v = genericShow v
 
-derive instance booleanValueEq :: Eq BooleanValue
+derive instance booleanValueEq ∷ Eq BooleanValue
 
 data BooleanValue
   = BooleanValue Boolean
 
-derive instance stringValueGeneric :: Generic StringValue _
+derive instance stringValueGeneric ∷ Generic StringValue _
 
-instance stringValueShow :: Show StringValue where
+instance stringValueShow ∷ Show StringValue where
   show v = genericShow v
 
-derive instance stringValueEq :: Eq StringValue
+derive instance stringValueEq ∷ Eq StringValue
 
 data StringValue
   = StringValue String
 
-derive instance nullValueGeneric :: Generic NullValue _
+derive instance nullValueGeneric ∷ Generic NullValue _
 
-instance nullValueShow :: Show NullValue where
+instance nullValueShow ∷ Show NullValue where
   show v = genericShow v
 
-derive instance nullValueEq :: Eq NullValue
+derive instance nullValueEq ∷ Eq NullValue
 
 data NullValue
   = NullValue
 
-derive instance enumValueGeneric :: Generic EnumValue _
+derive instance enumValueGeneric ∷ Generic EnumValue _
 
-instance enumValueShow :: Show EnumValue where
+instance enumValueShow ∷ Show EnumValue where
   show v = genericShow v
 
-derive instance enumValueEq :: Eq EnumValue
+derive instance enumValueEq ∷ Eq EnumValue
 
 data EnumValue
   = EnumValue String
 
-derive instance listValueGeneric :: Generic ListValue _
+derive instance listValueGeneric ∷ Generic ListValue _
 
-instance listValueShow :: Show ListValue where
+instance listValueShow ∷ Show ListValue where
   show v = genericShow v
 
-derive instance listValueEq :: Eq ListValue
+derive instance listValueEq ∷ Eq ListValue
 
 data ListValue
   = ListValue (List Value)
 
-derive instance objectValueGeneric :: Generic ObjectValue _
+derive instance objectValueGeneric ∷ Generic ObjectValue _
 
-instance objectValueShow :: Show ObjectValue where
+instance objectValueShow ∷ Show ObjectValue where
   show v = genericShow v
 
-derive instance objectValueEq :: Eq ObjectValue
+derive instance objectValueEq ∷ Eq ObjectValue
 
 data ObjectValue
   = ObjectValue (List Argument)
 
-derive instance variableDefinitionsGeneric :: Generic VariableDefinitions _
+derive instance variableDefinitionsGeneric ∷ Generic VariableDefinitions _
 
-instance variableDefinitionsShow :: Show VariableDefinitions where
+instance variableDefinitionsShow ∷ Show VariableDefinitions where
   show v = genericShow v
 
-derive instance variableDefinitionsEq :: Eq VariableDefinitions
+derive instance variableDefinitionsEq ∷ Eq VariableDefinitions
 
 data VariableDefinitions
   = VariableDefinitions (List VariableDefinition)
 
-derive instance variableDefinitionGeneric :: Generic VariableDefinition _
+derive instance variableDefinitionGeneric ∷ Generic VariableDefinition _
 
-instance variableDefinitionShow :: Show VariableDefinition where
+instance variableDefinitionShow ∷ Show VariableDefinition where
   show v = genericShow v
 
-derive instance variableDefinitionEq :: Eq VariableDefinition
+derive instance variableDefinitionEq ∷ Eq VariableDefinition
 
 data VariableDefinition
-  = VariableDefinition { variable :: Variable, type :: Type, defaultValue :: (Maybe DefaultValue) }
+  = VariableDefinition { variable ∷ Variable, type ∷ Type, defaultValue ∷ (Maybe DefaultValue) }
 
-derive instance variableGeneric :: Generic Variable _
+derive instance variableGeneric ∷ Generic Variable _
 
-instance variableShow :: Show Variable where
+instance variableShow ∷ Show Variable where
   show v = genericShow v
 
-derive instance variableEq :: Eq Variable
+derive instance variableEq ∷ Eq Variable
 
 data Variable
   = Variable String
 
-derive instance defaultValueGeneric :: Generic DefaultValue _
+derive instance defaultValueGeneric ∷ Generic DefaultValue _
 
-instance defaultValueShow :: Show DefaultValue where
+instance defaultValueShow ∷ Show DefaultValue where
   show v = genericShow v
 
-derive instance defaultValueEq :: Eq DefaultValue
+derive instance defaultValueEq ∷ Eq DefaultValue
 
 data DefaultValue
   = DefaultValue Value
 
-derive instance typeGeneric :: Generic Type _
+derive instance typeGeneric ∷ Generic Type _
 
-instance typeShow :: Show Type where
+instance typeShow ∷ Show Type where
   show v = genericShow v
 
-derive instance typeEq :: Eq Type
+derive instance typeEq ∷ Eq Type
 
 data Type
   = Type_NamedType NamedType
   | Type_ListType ListType
   | Type_NonNullType NonNullType
 
-derive instance namedTypeGeneric :: Generic NamedType _
+derive instance namedTypeGeneric ∷ Generic NamedType _
 
-instance namedTypeShow :: Show NamedType where
+instance namedTypeShow ∷ Show NamedType where
   show v = genericShow v
 
-derive instance namedTypeEq :: Eq NamedType
+derive instance namedTypeEq ∷ Eq NamedType
 
 data NamedType
   = NamedType String
 
-derive instance listTypeGeneric :: Generic ListType _
+derive instance listTypeGeneric ∷ Generic ListType _
 
-instance listTypeShow :: Show ListType where
+instance listTypeShow ∷ Show ListType where
   show v = genericShow v
 
-derive instance listTypeEq :: Eq ListType
+derive instance listTypeEq ∷ Eq ListType
 
 data ListType
   = ListType (List Type)
 
-derive instance nonNullTypeGeneric :: Generic NonNullType _
+derive instance nonNullTypeGeneric ∷ Generic NonNullType _
 
-instance nonNullTypeShow :: Show NonNullType where
+instance nonNullTypeShow ∷ Show NonNullType where
   show v = genericShow v
 
-derive instance nonNullTypeEq :: Eq NonNullType
+derive instance nonNullTypeEq ∷ Eq NonNullType
 
 data NonNullType
   = NonNullType_NamedType NamedType
   | NonNullType_ListType ListType
 
-derive instance directivesGeneric :: Generic Directives _
+derive instance directivesGeneric ∷ Generic Directives _
 
-instance directivesShow :: Show Directives where
+instance directivesShow ∷ Show Directives where
   show v = genericShow v
 
-derive instance directivesEq :: Eq Directives
+derive instance directivesEq ∷ Eq Directives
 
 data Directives
   = Directives (List Directive)
 
-derive instance directiveGeneric :: Generic Directive _
+derive instance directiveGeneric ∷ Generic Directive _
 
-instance directiveShow :: Show Directive where
+instance directiveShow ∷ Show Directive where
   show v = genericShow v
 
-derive instance directiveEq :: Eq Directive
+derive instance directiveEq ∷ Eq Directive
 
 data Directive
-  = Directive { name :: String, arguments :: (Maybe Arguments) }
+  = Directive { name ∷ String, arguments ∷ (Maybe Arguments) }
 
-derive instance typeSystemDefinitionGeneric :: Generic TypeSystemDefinition _
+derive instance typeSystemDefinitionGeneric ∷ Generic TypeSystemDefinition _
 
-instance typeSystemDefinitionShow :: Show TypeSystemDefinition where
+instance typeSystemDefinitionShow ∷ Show TypeSystemDefinition where
   show v = genericShow v
 
-derive instance typeSystemDefinitionEq :: Eq TypeSystemDefinition
+derive instance typeSystemDefinitionEq ∷ Eq TypeSystemDefinition
 
 data TypeSystemDefinition
   = TypeSystemDefinition_SchemaDefinition SchemaDefinition
   | TypeSystemDefinition_TypeDefinition TypeDefinition
   | TypeSystemDefinition_DirectiveDefinition DirectiveDefinition
 
-derive instance typeSystemExtensionGeneric :: Generic TypeSystemExtension _
+derive instance typeSystemExtensionGeneric ∷ Generic TypeSystemExtension _
 
-instance typeSystemExtensionShow :: Show TypeSystemExtension where
+instance typeSystemExtensionShow ∷ Show TypeSystemExtension where
   show v = genericShow v
 
-derive instance typeSystemExtensionEq :: Eq TypeSystemExtension
+derive instance typeSystemExtensionEq ∷ Eq TypeSystemExtension
 
 data TypeSystemExtension
   = TypeSystemExtension_SchemaExtension SchemaExtension
   | TypeSystemExtension_TypeExtension TypeExtension
 
-derive instance schemaDefinitionGeneric :: Generic SchemaDefinition _
+derive instance schemaDefinitionGeneric ∷ Generic SchemaDefinition _
 
-instance schemaDefinitionShow :: Show SchemaDefinition where
+instance schemaDefinitionShow ∷ Show SchemaDefinition where
   show v = genericShow v
 
-derive instance schemaDefinitionEq :: Eq SchemaDefinition
+derive instance schemaDefinitionEq ∷ Eq SchemaDefinition
 
 data SchemaDefinition
-  = SchemaDefinition { directives :: (Maybe Directives), rootOperationTypeDefinition :: (List RootOperationTypeDefinition) }
+  = SchemaDefinition { directives ∷ (Maybe Directives), rootOperationTypeDefinition ∷ (List RootOperationTypeDefinition) }
 
-derive instance rootOperationTypeDefinitionGeneric :: Generic RootOperationTypeDefinition _
+derive instance rootOperationTypeDefinitionGeneric ∷ Generic RootOperationTypeDefinition _
 
-instance rootOperationTypeDefinitionShow :: Show RootOperationTypeDefinition where
+instance rootOperationTypeDefinitionShow ∷ Show RootOperationTypeDefinition where
   show v = genericShow v
 
-derive instance rootOperationTypeDefinitionEq :: Eq RootOperationTypeDefinition
+derive instance rootOperationTypeDefinitionEq ∷ Eq RootOperationTypeDefinition
 
 data RootOperationTypeDefinition
   = RootOperationTypeDefinition OperationType NamedType
 
-derive instance schemaExtensionGeneric :: Generic SchemaExtension _
+derive instance schemaExtensionGeneric ∷ Generic SchemaExtension _
 
-instance schemaExtensionShow :: Show SchemaExtension where
+instance schemaExtensionShow ∷ Show SchemaExtension where
   show v = genericShow v
 
-derive instance schemaExtensionEq :: Eq SchemaExtension
+derive instance schemaExtensionEq ∷ Eq SchemaExtension
 
 data SchemaExtension
-  = SchemaExtension_With_OperationTypeDefinition { directives :: (Maybe Directives), operationTypesDefinition :: (List OperationTypeDefinition) }
-  | SchemaExtension_With_Directives { directives :: Directives }
+  = SchemaExtension_With_OperationTypeDefinition { directives ∷ (Maybe Directives), operationTypesDefinition ∷ (List OperationTypeDefinition) }
+  | SchemaExtension_With_Directives { directives ∷ Directives }
 
-derive instance operationTypeDefinitionGeneric :: Generic OperationTypeDefinition _
+derive instance operationTypeDefinitionGeneric ∷ Generic OperationTypeDefinition _
 
-instance operationTypeDefinitionShow :: Show OperationTypeDefinition where
+instance operationTypeDefinitionShow ∷ Show OperationTypeDefinition where
   show v = genericShow v
 
-derive instance operationTypeDefinitionEq :: Eq OperationTypeDefinition
+derive instance operationTypeDefinitionEq ∷ Eq OperationTypeDefinition
 
 data OperationTypeDefinition
   = OperationTypeDefinition OperationType NamedType
 
-derive instance typeDefinitionGeneric :: Generic TypeDefinition _
+derive instance typeDefinitionGeneric ∷ Generic TypeDefinition _
 
-instance typeDefinitionShow :: Show TypeDefinition where
+instance typeDefinitionShow ∷ Show TypeDefinition where
   show v = genericShow v
 
-derive instance typeDefinitionEq :: Eq TypeDefinition
+derive instance typeDefinitionEq ∷ Eq TypeDefinition
 
 data TypeDefinition
   = TypeDefinition_ScalarTypeDefinition ScalarTypeDefinition
@@ -434,12 +434,12 @@ data TypeDefinition
   | TypeDefinition_EnumTypeDefinition EnumTypeDefinition
   | TypeDefinition_InputObjectTypeDefinition InputObjectTypeDefinition
 
-derive instance typeExtensionGeneric :: Generic TypeExtension _
+derive instance typeExtensionGeneric ∷ Generic TypeExtension _
 
-instance typeExtensionShow :: Show TypeExtension where
+instance typeExtensionShow ∷ Show TypeExtension where
   show v = genericShow v
 
-derive instance typeExtensionEq :: Eq TypeExtension
+derive instance typeExtensionEq ∷ Eq TypeExtension
 
 data TypeExtension
   = TypeExtension_ScalarTypeExtension ScalarTypeExtension
@@ -449,259 +449,259 @@ data TypeExtension
   | TypeExtension_EnumTypeExtension EnumTypeExtension
   | TypeExtension_InputObjectTypeExtension InputObjectTypeExtension
 
-derive instance scalarTypeDefinitionGeneric :: Generic ScalarTypeDefinition _
+derive instance scalarTypeDefinitionGeneric ∷ Generic ScalarTypeDefinition _
 
-instance scalarTypeDefinitionShow :: Show ScalarTypeDefinition where
+instance scalarTypeDefinitionShow ∷ Show ScalarTypeDefinition where
   show v = genericShow v
 
-derive instance scalarTypeDefinitionEq :: Eq ScalarTypeDefinition
+derive instance scalarTypeDefinitionEq ∷ Eq ScalarTypeDefinition
 
 data ScalarTypeDefinition
-  = ScalarTypeDefinition { description :: (Maybe String), name :: String, directives :: (Maybe Directives) }
+  = ScalarTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives) }
 
-derive instance scalarTypeExtensionGeneric :: Generic ScalarTypeExtension _
+derive instance scalarTypeExtensionGeneric ∷ Generic ScalarTypeExtension _
 
-instance scalarTypeExtensionShow :: Show ScalarTypeExtension where
+instance scalarTypeExtensionShow ∷ Show ScalarTypeExtension where
   show v = genericShow v
 
-derive instance scalarTypeExtensionEq :: Eq ScalarTypeExtension
+derive instance scalarTypeExtensionEq ∷ Eq ScalarTypeExtension
 
 data ScalarTypeExtension
-  = ScalarTypeExtension { name :: String, directives :: Directives }
+  = ScalarTypeExtension { name ∷ String, directives ∷ Directives }
 
-derive instance objectTypeDefinitionGeneric :: Generic ObjectTypeDefinition _
+derive instance objectTypeDefinitionGeneric ∷ Generic ObjectTypeDefinition _
 
-instance objectTypeDefinitionShow :: Show ObjectTypeDefinition where
+instance objectTypeDefinitionShow ∷ Show ObjectTypeDefinition where
   show v = genericShow v
 
-derive instance objectTypeDefinitionEq :: Eq ObjectTypeDefinition
+derive instance objectTypeDefinitionEq ∷ Eq ObjectTypeDefinition
 
 data ObjectTypeDefinition
-  = ObjectTypeDefinition { description :: (Maybe String), name :: String, implementsInterfaces :: (Maybe ImplementsInterfaces), directives :: (Maybe Directives), fieldsDefinition :: (Maybe FieldsDefinition) }
+  = ObjectTypeDefinition { description ∷ (Maybe String), name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
 
-derive instance objectTypeExtensionGeneric :: Generic ObjectTypeExtension _
+derive instance objectTypeExtensionGeneric ∷ Generic ObjectTypeExtension _
 
-instance objectTypeExtensionShow :: Show ObjectTypeExtension where
+instance objectTypeExtensionShow ∷ Show ObjectTypeExtension where
   show v = genericShow v
 
-derive instance objectTypeExtensionEq :: Eq ObjectTypeExtension
+derive instance objectTypeExtensionEq ∷ Eq ObjectTypeExtension
 
 data ObjectTypeExtension
-  = ObjectTypeExtension_With_FieldsDefinition { name :: String, implementsInterfaces :: (Maybe ImplementsInterfaces), directives :: (Maybe Directives), fieldsDefinition :: FieldsDefinition }
-  | ObjectTypeExtension_With_Directives { name :: String, implementsInterfaces :: (Maybe ImplementsInterfaces), directives :: Directives }
-  | ObjectTypeExtension_With_ImplementsInterfaces { name :: String, implementsInterfaces :: ImplementsInterfaces }
+  = ObjectTypeExtension_With_FieldsDefinition { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
+  | ObjectTypeExtension_With_Directives { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ Directives }
+  | ObjectTypeExtension_With_ImplementsInterfaces { name ∷ String, implementsInterfaces ∷ ImplementsInterfaces }
 
-derive instance implementsInterfacesGeneric :: Generic ImplementsInterfaces _
+derive instance implementsInterfacesGeneric ∷ Generic ImplementsInterfaces _
 
-instance implementsInterfacesShow :: Show ImplementsInterfaces where
+instance implementsInterfacesShow ∷ Show ImplementsInterfaces where
   show v = genericShow v
 
-derive instance implementsInterfacesEq :: Eq ImplementsInterfaces
+derive instance implementsInterfacesEq ∷ Eq ImplementsInterfaces
 
 data ImplementsInterfaces
   = ImplementsInterfaces (List NamedType)
 
-derive instance fieldsDefinitionGeneric :: Generic FieldsDefinition _
+derive instance fieldsDefinitionGeneric ∷ Generic FieldsDefinition _
 
-instance fieldsDefinitionShow :: Show FieldsDefinition where
+instance fieldsDefinitionShow ∷ Show FieldsDefinition where
   show v = genericShow v
 
-derive instance fieldsDefinitionEq :: Eq FieldsDefinition
+derive instance fieldsDefinitionEq ∷ Eq FieldsDefinition
 
 data FieldsDefinition
   = FieldsDefinition (List FieldDefinition)
 
-derive instance fieldDefinitionGeneric :: Generic FieldDefinition _
+derive instance fieldDefinitionGeneric ∷ Generic FieldDefinition _
 
-instance fieldDefinitionShow :: Show FieldDefinition where
+instance fieldDefinitionShow ∷ Show FieldDefinition where
   show v = genericShow v
 
-derive instance fieldDefinitionEq :: Eq FieldDefinition
+derive instance fieldDefinitionEq ∷ Eq FieldDefinition
 
 data FieldDefinition
-  = FieldDefinition { description :: (Maybe String), name :: String, argumentsDefinition :: (Maybe ArgumentsDefinition), type :: Type, directives :: (Maybe Directives) }
+  = FieldDefinition { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), type ∷ Type, directives ∷ (Maybe Directives) }
 
-derive instance argumentsDefinitionGeneric :: Generic ArgumentsDefinition _
+derive instance argumentsDefinitionGeneric ∷ Generic ArgumentsDefinition _
 
-instance argumentsDefinitionShow :: Show ArgumentsDefinition where
+instance argumentsDefinitionShow ∷ Show ArgumentsDefinition where
   show v = genericShow v
 
-derive instance argumentsDefinitionEq :: Eq ArgumentsDefinition
+derive instance argumentsDefinitionEq ∷ Eq ArgumentsDefinition
 
 data ArgumentsDefinition
   = ArgumentsDefinition (List InputValueDefinition)
 
-derive instance inputValueDefinitionGeneric :: Generic InputValueDefinition _
+derive instance inputValueDefinitionGeneric ∷ Generic InputValueDefinition _
 
-instance inputValueDefinitionShow :: Show InputValueDefinition where
+instance inputValueDefinitionShow ∷ Show InputValueDefinition where
   show v = genericShow v
 
-derive instance inputValueDefinitionEq :: Eq InputValueDefinition
+derive instance inputValueDefinitionEq ∷ Eq InputValueDefinition
 
 data InputValueDefinition
-  = InputValueDefinition { description :: (Maybe String), name :: String, type :: Type, defaultValue :: (Maybe DefaultValue), directives :: (Maybe Directives) }
+  = InputValueDefinition { description ∷ (Maybe String), name ∷ String, type ∷ Type, defaultValue ∷ (Maybe DefaultValue), directives ∷ (Maybe Directives) }
 
-derive instance interfaceTypeDefinitionGeneric :: Generic InterfaceTypeDefinition _
+derive instance interfaceTypeDefinitionGeneric ∷ Generic InterfaceTypeDefinition _
 
-instance interfaceTypeDefinitionShow :: Show InterfaceTypeDefinition where
+instance interfaceTypeDefinitionShow ∷ Show InterfaceTypeDefinition where
   show v = genericShow v
 
-derive instance interfaceTypeDefinitionEq :: Eq InterfaceTypeDefinition
+derive instance interfaceTypeDefinitionEq ∷ Eq InterfaceTypeDefinition
 
 data InterfaceTypeDefinition
-  = InterfaceTypeDefinition { description :: (Maybe String), name :: String, directives :: (Maybe Directives), fieldsDefinition :: (Maybe FieldsDefinition) }
+  = InterfaceTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
 
-derive instance interfaceTypeExtensionGeneric :: Generic InterfaceTypeExtension _
+derive instance interfaceTypeExtensionGeneric ∷ Generic InterfaceTypeExtension _
 
-instance interfaceTypeExtensionShow :: Show InterfaceTypeExtension where
+instance interfaceTypeExtensionShow ∷ Show InterfaceTypeExtension where
   show v = genericShow v
 
-derive instance interfaceTypeExtensionEq :: Eq InterfaceTypeExtension
+derive instance interfaceTypeExtensionEq ∷ Eq InterfaceTypeExtension
 
 data InterfaceTypeExtension
-  = InterfaceTypeExtension_With_FieldsDefinition { name :: String, directives :: (Maybe Directives), fieldsDefinition :: FieldsDefinition }
-  | InterfaceTypeExtension_With_Directives { name :: String, directives :: Directives }
+  = InterfaceTypeExtension_With_FieldsDefinition { name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
+  | InterfaceTypeExtension_With_Directives { name ∷ String, directives ∷ Directives }
 
-derive instance unionTypeDefinitionGeneric :: Generic UnionTypeDefinition _
+derive instance unionTypeDefinitionGeneric ∷ Generic UnionTypeDefinition _
 
-instance unionTypeDefinitionShow :: Show UnionTypeDefinition where
+instance unionTypeDefinitionShow ∷ Show UnionTypeDefinition where
   show v = genericShow v
 
-derive instance unionTypeDefinitionEq :: Eq UnionTypeDefinition
+derive instance unionTypeDefinitionEq ∷ Eq UnionTypeDefinition
 
 data UnionTypeDefinition
-  = UnionTypeDefinition { description :: Maybe String, name :: String, directives :: (Maybe Directives), unionMemberTypes :: (Maybe UnionMemberTypes) }
+  = UnionTypeDefinition { description ∷ Maybe String, name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ (Maybe UnionMemberTypes) }
 
-derive instance unionMemberTypesGeneric :: Generic UnionMemberTypes _
+derive instance unionMemberTypesGeneric ∷ Generic UnionMemberTypes _
 
-instance unionMemberTypesShow :: Show UnionMemberTypes where
+instance unionMemberTypesShow ∷ Show UnionMemberTypes where
   show v = genericShow v
 
-derive instance unionMemberTypesEq :: Eq UnionMemberTypes
+derive instance unionMemberTypesEq ∷ Eq UnionMemberTypes
 
 data UnionMemberTypes
   = UnionMemberTypes (List NamedType)
 
-derive instance unionTypeExtensionGeneric :: Generic UnionTypeExtension _
+derive instance unionTypeExtensionGeneric ∷ Generic UnionTypeExtension _
 
-instance unionTypeExtensionShow :: Show UnionTypeExtension where
+instance unionTypeExtensionShow ∷ Show UnionTypeExtension where
   show v = genericShow v
 
-derive instance unionTypeExtensionEq :: Eq UnionTypeExtension
+derive instance unionTypeExtensionEq ∷ Eq UnionTypeExtension
 
 data UnionTypeExtension
-  = UnionTypeExtension_With_UnionMemberTypes { name :: String, directives :: (Maybe Directives), unionMemberTypes :: UnionMemberTypes }
-  | UnionTypeExtension_With_Directives { name :: String, directives :: Directives }
+  = UnionTypeExtension_With_UnionMemberTypes { name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ UnionMemberTypes }
+  | UnionTypeExtension_With_Directives { name ∷ String, directives ∷ Directives }
 
-derive instance enumTypeDefinitionGeneric :: Generic EnumTypeDefinition _
+derive instance enumTypeDefinitionGeneric ∷ Generic EnumTypeDefinition _
 
-instance enumTypeDefinitionShow :: Show EnumTypeDefinition where
+instance enumTypeDefinitionShow ∷ Show EnumTypeDefinition where
   show v = genericShow v
 
-derive instance enumTypeDefinitionEq :: Eq EnumTypeDefinition
+derive instance enumTypeDefinitionEq ∷ Eq EnumTypeDefinition
 
 data EnumTypeDefinition
-  = EnumTypeDefinition { description :: (Maybe String), name :: String, directives :: (Maybe Directives), enumValuesDefinition :: (Maybe EnumValuesDefinition) }
+  = EnumTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ (Maybe EnumValuesDefinition) }
 
-derive instance enumValuesDefinitionGeneric :: Generic EnumValuesDefinition _
+derive instance enumValuesDefinitionGeneric ∷ Generic EnumValuesDefinition _
 
-instance enumValuesDefinitionShow :: Show EnumValuesDefinition where
+instance enumValuesDefinitionShow ∷ Show EnumValuesDefinition where
   show v = genericShow v
 
-derive instance enumValuesDefinitionEq :: Eq EnumValuesDefinition
+derive instance enumValuesDefinitionEq ∷ Eq EnumValuesDefinition
 
 data EnumValuesDefinition
   = EnumValuesDefinition (List EnumValueDefinition)
 
-derive instance enumValueDefinitionGeneric :: Generic EnumValueDefinition _
+derive instance enumValueDefinitionGeneric ∷ Generic EnumValueDefinition _
 
-instance enumValueDefinitionShow :: Show EnumValueDefinition where
+instance enumValueDefinitionShow ∷ Show EnumValueDefinition where
   show v = genericShow v
 
-derive instance enumValueDefinitionEq :: Eq EnumValueDefinition
+derive instance enumValueDefinitionEq ∷ Eq EnumValueDefinition
 
 data EnumValueDefinition
-  = EnumValueDefinition { description :: (Maybe String), enumValue :: EnumValue, directives :: (Maybe Directives) }
+  = EnumValueDefinition { description ∷ (Maybe String), enumValue ∷ EnumValue, directives ∷ (Maybe Directives) }
 
-derive instance enumTypeExtensionGeneric :: Generic EnumTypeExtension _
+derive instance enumTypeExtensionGeneric ∷ Generic EnumTypeExtension _
 
-instance enumTypeExtensionShow :: Show EnumTypeExtension where
+instance enumTypeExtensionShow ∷ Show EnumTypeExtension where
   show v = genericShow v
 
-derive instance enumTypeExtensionEq :: Eq EnumTypeExtension
+derive instance enumTypeExtensionEq ∷ Eq EnumTypeExtension
 
 data EnumTypeExtension
-  = EnumTypeExtension_With_EnumValuesDefinition { name :: String, directives :: (Maybe Directives), enumValuesDefinition :: EnumValuesDefinition }
-  | EnumTypeExtension_With_Directives { name :: String, directives :: Directives }
+  = EnumTypeExtension_With_EnumValuesDefinition { name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ EnumValuesDefinition }
+  | EnumTypeExtension_With_Directives { name ∷ String, directives ∷ Directives }
 
-derive instance inputObjectTypeDefinitionGeneric :: Generic InputObjectTypeDefinition _
+derive instance inputObjectTypeDefinitionGeneric ∷ Generic InputObjectTypeDefinition _
 
-instance inputObjectTypeDefinitionShow :: Show InputObjectTypeDefinition where
+instance inputObjectTypeDefinitionShow ∷ Show InputObjectTypeDefinition where
   show v = genericShow v
 
-derive instance inputObjectTypeDefinitionEq :: Eq InputObjectTypeDefinition
+derive instance inputObjectTypeDefinitionEq ∷ Eq InputObjectTypeDefinition
 
 data InputObjectTypeDefinition
-  = InputObjectTypeDefinition { description :: (Maybe String), name :: String, directives :: (Maybe Directives), inputFieldsDefinition :: (Maybe InputFieldsDefinition) }
+  = InputObjectTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ (Maybe InputFieldsDefinition) }
 
-derive instance inputFieldsDefinitionGeneric :: Generic InputFieldsDefinition _
+derive instance inputFieldsDefinitionGeneric ∷ Generic InputFieldsDefinition _
 
-instance inputFieldsDefinitionShow :: Show InputFieldsDefinition where
+instance inputFieldsDefinitionShow ∷ Show InputFieldsDefinition where
   show v = genericShow v
 
-derive instance inputFieldsDefinitionEq :: Eq InputFieldsDefinition
+derive instance inputFieldsDefinitionEq ∷ Eq InputFieldsDefinition
 
 data InputFieldsDefinition
   = InputFieldsDefinition (List InputValueDefinition)
 
-derive instance inputObjectTypeExtensionGeneric :: Generic InputObjectTypeExtension _
+derive instance inputObjectTypeExtensionGeneric ∷ Generic InputObjectTypeExtension _
 
-instance inputObjectTypeExtensionShow :: Show InputObjectTypeExtension where
+instance inputObjectTypeExtensionShow ∷ Show InputObjectTypeExtension where
   show v = genericShow v
 
-derive instance inputObjectTypeExtensionEq :: Eq InputObjectTypeExtension
+derive instance inputObjectTypeExtensionEq ∷ Eq InputObjectTypeExtension
 
 data InputObjectTypeExtension
-  = InputObjectTypeExtension_With_InputFieldsDefinition { name :: String, directives :: (Maybe Directives), inputFieldsDefinition :: InputFieldsDefinition }
-  | InputObjectTypeExtension_With_Directives { name :: String, directives :: Directives }
+  = InputObjectTypeExtension_With_InputFieldsDefinition { name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ InputFieldsDefinition }
+  | InputObjectTypeExtension_With_Directives { name ∷ String, directives ∷ Directives }
 
-derive instance directiveDefinitionGeneric :: Generic DirectiveDefinition _
+derive instance directiveDefinitionGeneric ∷ Generic DirectiveDefinition _
 
-instance directiveDefinitionShow :: Show DirectiveDefinition where
+instance directiveDefinitionShow ∷ Show DirectiveDefinition where
   show v = genericShow v
 
-derive instance directiveDefinitionEq :: Eq DirectiveDefinition
+derive instance directiveDefinitionEq ∷ Eq DirectiveDefinition
 
 data DirectiveDefinition
-  = DirectiveDefinition { description :: (Maybe String), name :: String, argumentsDefinition :: (Maybe ArgumentsDefinition), directiveLocations :: DirectiveLocations }
+  = DirectiveDefinition { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), directiveLocations ∷ DirectiveLocations }
 
-derive instance directiveLocationsGeneric :: Generic DirectiveLocations _
+derive instance directiveLocationsGeneric ∷ Generic DirectiveLocations _
 
-instance directiveLocationsShow :: Show DirectiveLocations where
+instance directiveLocationsShow ∷ Show DirectiveLocations where
   show v = genericShow v
 
-derive instance directiveLocationsEq :: Eq DirectiveLocations
+derive instance directiveLocationsEq ∷ Eq DirectiveLocations
 
 data DirectiveLocations
   = DirectiveLocations (List DirectiveLocation)
 
-derive instance directiveLocationGeneric :: Generic DirectiveLocation _
+derive instance directiveLocationGeneric ∷ Generic DirectiveLocation _
 
-instance directiveLocationShow :: Show DirectiveLocation where
+instance directiveLocationShow ∷ Show DirectiveLocation where
   show v = genericShow v
 
-derive instance directiveLocationEq :: Eq DirectiveLocation
+derive instance directiveLocationEq ∷ Eq DirectiveLocation
 
 data DirectiveLocation
   = DirectiveLocation_ExecutableDirectiveLocation ExecutableDirectiveLocation
   | DirectiveLocation_TypeSystemDirectiveLocation TypeSystemDirectiveLocation
 
-derive instance executableDirectiveLocationGeneric :: Generic ExecutableDirectiveLocation _
+derive instance executableDirectiveLocationGeneric ∷ Generic ExecutableDirectiveLocation _
 
-instance executableDirectiveLocationShow :: Show ExecutableDirectiveLocation where
+instance executableDirectiveLocationShow ∷ Show ExecutableDirectiveLocation where
   show v = genericShow v
 
-derive instance executableDirectiveLocationEq :: Eq ExecutableDirectiveLocation
+derive instance executableDirectiveLocationEq ∷ Eq ExecutableDirectiveLocation
 
 data ExecutableDirectiveLocation
   = QUERY
@@ -712,12 +712,12 @@ data ExecutableDirectiveLocation
   | FRAGMENT_SPREAD
   | INLINE_FRAGMENT
 
-derive instance typeSystemDirectiveLocationGeneric :: Generic TypeSystemDirectiveLocation _
+derive instance typeSystemDirectiveLocationGeneric ∷ Generic TypeSystemDirectiveLocation _
 
-instance typeSystemDirectiveLocationShow :: Show TypeSystemDirectiveLocation where
+instance typeSystemDirectiveLocationShow ∷ Show TypeSystemDirectiveLocation where
   show v = genericShow v
 
-derive instance typeSystemDirectiveLocationEq :: Eq TypeSystemDirectiveLocation
+derive instance typeSystemDirectiveLocationEq ∷ Eq TypeSystemDirectiveLocation
 
 data TypeSystemDirectiveLocation
   = SCHEMA
