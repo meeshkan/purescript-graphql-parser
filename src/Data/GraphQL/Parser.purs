@@ -15,7 +15,7 @@ import Data.String.CodePoints as CP
 import Data.String.CodeUnits (fromCharArray)
 import Data.Traversable (sequence)
 import Text.Parsing.Parser (Parser, fail)
-import Text.Parsing.Parser.Combinators ((<?>), between, lookAhead, option, optional, sepBy1, try)
+import Text.Parsing.Parser.Combinators (between, lookAhead, option, optional, sepBy1, try, (<?>))
 import Text.Parsing.Parser.String (class StringLike, anyChar, char, noneOf, oneOf, string)
 
 -------
@@ -223,8 +223,15 @@ argument vc =
     <$> name
     <*> (ignoreMe *> char ':' *> ignoreMe *> vc)
 
+emptyListish ∷ ∀ s p. StringLike s ⇒ Parser s p → Parser s (L.List p)
+emptyListish p = ((L.many ((try (p >>= pure <<< Just)) <|> (mandatoryIgnorable *> pure Nothing))) >>= (pure <<< L.catMaybes))
+
+-- todo, use NonEmpty?
+emptyListish1 ∷ ∀ s p. StringLike s ⇒ Parser s p → Parser s (L.List p)
+emptyListish1 p = emptyListish p >>= (\x → if L.length x == 0 then fail "List must have at least 1 value" else pure x)
+
 listish ∷ ∀ s p. StringLike s ⇒ String → String → Parser s p → Parser s (L.List p)
-listish o c p = string o *> ((L.many ((try (p >>= pure <<< Just)) <|> (mandatoryIgnorable *> pure Nothing))) >>= (pure <<< L.catMaybes)) <* string c
+listish o c p = string o *> emptyListish p <* string c
 
 objectValue ∷ ∀ s. StringLike s ⇒ Parser s (AST.Value) → Parser s (AST.ObjectValue)
 objectValue = (<$>) AST.ObjectValue <<< listish "{" "}" <<< argument
@@ -302,7 +309,7 @@ directive =
     <*> (ignoreMe *> ooo arguments)
 
 directives ∷ ∀ s. StringLike s ⇒ Parser s AST.Directives
-directives = AST.Directives <$> sepBy1 directive mandatoryIgnorable
+directives = AST.Directives <$> emptyListish1 directive
 
 namedType ∷ ∀ s. StringLike s ⇒ Parser s AST.NamedType
 namedType = AST.NamedType <$> name
@@ -729,4 +736,4 @@ definition =
     <?> "Could not parse definition"
 
 document ∷ ∀ s. StringLike s ⇒ Parser s AST.Document
-document = AST.Document <$> sepBy1 definition mandatoryIgnorable
+document = AST.Document <$> emptyListish definition

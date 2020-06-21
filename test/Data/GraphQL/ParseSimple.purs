@@ -71,3 +71,6 @@ testParser =
     describe "test fieldDefinition" do
       it "should parse a field definition" do
         parseSuccess GP.fieldDefinition "id: ID!" (AST.FieldDefinition { description: Nothing, name: "id", argumentsDefinition: Nothing, type: (AST.Type_NonNullType (AST.NonNullType_NamedType (AST.NamedType "ID"))), directives: Nothing })
+    describe "test variable definition" do
+      it "should parse a variable definition" do
+        parseSuccess GP.variableDefinition "$id:ID!" (AST.VariableDefinition { variable: AST.Variable "id", type: AST.Type_NonNullType (AST.NonNullType_NamedType $ AST.NamedType "ID"), defaultValue: Nothing })

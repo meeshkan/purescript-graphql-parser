@@ -17,7 +17,7 @@ import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
 import Effect.Exception (throw)
 import Test.Spec (SpecT, before, describe, it)
-import Test.Spec.Assertions (shouldEqual, shouldNotEqual, fail)
+import Test.Spec.Assertions (shouldEqual, fail)
 import Text.Parsing.Parser (runParser)
 import Text.Parsing.Parser.String (class StringLike)
 
