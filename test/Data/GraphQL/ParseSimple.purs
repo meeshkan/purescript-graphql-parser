@@ -3,12 +3,12 @@ module Test.Data.GraphQL.ParseSimple where
 import Prelude
 import Control.Monad.Error.Class (class MonadThrow)
 import Data.Either (either)
-import Data.Maybe (Maybe(..))
-import Data.List (List(..), (:))
-import Data.String.CodeUnits (fromCharArray)
-import Effect.Exception (Error)
 import Data.GraphQL.AST as AST
 import Data.GraphQL.Parser as GP
+import Data.List (List(..), (:))
+import Data.Maybe (Maybe(..))
+import Data.String.CodeUnits (fromCharArray)
+import Effect.Exception (Error)
 import Test.Spec (SpecT, describe, it)
 import Test.Spec.Assertions (shouldEqual, fail)
 import Text.Parsing.Parser (runParser, Parser)
@@ -49,11 +49,11 @@ testParser =
         parseSuccess (GP.listValue GP.value) "[1 2 \"3\"]" (AST.ListValue (AST.Value_IntValue (AST.IntValue 1) : AST.Value_IntValue (AST.IntValue 2) : AST.Value_StringValue (AST.StringValue "3") : Nil))
       it "should correctly parse objects" do
         parseSuccess (GP.objectValue GP.value) "{}" (AST.ObjectValue (Nil))
-        parseSuccess (GP.objectValue GP.value) "{foo: 1}" (AST.ObjectValue (AST.Argument "foo" (AST.Value_IntValue $ AST.IntValue 1) : Nil))
-        parseSuccess (GP.objectValue GP.value) "{foo: $bar}" (AST.ObjectValue (AST.Argument "foo" (AST.Value_Variable $ AST.Variable "bar") : Nil))
-        parseSuccess (GP.objectValue GP.value) "{foo: BAR}" (AST.ObjectValue (AST.Argument "foo" (AST.Value_EnumValue $ AST.EnumValue "BAR") : Nil))
-        parseSuccess (GP.objectValue GP.value) "{foo: BAR, baz: \"hello\"}" (AST.ObjectValue (AST.Argument "foo" (AST.Value_EnumValue $ AST.EnumValue "BAR") : AST.Argument "baz" (AST.Value_StringValue $ AST.StringValue "hello") : Nil))
-        parseSuccess (GP.objectValue GP.value) "{foo: BAR baz: \"hello\"      \t}" (AST.ObjectValue (AST.Argument "foo" (AST.Value_EnumValue $ AST.EnumValue "BAR") : AST.Argument "baz" (AST.Value_StringValue $ AST.StringValue "hello") : Nil))
+        parseSuccess (GP.objectValue GP.value) "{foo: 1}" (AST.ObjectValue (AST.Argument { name: "foo", value: (AST.Value_IntValue $ AST.IntValue 1) } : Nil))
+        parseSuccess (GP.objectValue GP.value) "{foo: $bar}" (AST.ObjectValue (AST.Argument { name: "foo", value: (AST.Value_Variable $ AST.Variable "bar") } : Nil))
+        parseSuccess (GP.objectValue GP.value) "{foo: BAR}" (AST.ObjectValue (AST.Argument { name: "foo", value: (AST.Value_EnumValue $ AST.EnumValue "BAR") } : Nil))
+        parseSuccess (GP.objectValue GP.value) "{foo: BAR, baz: \"hello\"}" (AST.ObjectValue (AST.Argument { name: "foo", value: (AST.Value_EnumValue $ AST.EnumValue "BAR") } : AST.Argument { name: "baz", value: (AST.Value_StringValue $ AST.StringValue "hello") } : Nil))
+        parseSuccess (GP.objectValue GP.value) "{foo: BAR baz: \"hello\"      \t}" (AST.ObjectValue (AST.Argument { name: "foo", value: (AST.Value_EnumValue $ AST.EnumValue "BAR") } : AST.Argument { name: "baz", value: (AST.Value_StringValue $ AST.StringValue "hello") } : Nil))
     describe "test field" do
       it "should correctly parse simple field" do
         parseSuccess (GP.field GP.selectionSet) "foo" (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Nothing })
@@ -68,3 +68,6 @@ testParser =
         parseSuccess GP.selectionSet "{ foo { foo {foo}#hello\n} }" (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Nothing }) : Nil)) }) : Nil)) }) : Nil))
         parseSuccess GP.selectionSet "{ foo { foo {foo},,,#hello\n} }" (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Nothing }) : Nil)) }) : Nil)) }) : Nil))
         parseSuccess GP.selectionSet "{foo { foo { foo } } }" (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Nothing }) : Nil)) }) : Nil)) }) : Nil))
+    describe "test fieldDefinition" do
+      it "should parse a field definition" do
+        parseSuccess GP.fieldDefinition "id: ID!" (AST.FieldDefinition { description: Nothing, name: "id", argumentsDefinition: Nothing, type: (AST.Type_NonNullType (AST.NonNullType_NamedType (AST.NamedType "ID"))), directives: Nothing })

@@ -1,10 +1,11 @@
 module Data.GraphQL.AST where
 
 import Prelude
+import Data.Tuple (Tuple(..))
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
 import Data.List (List)
-import Data.Maybe (Maybe)
+import Data.Maybe (Maybe(..))
 
 derive instance documentGeneric ∷ Generic Document _
 
@@ -12,6 +13,19 @@ instance documentShow ∷ Show Document where
   show v = genericShow v
 
 derive instance documentEq ∷ Eq Document
+
+_Document ∷
+  Tuple
+    ( (List Definition) → Document
+    )
+    ( Document →
+      Maybe (List Definition)
+    )
+_Document =
+  Tuple Document
+    ( case _ of
+        Document a → Just a
+    )
 
 data Document
   = Document (List Definition)
@@ -22,6 +36,48 @@ instance definitionShow ∷ Show Definition where
   show v = genericShow v
 
 derive instance definitionEq ∷ Eq Definition
+
+_Definition_ExecutableDefinition ∷
+  Tuple
+    ( ExecutableDefinition → Definition
+    )
+    ( Definition →
+      Maybe ExecutableDefinition
+    )
+_Definition_ExecutableDefinition =
+  Tuple Definition_ExecutableDefinition
+    ( case _ of
+        Definition_ExecutableDefinition a → Just a
+        _ → Nothing
+    )
+
+_Definition_TypeSystemDefinition ∷
+  Tuple
+    ( TypeSystemDefinition → Definition
+    )
+    ( Definition →
+      Maybe TypeSystemDefinition
+    )
+_Definition_TypeSystemDefinition =
+  Tuple Definition_TypeSystemDefinition
+    ( case _ of
+        Definition_TypeSystemDefinition a → Just a
+        _ → Nothing
+    )
+
+_Definition_TypeSystemExtension ∷
+  Tuple
+    ( TypeSystemExtension → Definition
+    )
+    ( Definition →
+      Maybe TypeSystemExtension
+    )
+_Definition_TypeSystemExtension =
+  Tuple Definition_TypeSystemExtension
+    ( case _ of
+        Definition_TypeSystemExtension a → Just a
+        _ → Nothing
+    )
 
 data Definition
   = Definition_ExecutableDefinition ExecutableDefinition
@@ -35,6 +91,34 @@ instance executableDefinitionShow ∷ Show ExecutableDefinition where
 
 derive instance executableDefinitionEq ∷ Eq ExecutableDefinition
 
+_ExecutableDefinition_OperationDefinition ∷
+  Tuple
+    ( OperationDefinition → ExecutableDefinition
+    )
+    ( ExecutableDefinition →
+      Maybe OperationDefinition
+    )
+_ExecutableDefinition_OperationDefinition =
+  Tuple ExecutableDefinition_OperationDefinition
+    ( case _ of
+        ExecutableDefinition_OperationDefinition a → Just a
+        _ → Nothing
+    )
+
+_ExecutableDefinition_FragmentDefinition ∷
+  Tuple
+    ( FragmentDefinition → ExecutableDefinition
+    )
+    ( ExecutableDefinition →
+      Maybe FragmentDefinition
+    )
+_ExecutableDefinition_FragmentDefinition =
+  Tuple ExecutableDefinition_FragmentDefinition
+    ( case _ of
+        ExecutableDefinition_FragmentDefinition a → Just a
+        _ → Nothing
+    )
+
 data ExecutableDefinition
   = ExecutableDefinition_OperationDefinition OperationDefinition
   | ExecutableDefinition_FragmentDefinition FragmentDefinition
@@ -46,6 +130,34 @@ instance operationDefinitionShow ∷ Show OperationDefinition where
 
 derive instance operationDefinitionEq ∷ Eq OperationDefinition
 
+_OperationDefinition_SelectionSet ∷
+  Tuple
+    ( SelectionSet → OperationDefinition
+    )
+    ( OperationDefinition →
+      Maybe SelectionSet
+    )
+_OperationDefinition_SelectionSet =
+  Tuple OperationDefinition_SelectionSet
+    ( case _ of
+        OperationDefinition_SelectionSet a → Just a
+        _ → Nothing
+    )
+
+_OperationDefinition_OperationType ∷
+  Tuple
+    ( { operationType ∷ OperationType, name ∷ (Maybe String), variableDefinitions ∷ (Maybe VariableDefinitions), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet } → OperationDefinition
+    )
+    ( OperationDefinition →
+      Maybe { operationType ∷ OperationType, name ∷ (Maybe String), variableDefinitions ∷ (Maybe VariableDefinitions), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+    )
+_OperationDefinition_OperationType =
+  Tuple OperationDefinition_OperationType
+    ( case _ of
+        OperationDefinition_OperationType a → Just a
+        _ → Nothing
+    )
+
 data OperationDefinition
   = OperationDefinition_SelectionSet SelectionSet
   | OperationDefinition_OperationType { operationType ∷ OperationType, name ∷ (Maybe String), variableDefinitions ∷ (Maybe VariableDefinitions), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
@@ -56,6 +168,48 @@ instance operationTypeShow ∷ Show OperationType where
   show v = genericShow v
 
 derive instance operationTypeEq ∷ Eq OperationType
+
+_Query ∷
+  Tuple
+    ( Unit → OperationType
+    )
+    ( OperationType →
+      Maybe Unit
+    )
+_Query =
+  Tuple (\_ → Query)
+    ( case _ of
+        Query → Just unit
+        _ → Nothing
+    )
+
+_Mutation ∷
+  Tuple
+    ( Unit → OperationType
+    )
+    ( OperationType →
+      Maybe Unit
+    )
+_Mutation =
+  Tuple (\_ → Mutation)
+    ( case _ of
+        Mutation → Just unit
+        _ → Nothing
+    )
+
+_Subscription ∷
+  Tuple
+    ( Unit → OperationType
+    )
+    ( OperationType →
+      Maybe Unit
+    )
+_Subscription =
+  Tuple (\_ → Subscription)
+    ( case _ of
+        Subscription → Just unit
+        _ → Nothing
+    )
 
 data OperationType
   = Query
@@ -69,6 +223,19 @@ instance selectionSetShow ∷ Show SelectionSet where
 
 derive instance selectionSetEq ∷ Eq SelectionSet
 
+_SelectionSet ∷
+  Tuple
+    ( (List Selection) → SelectionSet
+    )
+    ( SelectionSet →
+      Maybe (List Selection)
+    )
+_SelectionSet =
+  Tuple SelectionSet
+    ( case _ of
+        SelectionSet a → Just a
+    )
+
 data SelectionSet
   = SelectionSet (List Selection)
 
@@ -78,6 +245,48 @@ instance selectionShow ∷ Show Selection where
   show v = genericShow v
 
 derive instance selectionEq ∷ Eq Selection
+
+_Selection_Field ∷
+  Tuple
+    ( Field → Selection
+    )
+    ( Selection →
+      Maybe Field
+    )
+_Selection_Field =
+  Tuple Selection_Field
+    ( case _ of
+        Selection_Field a → Just a
+        _ → Nothing
+    )
+
+_Selection_FragmentSpread ∷
+  Tuple
+    ( FragmentSpread → Selection
+    )
+    ( Selection →
+      Maybe FragmentSpread
+    )
+_Selection_FragmentSpread =
+  Tuple Selection_FragmentSpread
+    ( case _ of
+        Selection_FragmentSpread a → Just a
+        _ → Nothing
+    )
+
+_Selection_InlineFragment ∷
+  Tuple
+    ( InlineFragment → Selection
+    )
+    ( Selection →
+      Maybe InlineFragment
+    )
+_Selection_InlineFragment =
+  Tuple Selection_InlineFragment
+    ( case _ of
+        Selection_InlineFragment a → Just a
+        _ → Nothing
+    )
 
 data Selection
   = Selection_Field Field
@@ -91,6 +300,19 @@ instance fieldShow ∷ Show Field where
 
 derive instance fieldEq ∷ Eq Field
 
+_Field ∷
+  Tuple
+    ( { alias ∷ (Maybe String), name ∷ String, arguments ∷ (Maybe Arguments), directives ∷ (Maybe Directives), selectionSet ∷ (Maybe SelectionSet) } → Field
+    )
+    ( Field →
+      Maybe { alias ∷ (Maybe String), name ∷ String, arguments ∷ (Maybe Arguments), directives ∷ (Maybe Directives), selectionSet ∷ (Maybe SelectionSet) }
+    )
+_Field =
+  Tuple Field
+    ( case _ of
+        Field a → Just a
+    )
+
 data Field
   = Field { alias ∷ (Maybe String), name ∷ String, arguments ∷ (Maybe Arguments), directives ∷ (Maybe Directives), selectionSet ∷ (Maybe SelectionSet) }
 
@@ -100,6 +322,19 @@ instance argumentsShow ∷ Show Arguments where
   show v = genericShow v
 
 derive instance argumentsEq ∷ Eq Arguments
+
+_Arguments ∷
+  Tuple
+    ( (List Argument) → Arguments
+    )
+    ( Arguments →
+      Maybe (List Argument)
+    )
+_Arguments =
+  Tuple Arguments
+    ( case _ of
+        Arguments a → Just a
+    )
 
 data Arguments
   = Arguments (List Argument)
@@ -111,8 +346,21 @@ instance argumentShow ∷ Show Argument where
 
 derive instance argumentEq ∷ Eq Argument
 
+_Argument ∷
+  Tuple
+    ( { name :: String, value :: Value } → Argument
+    )
+    ( Argument →
+      Maybe { name :: String, value :: Value }
+    )
+_Argument =
+  Tuple Argument
+    ( case _ of
+        Argument a → Just a
+    )
+
 data Argument
-  = Argument String Value
+  = Argument { name :: String, value :: Value }
 
 derive instance fragmentSpreadGeneric ∷ Generic FragmentSpread _
 
@@ -120,6 +368,19 @@ instance fragmentSpreadShow ∷ Show FragmentSpread where
   show v = genericShow v
 
 derive instance fragmentSpreadEq ∷ Eq FragmentSpread
+
+_FragmentSpread ∷
+  Tuple
+    ( { fragmentName ∷ String, directives ∷ Maybe Directives } → FragmentSpread
+    )
+    ( FragmentSpread →
+      Maybe { fragmentName ∷ String, directives ∷ Maybe Directives }
+    )
+_FragmentSpread =
+  Tuple FragmentSpread
+    ( case _ of
+        FragmentSpread a → Just a
+    )
 
 data FragmentSpread
   = FragmentSpread { fragmentName ∷ String, directives ∷ Maybe Directives }
@@ -131,6 +392,19 @@ instance inlineFragmentShow ∷ Show InlineFragment where
 
 derive instance inlineFragmentEq ∷ Eq InlineFragment
 
+_InlineFragment ∷
+  Tuple
+    ( { typeCondition ∷ (Maybe TypeCondition), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet } → InlineFragment
+    )
+    ( InlineFragment →
+      Maybe { typeCondition ∷ (Maybe TypeCondition), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+    )
+_InlineFragment =
+  Tuple InlineFragment
+    ( case _ of
+        InlineFragment a → Just a
+    )
+
 data InlineFragment
   = InlineFragment { typeCondition ∷ (Maybe TypeCondition), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
 
@@ -140,6 +414,19 @@ instance fragmentDefinitionShow ∷ Show FragmentDefinition where
   show v = genericShow v
 
 derive instance fragmentDefinitionEq ∷ Eq FragmentDefinition
+
+_FragmentDefinition ∷
+  Tuple
+    ( { fragmentName ∷ String, typeCondition ∷ TypeCondition, directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet } → FragmentDefinition
+    )
+    ( FragmentDefinition →
+      Maybe { fragmentName ∷ String, typeCondition ∷ TypeCondition, directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+    )
+_FragmentDefinition =
+  Tuple FragmentDefinition
+    ( case _ of
+        FragmentDefinition a → Just a
+    )
 
 data FragmentDefinition
   = FragmentDefinition { fragmentName ∷ String, typeCondition ∷ TypeCondition, directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
@@ -151,6 +438,19 @@ instance typeConditionShow ∷ Show TypeCondition where
 
 derive instance typeConditionEq ∷ Eq TypeCondition
 
+_TypeCondition ∷
+  Tuple
+    ( NamedType → TypeCondition
+    )
+    ( TypeCondition →
+      Maybe NamedType
+    )
+_TypeCondition =
+  Tuple TypeCondition
+    ( case _ of
+        TypeCondition a → Just a
+    )
+
 data TypeCondition
   = TypeCondition NamedType
 
@@ -160,6 +460,132 @@ instance valueShow ∷ Show Value where
   show v = genericShow v
 
 derive instance valueEq ∷ Eq Value
+
+_Value_Variable ∷
+  Tuple
+    ( Variable → Value
+    )
+    ( Value →
+      Maybe Variable
+    )
+_Value_Variable =
+  Tuple Value_Variable
+    ( case _ of
+        Value_Variable a → Just a
+        _ → Nothing
+    )
+
+_Value_IntValue ∷
+  Tuple
+    ( IntValue → Value
+    )
+    ( Value →
+      Maybe IntValue
+    )
+_Value_IntValue =
+  Tuple Value_IntValue
+    ( case _ of
+        Value_IntValue a → Just a
+        _ → Nothing
+    )
+
+_Value_FloatValue ∷
+  Tuple
+    ( FloatValue → Value
+    )
+    ( Value →
+      Maybe FloatValue
+    )
+_Value_FloatValue =
+  Tuple Value_FloatValue
+    ( case _ of
+        Value_FloatValue a → Just a
+        _ → Nothing
+    )
+
+_Value_StringValue ∷
+  Tuple
+    ( StringValue → Value
+    )
+    ( Value →
+      Maybe StringValue
+    )
+_Value_StringValue =
+  Tuple Value_StringValue
+    ( case _ of
+        Value_StringValue a → Just a
+        _ → Nothing
+    )
+
+_Value_BooleanValue ∷
+  Tuple
+    ( BooleanValue → Value
+    )
+    ( Value →
+      Maybe BooleanValue
+    )
+_Value_BooleanValue =
+  Tuple Value_BooleanValue
+    ( case _ of
+        Value_BooleanValue a → Just a
+        _ → Nothing
+    )
+
+_Value_NullValue ∷
+  Tuple
+    ( NullValue → Value
+    )
+    ( Value →
+      Maybe NullValue
+    )
+_Value_NullValue =
+  Tuple Value_NullValue
+    ( case _ of
+        Value_NullValue a → Just a
+        _ → Nothing
+    )
+
+_Value_EnumValue ∷
+  Tuple
+    ( EnumValue → Value
+    )
+    ( Value →
+      Maybe EnumValue
+    )
+_Value_EnumValue =
+  Tuple Value_EnumValue
+    ( case _ of
+        Value_EnumValue a → Just a
+        _ → Nothing
+    )
+
+_Value_ListValue ∷
+  Tuple
+    ( ListValue → Value
+    )
+    ( Value →
+      Maybe ListValue
+    )
+_Value_ListValue =
+  Tuple Value_ListValue
+    ( case _ of
+        Value_ListValue a → Just a
+        _ → Nothing
+    )
+
+_Value_ObjectValue ∷
+  Tuple
+    ( ObjectValue → Value
+    )
+    ( Value →
+      Maybe ObjectValue
+    )
+_Value_ObjectValue =
+  Tuple Value_ObjectValue
+    ( case _ of
+        Value_ObjectValue a → Just a
+        _ → Nothing
+    )
 
 data Value
   = Value_Variable Variable
@@ -179,6 +605,19 @@ instance intValueShow ∷ Show IntValue where
 
 derive instance intValueEq ∷ Eq IntValue
 
+_IntValue ∷
+  Tuple
+    ( Int → IntValue
+    )
+    ( IntValue →
+      Maybe Int
+    )
+_IntValue =
+  Tuple IntValue
+    ( case _ of
+        IntValue a → Just a
+    )
+
 data IntValue
   = IntValue Int
 
@@ -188,6 +627,19 @@ instance floatValueShow ∷ Show FloatValue where
   show v = genericShow v
 
 derive instance floatValueEq ∷ Eq FloatValue
+
+_FloatValue ∷
+  Tuple
+    ( Number → FloatValue
+    )
+    ( FloatValue →
+      Maybe Number
+    )
+_FloatValue =
+  Tuple FloatValue
+    ( case _ of
+        FloatValue a → Just a
+    )
 
 data FloatValue
   = FloatValue Number
@@ -199,6 +651,19 @@ instance booleanValueShow ∷ Show BooleanValue where
 
 derive instance booleanValueEq ∷ Eq BooleanValue
 
+_BooleanValue ∷
+  Tuple
+    ( Boolean → BooleanValue
+    )
+    ( BooleanValue →
+      Maybe Boolean
+    )
+_BooleanValue =
+  Tuple BooleanValue
+    ( case _ of
+        BooleanValue a → Just a
+    )
+
 data BooleanValue
   = BooleanValue Boolean
 
@@ -208,6 +673,19 @@ instance stringValueShow ∷ Show StringValue where
   show v = genericShow v
 
 derive instance stringValueEq ∷ Eq StringValue
+
+_StringValue ∷
+  Tuple
+    ( String → StringValue
+    )
+    ( StringValue →
+      Maybe String
+    )
+_StringValue =
+  Tuple StringValue
+    ( case _ of
+        StringValue a → Just a
+    )
 
 data StringValue
   = StringValue String
@@ -219,6 +697,19 @@ instance nullValueShow ∷ Show NullValue where
 
 derive instance nullValueEq ∷ Eq NullValue
 
+_NullValue ∷
+  Tuple
+    ( Unit → NullValue
+    )
+    ( NullValue →
+      Maybe Unit
+    )
+_NullValue =
+  Tuple (\_ → NullValue)
+    ( case _ of
+        NullValue → Just unit
+    )
+
 data NullValue
   = NullValue
 
@@ -228,6 +719,19 @@ instance enumValueShow ∷ Show EnumValue where
   show v = genericShow v
 
 derive instance enumValueEq ∷ Eq EnumValue
+
+_EnumValue ∷
+  Tuple
+    ( String → EnumValue
+    )
+    ( EnumValue →
+      Maybe String
+    )
+_EnumValue =
+  Tuple EnumValue
+    ( case _ of
+        EnumValue a → Just a
+    )
 
 data EnumValue
   = EnumValue String
@@ -239,6 +743,19 @@ instance listValueShow ∷ Show ListValue where
 
 derive instance listValueEq ∷ Eq ListValue
 
+_ListValue ∷
+  Tuple
+    ( (List Value) → ListValue
+    )
+    ( ListValue →
+      Maybe (List Value)
+    )
+_ListValue =
+  Tuple ListValue
+    ( case _ of
+        ListValue a → Just a
+    )
+
 data ListValue
   = ListValue (List Value)
 
@@ -248,6 +765,19 @@ instance objectValueShow ∷ Show ObjectValue where
   show v = genericShow v
 
 derive instance objectValueEq ∷ Eq ObjectValue
+
+_ObjectValue ∷
+  Tuple
+    ( (List Argument) → ObjectValue
+    )
+    ( ObjectValue →
+      Maybe (List Argument)
+    )
+_ObjectValue =
+  Tuple ObjectValue
+    ( case _ of
+        ObjectValue a → Just a
+    )
 
 data ObjectValue
   = ObjectValue (List Argument)
@@ -259,6 +789,19 @@ instance variableDefinitionsShow ∷ Show VariableDefinitions where
 
 derive instance variableDefinitionsEq ∷ Eq VariableDefinitions
 
+_VariableDefinitions ∷
+  Tuple
+    ( (List VariableDefinition) → VariableDefinitions
+    )
+    ( VariableDefinitions →
+      Maybe (List VariableDefinition)
+    )
+_VariableDefinitions =
+  Tuple VariableDefinitions
+    ( case _ of
+        VariableDefinitions a → Just a
+    )
+
 data VariableDefinitions
   = VariableDefinitions (List VariableDefinition)
 
@@ -268,6 +811,19 @@ instance variableDefinitionShow ∷ Show VariableDefinition where
   show v = genericShow v
 
 derive instance variableDefinitionEq ∷ Eq VariableDefinition
+
+_VariableDefinition ∷
+  Tuple
+    ( { variable ∷ Variable, type ∷ Type, defaultValue ∷ (Maybe DefaultValue) } → VariableDefinition
+    )
+    ( VariableDefinition →
+      Maybe { variable ∷ Variable, type ∷ Type, defaultValue ∷ (Maybe DefaultValue) }
+    )
+_VariableDefinition =
+  Tuple VariableDefinition
+    ( case _ of
+        VariableDefinition a → Just a
+    )
 
 data VariableDefinition
   = VariableDefinition { variable ∷ Variable, type ∷ Type, defaultValue ∷ (Maybe DefaultValue) }
@@ -279,6 +835,19 @@ instance variableShow ∷ Show Variable where
 
 derive instance variableEq ∷ Eq Variable
 
+_Variable ∷
+  Tuple
+    ( String → Variable
+    )
+    ( Variable →
+      Maybe String
+    )
+_Variable =
+  Tuple Variable
+    ( case _ of
+        Variable a → Just a
+    )
+
 data Variable
   = Variable String
 
@@ -289,6 +858,19 @@ instance defaultValueShow ∷ Show DefaultValue where
 
 derive instance defaultValueEq ∷ Eq DefaultValue
 
+_DefaultValue ∷
+  Tuple
+    ( Value → DefaultValue
+    )
+    ( DefaultValue →
+      Maybe Value
+    )
+_DefaultValue =
+  Tuple DefaultValue
+    ( case _ of
+        DefaultValue a → Just a
+    )
+
 data DefaultValue
   = DefaultValue Value
 
@@ -298,6 +880,48 @@ instance typeShow ∷ Show Type where
   show v = genericShow v
 
 derive instance typeEq ∷ Eq Type
+
+_Type_NamedType ∷
+  Tuple
+    ( NamedType → Type
+    )
+    ( Type →
+      Maybe NamedType
+    )
+_Type_NamedType =
+  Tuple Type_NamedType
+    ( case _ of
+        Type_NamedType a → Just a
+        _ → Nothing
+    )
+
+_Type_ListType ∷
+  Tuple
+    ( ListType → Type
+    )
+    ( Type →
+      Maybe ListType
+    )
+_Type_ListType =
+  Tuple Type_ListType
+    ( case _ of
+        Type_ListType a → Just a
+        _ → Nothing
+    )
+
+_Type_NonNullType ∷
+  Tuple
+    ( NonNullType → Type
+    )
+    ( Type →
+      Maybe NonNullType
+    )
+_Type_NonNullType =
+  Tuple Type_NonNullType
+    ( case _ of
+        Type_NonNullType a → Just a
+        _ → Nothing
+    )
 
 data Type
   = Type_NamedType NamedType
@@ -311,6 +935,19 @@ instance namedTypeShow ∷ Show NamedType where
 
 derive instance namedTypeEq ∷ Eq NamedType
 
+_NamedType ∷
+  Tuple
+    ( String → NamedType
+    )
+    ( NamedType →
+      Maybe String
+    )
+_NamedType =
+  Tuple NamedType
+    ( case _ of
+        NamedType a → Just a
+    )
+
 data NamedType
   = NamedType String
 
@@ -321,6 +958,19 @@ instance listTypeShow ∷ Show ListType where
 
 derive instance listTypeEq ∷ Eq ListType
 
+_ListType ∷
+  Tuple
+    ( (List Type) → ListType
+    )
+    ( ListType →
+      Maybe (List Type)
+    )
+_ListType =
+  Tuple ListType
+    ( case _ of
+        ListType a → Just a
+    )
+
 data ListType
   = ListType (List Type)
 
@@ -330,6 +980,34 @@ instance nonNullTypeShow ∷ Show NonNullType where
   show v = genericShow v
 
 derive instance nonNullTypeEq ∷ Eq NonNullType
+
+_NonNullType_NamedType ∷
+  Tuple
+    ( NamedType → NonNullType
+    )
+    ( NonNullType →
+      Maybe NamedType
+    )
+_NonNullType_NamedType =
+  Tuple NonNullType_NamedType
+    ( case _ of
+        NonNullType_NamedType a → Just a
+        _ → Nothing
+    )
+
+_NonNullType_ListType ∷
+  Tuple
+    ( ListType → NonNullType
+    )
+    ( NonNullType →
+      Maybe ListType
+    )
+_NonNullType_ListType =
+  Tuple NonNullType_ListType
+    ( case _ of
+        NonNullType_ListType a → Just a
+        _ → Nothing
+    )
 
 data NonNullType
   = NonNullType_NamedType NamedType
@@ -342,6 +1020,19 @@ instance directivesShow ∷ Show Directives where
 
 derive instance directivesEq ∷ Eq Directives
 
+_Directives ∷
+  Tuple
+    ( (List Directive) → Directives
+    )
+    ( Directives →
+      Maybe (List Directive)
+    )
+_Directives =
+  Tuple Directives
+    ( case _ of
+        Directives a → Just a
+    )
+
 data Directives
   = Directives (List Directive)
 
@@ -352,6 +1043,19 @@ instance directiveShow ∷ Show Directive where
 
 derive instance directiveEq ∷ Eq Directive
 
+_Directive ∷
+  Tuple
+    ( { name ∷ String, arguments ∷ (Maybe Arguments) } → Directive
+    )
+    ( Directive →
+      Maybe { name ∷ String, arguments ∷ (Maybe Arguments) }
+    )
+_Directive =
+  Tuple Directive
+    ( case _ of
+        Directive a → Just a
+    )
+
 data Directive
   = Directive { name ∷ String, arguments ∷ (Maybe Arguments) }
 
@@ -361,6 +1065,48 @@ instance typeSystemDefinitionShow ∷ Show TypeSystemDefinition where
   show v = genericShow v
 
 derive instance typeSystemDefinitionEq ∷ Eq TypeSystemDefinition
+
+_TypeSystemDefinition_SchemaDefinition ∷
+  Tuple
+    ( SchemaDefinition → TypeSystemDefinition
+    )
+    ( TypeSystemDefinition →
+      Maybe SchemaDefinition
+    )
+_TypeSystemDefinition_SchemaDefinition =
+  Tuple TypeSystemDefinition_SchemaDefinition
+    ( case _ of
+        TypeSystemDefinition_SchemaDefinition a → Just a
+        _ → Nothing
+    )
+
+_TypeSystemDefinition_TypeDefinition ∷
+  Tuple
+    ( TypeDefinition → TypeSystemDefinition
+    )
+    ( TypeSystemDefinition →
+      Maybe TypeDefinition
+    )
+_TypeSystemDefinition_TypeDefinition =
+  Tuple TypeSystemDefinition_TypeDefinition
+    ( case _ of
+        TypeSystemDefinition_TypeDefinition a → Just a
+        _ → Nothing
+    )
+
+_TypeSystemDefinition_DirectiveDefinition ∷
+  Tuple
+    ( DirectiveDefinition → TypeSystemDefinition
+    )
+    ( TypeSystemDefinition →
+      Maybe DirectiveDefinition
+    )
+_TypeSystemDefinition_DirectiveDefinition =
+  Tuple TypeSystemDefinition_DirectiveDefinition
+    ( case _ of
+        TypeSystemDefinition_DirectiveDefinition a → Just a
+        _ → Nothing
+    )
 
 data TypeSystemDefinition
   = TypeSystemDefinition_SchemaDefinition SchemaDefinition
@@ -374,6 +1120,34 @@ instance typeSystemExtensionShow ∷ Show TypeSystemExtension where
 
 derive instance typeSystemExtensionEq ∷ Eq TypeSystemExtension
 
+_TypeSystemExtension_SchemaExtension ∷
+  Tuple
+    ( SchemaExtension → TypeSystemExtension
+    )
+    ( TypeSystemExtension →
+      Maybe SchemaExtension
+    )
+_TypeSystemExtension_SchemaExtension =
+  Tuple TypeSystemExtension_SchemaExtension
+    ( case _ of
+        TypeSystemExtension_SchemaExtension a → Just a
+        _ → Nothing
+    )
+
+_TypeSystemExtension_TypeExtension ∷
+  Tuple
+    ( TypeExtension → TypeSystemExtension
+    )
+    ( TypeSystemExtension →
+      Maybe TypeExtension
+    )
+_TypeSystemExtension_TypeExtension =
+  Tuple TypeSystemExtension_TypeExtension
+    ( case _ of
+        TypeSystemExtension_TypeExtension a → Just a
+        _ → Nothing
+    )
+
 data TypeSystemExtension
   = TypeSystemExtension_SchemaExtension SchemaExtension
   | TypeSystemExtension_TypeExtension TypeExtension
@@ -385,6 +1159,19 @@ instance schemaDefinitionShow ∷ Show SchemaDefinition where
 
 derive instance schemaDefinitionEq ∷ Eq SchemaDefinition
 
+_SchemaDefinition ∷
+  Tuple
+    ( { directives ∷ (Maybe Directives), rootOperationTypeDefinition ∷ (List RootOperationTypeDefinition) } → SchemaDefinition
+    )
+    ( SchemaDefinition →
+      Maybe { directives ∷ (Maybe Directives), rootOperationTypeDefinition ∷ (List RootOperationTypeDefinition) }
+    )
+_SchemaDefinition =
+  Tuple SchemaDefinition
+    ( case _ of
+        SchemaDefinition a → Just a
+    )
+
 data SchemaDefinition
   = SchemaDefinition { directives ∷ (Maybe Directives), rootOperationTypeDefinition ∷ (List RootOperationTypeDefinition) }
 
@@ -395,8 +1182,21 @@ instance rootOperationTypeDefinitionShow ∷ Show RootOperationTypeDefinition wh
 
 derive instance rootOperationTypeDefinitionEq ∷ Eq RootOperationTypeDefinition
 
+_RootOperationTypeDefinition ∷
+  Tuple
+    ( { operationType ∷ OperationType, namedType ∷ NamedType } → RootOperationTypeDefinition
+    )
+    ( RootOperationTypeDefinition →
+      Maybe { operationType ∷ OperationType, namedType ∷ NamedType }
+    )
+_RootOperationTypeDefinition =
+  Tuple RootOperationTypeDefinition
+    ( case _ of
+        RootOperationTypeDefinition a → Just a
+    )
+
 data RootOperationTypeDefinition
-  = RootOperationTypeDefinition OperationType NamedType
+  = RootOperationTypeDefinition { operationType ∷ OperationType, namedType ∷ NamedType }
 
 derive instance schemaExtensionGeneric ∷ Generic SchemaExtension _
 
@@ -404,6 +1204,34 @@ instance schemaExtensionShow ∷ Show SchemaExtension where
   show v = genericShow v
 
 derive instance schemaExtensionEq ∷ Eq SchemaExtension
+
+_SchemaExtension_With_OperationTypeDefinition ∷
+  Tuple
+    ( { directives ∷ (Maybe Directives), operationTypesDefinition ∷ (List OperationTypeDefinition) } → SchemaExtension
+    )
+    ( SchemaExtension →
+      Maybe { directives ∷ (Maybe Directives), operationTypesDefinition ∷ (List OperationTypeDefinition) }
+    )
+_SchemaExtension_With_OperationTypeDefinition =
+  Tuple SchemaExtension_With_OperationTypeDefinition
+    ( case _ of
+        SchemaExtension_With_OperationTypeDefinition a → Just a
+        _ → Nothing
+    )
+
+_SchemaExtension_With_Directives ∷
+  Tuple
+    ( { directives ∷ Directives } → SchemaExtension
+    )
+    ( SchemaExtension →
+      Maybe { directives ∷ Directives }
+    )
+_SchemaExtension_With_Directives =
+  Tuple SchemaExtension_With_Directives
+    ( case _ of
+        SchemaExtension_With_Directives a → Just a
+        _ → Nothing
+    )
 
 data SchemaExtension
   = SchemaExtension_With_OperationTypeDefinition { directives ∷ (Maybe Directives), operationTypesDefinition ∷ (List OperationTypeDefinition) }
@@ -416,8 +1244,21 @@ instance operationTypeDefinitionShow ∷ Show OperationTypeDefinition where
 
 derive instance operationTypeDefinitionEq ∷ Eq OperationTypeDefinition
 
+_OperationTypeDefinition ∷
+  Tuple
+    ( { operationType ∷ OperationType, namedType ∷ NamedType } → OperationTypeDefinition
+    )
+    ( OperationTypeDefinition →
+      Maybe { operationType ∷ OperationType, namedType ∷ NamedType }
+    )
+_OperationTypeDefinition =
+  Tuple OperationTypeDefinition
+    ( case _ of
+        OperationTypeDefinition a → Just a
+    )
+
 data OperationTypeDefinition
-  = OperationTypeDefinition OperationType NamedType
+  = OperationTypeDefinition { operationType ∷ OperationType, namedType ∷ NamedType }
 
 derive instance typeDefinitionGeneric ∷ Generic TypeDefinition _
 
@@ -425,6 +1266,90 @@ instance typeDefinitionShow ∷ Show TypeDefinition where
   show v = genericShow v
 
 derive instance typeDefinitionEq ∷ Eq TypeDefinition
+
+_TypeDefinition_ScalarTypeDefinition ∷
+  Tuple
+    ( ScalarTypeDefinition → TypeDefinition
+    )
+    ( TypeDefinition →
+      Maybe ScalarTypeDefinition
+    )
+_TypeDefinition_ScalarTypeDefinition =
+  Tuple TypeDefinition_ScalarTypeDefinition
+    ( case _ of
+        TypeDefinition_ScalarTypeDefinition a → Just a
+        _ → Nothing
+    )
+
+_TypeDefinition_ObjectTypeDefinition ∷
+  Tuple
+    ( ObjectTypeDefinition → TypeDefinition
+    )
+    ( TypeDefinition →
+      Maybe ObjectTypeDefinition
+    )
+_TypeDefinition_ObjectTypeDefinition =
+  Tuple TypeDefinition_ObjectTypeDefinition
+    ( case _ of
+        TypeDefinition_ObjectTypeDefinition a → Just a
+        _ → Nothing
+    )
+
+_TypeDefinition_InterfaceTypeDefinition ∷
+  Tuple
+    ( InterfaceTypeDefinition → TypeDefinition
+    )
+    ( TypeDefinition →
+      Maybe InterfaceTypeDefinition
+    )
+_TypeDefinition_InterfaceTypeDefinition =
+  Tuple TypeDefinition_InterfaceTypeDefinition
+    ( case _ of
+        TypeDefinition_InterfaceTypeDefinition a → Just a
+        _ → Nothing
+    )
+
+_TypeDefinition_UnionTypeDefinition ∷
+  Tuple
+    ( UnionTypeDefinition → TypeDefinition
+    )
+    ( TypeDefinition →
+      Maybe UnionTypeDefinition
+    )
+_TypeDefinition_UnionTypeDefinition =
+  Tuple TypeDefinition_UnionTypeDefinition
+    ( case _ of
+        TypeDefinition_UnionTypeDefinition a → Just a
+        _ → Nothing
+    )
+
+_TypeDefinition_EnumTypeDefinition ∷
+  Tuple
+    ( EnumTypeDefinition → TypeDefinition
+    )
+    ( TypeDefinition →
+      Maybe EnumTypeDefinition
+    )
+_TypeDefinition_EnumTypeDefinition =
+  Tuple TypeDefinition_EnumTypeDefinition
+    ( case _ of
+        TypeDefinition_EnumTypeDefinition a → Just a
+        _ → Nothing
+    )
+
+_TypeDefinition_InputObjectTypeDefinition ∷
+  Tuple
+    ( InputObjectTypeDefinition → TypeDefinition
+    )
+    ( TypeDefinition →
+      Maybe InputObjectTypeDefinition
+    )
+_TypeDefinition_InputObjectTypeDefinition =
+  Tuple TypeDefinition_InputObjectTypeDefinition
+    ( case _ of
+        TypeDefinition_InputObjectTypeDefinition a → Just a
+        _ → Nothing
+    )
 
 data TypeDefinition
   = TypeDefinition_ScalarTypeDefinition ScalarTypeDefinition
@@ -441,6 +1366,90 @@ instance typeExtensionShow ∷ Show TypeExtension where
 
 derive instance typeExtensionEq ∷ Eq TypeExtension
 
+_TypeExtension_ScalarTypeExtension ∷
+  Tuple
+    ( ScalarTypeExtension → TypeExtension
+    )
+    ( TypeExtension →
+      Maybe ScalarTypeExtension
+    )
+_TypeExtension_ScalarTypeExtension =
+  Tuple TypeExtension_ScalarTypeExtension
+    ( case _ of
+        TypeExtension_ScalarTypeExtension a → Just a
+        _ → Nothing
+    )
+
+_TypeExtension_ObjectTypeExtension ∷
+  Tuple
+    ( ObjectTypeExtension → TypeExtension
+    )
+    ( TypeExtension →
+      Maybe ObjectTypeExtension
+    )
+_TypeExtension_ObjectTypeExtension =
+  Tuple TypeExtension_ObjectTypeExtension
+    ( case _ of
+        TypeExtension_ObjectTypeExtension a → Just a
+        _ → Nothing
+    )
+
+_TypeExtension_InterfaceTypeExtension ∷
+  Tuple
+    ( InterfaceTypeExtension → TypeExtension
+    )
+    ( TypeExtension →
+      Maybe InterfaceTypeExtension
+    )
+_TypeExtension_InterfaceTypeExtension =
+  Tuple TypeExtension_InterfaceTypeExtension
+    ( case _ of
+        TypeExtension_InterfaceTypeExtension a → Just a
+        _ → Nothing
+    )
+
+_TypeExtension_UnionTypeExtension ∷
+  Tuple
+    ( UnionTypeExtension → TypeExtension
+    )
+    ( TypeExtension →
+      Maybe UnionTypeExtension
+    )
+_TypeExtension_UnionTypeExtension =
+  Tuple TypeExtension_UnionTypeExtension
+    ( case _ of
+        TypeExtension_UnionTypeExtension a → Just a
+        _ → Nothing
+    )
+
+_TypeExtension_EnumTypeExtension ∷
+  Tuple
+    ( EnumTypeExtension → TypeExtension
+    )
+    ( TypeExtension →
+      Maybe EnumTypeExtension
+    )
+_TypeExtension_EnumTypeExtension =
+  Tuple TypeExtension_EnumTypeExtension
+    ( case _ of
+        TypeExtension_EnumTypeExtension a → Just a
+        _ → Nothing
+    )
+
+_TypeExtension_InputObjectTypeExtension ∷
+  Tuple
+    ( InputObjectTypeExtension → TypeExtension
+    )
+    ( TypeExtension →
+      Maybe InputObjectTypeExtension
+    )
+_TypeExtension_InputObjectTypeExtension =
+  Tuple TypeExtension_InputObjectTypeExtension
+    ( case _ of
+        TypeExtension_InputObjectTypeExtension a → Just a
+        _ → Nothing
+    )
+
 data TypeExtension
   = TypeExtension_ScalarTypeExtension ScalarTypeExtension
   | TypeExtension_ObjectTypeExtension ObjectTypeExtension
@@ -456,6 +1465,19 @@ instance scalarTypeDefinitionShow ∷ Show ScalarTypeDefinition where
 
 derive instance scalarTypeDefinitionEq ∷ Eq ScalarTypeDefinition
 
+_ScalarTypeDefinition ∷
+  Tuple
+    ( { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives) } → ScalarTypeDefinition
+    )
+    ( ScalarTypeDefinition →
+      Maybe { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives) }
+    )
+_ScalarTypeDefinition =
+  Tuple ScalarTypeDefinition
+    ( case _ of
+        ScalarTypeDefinition a → Just a
+    )
+
 data ScalarTypeDefinition
   = ScalarTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives) }
 
@@ -465,6 +1487,19 @@ instance scalarTypeExtensionShow ∷ Show ScalarTypeExtension where
   show v = genericShow v
 
 derive instance scalarTypeExtensionEq ∷ Eq ScalarTypeExtension
+
+_ScalarTypeExtension ∷
+  Tuple
+    ( { name ∷ String, directives ∷ Directives } → ScalarTypeExtension
+    )
+    ( ScalarTypeExtension →
+      Maybe { name ∷ String, directives ∷ Directives }
+    )
+_ScalarTypeExtension =
+  Tuple ScalarTypeExtension
+    ( case _ of
+        ScalarTypeExtension a → Just a
+    )
 
 data ScalarTypeExtension
   = ScalarTypeExtension { name ∷ String, directives ∷ Directives }
@@ -476,6 +1511,19 @@ instance objectTypeDefinitionShow ∷ Show ObjectTypeDefinition where
 
 derive instance objectTypeDefinitionEq ∷ Eq ObjectTypeDefinition
 
+_ObjectTypeDefinition ∷
+  Tuple
+    ( { description ∷ (Maybe String), name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) } → ObjectTypeDefinition
+    )
+    ( ObjectTypeDefinition →
+      Maybe { description ∷ (Maybe String), name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
+    )
+_ObjectTypeDefinition =
+  Tuple ObjectTypeDefinition
+    ( case _ of
+        ObjectTypeDefinition a → Just a
+    )
+
 data ObjectTypeDefinition
   = ObjectTypeDefinition { description ∷ (Maybe String), name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
 
@@ -485,6 +1533,48 @@ instance objectTypeExtensionShow ∷ Show ObjectTypeExtension where
   show v = genericShow v
 
 derive instance objectTypeExtensionEq ∷ Eq ObjectTypeExtension
+
+_ObjectTypeExtension_With_FieldsDefinition ∷
+  Tuple
+    ( { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition } → ObjectTypeExtension
+    )
+    ( ObjectTypeExtension →
+      Maybe { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
+    )
+_ObjectTypeExtension_With_FieldsDefinition =
+  Tuple ObjectTypeExtension_With_FieldsDefinition
+    ( case _ of
+        ObjectTypeExtension_With_FieldsDefinition a → Just a
+        _ → Nothing
+    )
+
+_ObjectTypeExtension_With_Directives ∷
+  Tuple
+    ( { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ Directives } → ObjectTypeExtension
+    )
+    ( ObjectTypeExtension →
+      Maybe { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ Directives }
+    )
+_ObjectTypeExtension_With_Directives =
+  Tuple ObjectTypeExtension_With_Directives
+    ( case _ of
+        ObjectTypeExtension_With_Directives a → Just a
+        _ → Nothing
+    )
+
+_ObjectTypeExtension_With_ImplementsInterfaces ∷
+  Tuple
+    ( { name ∷ String, implementsInterfaces ∷ ImplementsInterfaces } → ObjectTypeExtension
+    )
+    ( ObjectTypeExtension →
+      Maybe { name ∷ String, implementsInterfaces ∷ ImplementsInterfaces }
+    )
+_ObjectTypeExtension_With_ImplementsInterfaces =
+  Tuple ObjectTypeExtension_With_ImplementsInterfaces
+    ( case _ of
+        ObjectTypeExtension_With_ImplementsInterfaces a → Just a
+        _ → Nothing
+    )
 
 data ObjectTypeExtension
   = ObjectTypeExtension_With_FieldsDefinition { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
@@ -498,6 +1588,19 @@ instance implementsInterfacesShow ∷ Show ImplementsInterfaces where
 
 derive instance implementsInterfacesEq ∷ Eq ImplementsInterfaces
 
+_ImplementsInterfaces ∷
+  Tuple
+    ( (List NamedType) → ImplementsInterfaces
+    )
+    ( ImplementsInterfaces →
+      Maybe (List NamedType)
+    )
+_ImplementsInterfaces =
+  Tuple ImplementsInterfaces
+    ( case _ of
+        ImplementsInterfaces a → Just a
+    )
+
 data ImplementsInterfaces
   = ImplementsInterfaces (List NamedType)
 
@@ -507,6 +1610,19 @@ instance fieldsDefinitionShow ∷ Show FieldsDefinition where
   show v = genericShow v
 
 derive instance fieldsDefinitionEq ∷ Eq FieldsDefinition
+
+_FieldsDefinition ∷
+  Tuple
+    ( (List FieldDefinition) → FieldsDefinition
+    )
+    ( FieldsDefinition →
+      Maybe (List FieldDefinition)
+    )
+_FieldsDefinition =
+  Tuple FieldsDefinition
+    ( case _ of
+        FieldsDefinition a → Just a
+    )
 
 data FieldsDefinition
   = FieldsDefinition (List FieldDefinition)
@@ -518,6 +1634,19 @@ instance fieldDefinitionShow ∷ Show FieldDefinition where
 
 derive instance fieldDefinitionEq ∷ Eq FieldDefinition
 
+_FieldDefinition ∷
+  Tuple
+    ( { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), type ∷ Type, directives ∷ (Maybe Directives) } → FieldDefinition
+    )
+    ( FieldDefinition →
+      Maybe { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), type ∷ Type, directives ∷ (Maybe Directives) }
+    )
+_FieldDefinition =
+  Tuple FieldDefinition
+    ( case _ of
+        FieldDefinition a → Just a
+    )
+
 data FieldDefinition
   = FieldDefinition { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), type ∷ Type, directives ∷ (Maybe Directives) }
 
@@ -527,6 +1656,19 @@ instance argumentsDefinitionShow ∷ Show ArgumentsDefinition where
   show v = genericShow v
 
 derive instance argumentsDefinitionEq ∷ Eq ArgumentsDefinition
+
+_ArgumentsDefinition ∷
+  Tuple
+    ( (List InputValueDefinition) → ArgumentsDefinition
+    )
+    ( ArgumentsDefinition →
+      Maybe (List InputValueDefinition)
+    )
+_ArgumentsDefinition =
+  Tuple ArgumentsDefinition
+    ( case _ of
+        ArgumentsDefinition a → Just a
+    )
 
 data ArgumentsDefinition
   = ArgumentsDefinition (List InputValueDefinition)
@@ -538,6 +1680,19 @@ instance inputValueDefinitionShow ∷ Show InputValueDefinition where
 
 derive instance inputValueDefinitionEq ∷ Eq InputValueDefinition
 
+_InputValueDefinition ∷
+  Tuple
+    ( { description ∷ (Maybe String), name ∷ String, type ∷ Type, defaultValue ∷ (Maybe DefaultValue), directives ∷ (Maybe Directives) } → InputValueDefinition
+    )
+    ( InputValueDefinition →
+      Maybe { description ∷ (Maybe String), name ∷ String, type ∷ Type, defaultValue ∷ (Maybe DefaultValue), directives ∷ (Maybe Directives) }
+    )
+_InputValueDefinition =
+  Tuple InputValueDefinition
+    ( case _ of
+        InputValueDefinition a → Just a
+    )
+
 data InputValueDefinition
   = InputValueDefinition { description ∷ (Maybe String), name ∷ String, type ∷ Type, defaultValue ∷ (Maybe DefaultValue), directives ∷ (Maybe Directives) }
 
@@ -548,6 +1703,19 @@ instance interfaceTypeDefinitionShow ∷ Show InterfaceTypeDefinition where
 
 derive instance interfaceTypeDefinitionEq ∷ Eq InterfaceTypeDefinition
 
+_InterfaceTypeDefinition ∷
+  Tuple
+    ( { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) } → InterfaceTypeDefinition
+    )
+    ( InterfaceTypeDefinition →
+      Maybe { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
+    )
+_InterfaceTypeDefinition =
+  Tuple InterfaceTypeDefinition
+    ( case _ of
+        InterfaceTypeDefinition a → Just a
+    )
+
 data InterfaceTypeDefinition
   = InterfaceTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
 
@@ -557,6 +1725,34 @@ instance interfaceTypeExtensionShow ∷ Show InterfaceTypeExtension where
   show v = genericShow v
 
 derive instance interfaceTypeExtensionEq ∷ Eq InterfaceTypeExtension
+
+_InterfaceTypeExtension_With_FieldsDefinition ∷
+  Tuple
+    ( { name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition } → InterfaceTypeExtension
+    )
+    ( InterfaceTypeExtension →
+      Maybe { name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
+    )
+_InterfaceTypeExtension_With_FieldsDefinition =
+  Tuple InterfaceTypeExtension_With_FieldsDefinition
+    ( case _ of
+        InterfaceTypeExtension_With_FieldsDefinition a → Just a
+        _ → Nothing
+    )
+
+_InterfaceTypeExtension_With_Directives ∷
+  Tuple
+    ( { name ∷ String, directives ∷ Directives } → InterfaceTypeExtension
+    )
+    ( InterfaceTypeExtension →
+      Maybe { name ∷ String, directives ∷ Directives }
+    )
+_InterfaceTypeExtension_With_Directives =
+  Tuple InterfaceTypeExtension_With_Directives
+    ( case _ of
+        InterfaceTypeExtension_With_Directives a → Just a
+        _ → Nothing
+    )
 
 data InterfaceTypeExtension
   = InterfaceTypeExtension_With_FieldsDefinition { name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
@@ -569,6 +1765,19 @@ instance unionTypeDefinitionShow ∷ Show UnionTypeDefinition where
 
 derive instance unionTypeDefinitionEq ∷ Eq UnionTypeDefinition
 
+_UnionTypeDefinition ∷
+  Tuple
+    ( { description ∷ Maybe String, name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ (Maybe UnionMemberTypes) } → UnionTypeDefinition
+    )
+    ( UnionTypeDefinition →
+      Maybe { description ∷ Maybe String, name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ (Maybe UnionMemberTypes) }
+    )
+_UnionTypeDefinition =
+  Tuple UnionTypeDefinition
+    ( case _ of
+        UnionTypeDefinition a → Just a
+    )
+
 data UnionTypeDefinition
   = UnionTypeDefinition { description ∷ Maybe String, name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ (Maybe UnionMemberTypes) }
 
@@ -579,6 +1788,19 @@ instance unionMemberTypesShow ∷ Show UnionMemberTypes where
 
 derive instance unionMemberTypesEq ∷ Eq UnionMemberTypes
 
+_UnionMemberTypes ∷
+  Tuple
+    ( (List NamedType) → UnionMemberTypes
+    )
+    ( UnionMemberTypes →
+      Maybe (List NamedType)
+    )
+_UnionMemberTypes =
+  Tuple UnionMemberTypes
+    ( case _ of
+        UnionMemberTypes a → Just a
+    )
+
 data UnionMemberTypes
   = UnionMemberTypes (List NamedType)
 
@@ -588,6 +1810,34 @@ instance unionTypeExtensionShow ∷ Show UnionTypeExtension where
   show v = genericShow v
 
 derive instance unionTypeExtensionEq ∷ Eq UnionTypeExtension
+
+_UnionTypeExtension_With_UnionMemberTypes ∷
+  Tuple
+    ( { name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ UnionMemberTypes } → UnionTypeExtension
+    )
+    ( UnionTypeExtension →
+      Maybe { name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ UnionMemberTypes }
+    )
+_UnionTypeExtension_With_UnionMemberTypes =
+  Tuple UnionTypeExtension_With_UnionMemberTypes
+    ( case _ of
+        UnionTypeExtension_With_UnionMemberTypes a → Just a
+        _ → Nothing
+    )
+
+_UnionTypeExtension_With_Directives ∷
+  Tuple
+    ( { name ∷ String, directives ∷ Directives } → UnionTypeExtension
+    )
+    ( UnionTypeExtension →
+      Maybe { name ∷ String, directives ∷ Directives }
+    )
+_UnionTypeExtension_With_Directives =
+  Tuple UnionTypeExtension_With_Directives
+    ( case _ of
+        UnionTypeExtension_With_Directives a → Just a
+        _ → Nothing
+    )
 
 data UnionTypeExtension
   = UnionTypeExtension_With_UnionMemberTypes { name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ UnionMemberTypes }
@@ -600,6 +1850,19 @@ instance enumTypeDefinitionShow ∷ Show EnumTypeDefinition where
 
 derive instance enumTypeDefinitionEq ∷ Eq EnumTypeDefinition
 
+_EnumTypeDefinition ∷
+  Tuple
+    ( { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ (Maybe EnumValuesDefinition) } → EnumTypeDefinition
+    )
+    ( EnumTypeDefinition →
+      Maybe { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ (Maybe EnumValuesDefinition) }
+    )
+_EnumTypeDefinition =
+  Tuple EnumTypeDefinition
+    ( case _ of
+        EnumTypeDefinition a → Just a
+    )
+
 data EnumTypeDefinition
   = EnumTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ (Maybe EnumValuesDefinition) }
 
@@ -609,6 +1872,19 @@ instance enumValuesDefinitionShow ∷ Show EnumValuesDefinition where
   show v = genericShow v
 
 derive instance enumValuesDefinitionEq ∷ Eq EnumValuesDefinition
+
+_EnumValuesDefinition ∷
+  Tuple
+    ( (List EnumValueDefinition) → EnumValuesDefinition
+    )
+    ( EnumValuesDefinition →
+      Maybe (List EnumValueDefinition)
+    )
+_EnumValuesDefinition =
+  Tuple EnumValuesDefinition
+    ( case _ of
+        EnumValuesDefinition a → Just a
+    )
 
 data EnumValuesDefinition
   = EnumValuesDefinition (List EnumValueDefinition)
@@ -620,6 +1896,19 @@ instance enumValueDefinitionShow ∷ Show EnumValueDefinition where
 
 derive instance enumValueDefinitionEq ∷ Eq EnumValueDefinition
 
+_EnumValueDefinition ∷
+  Tuple
+    ( { description ∷ (Maybe String), enumValue ∷ EnumValue, directives ∷ (Maybe Directives) } → EnumValueDefinition
+    )
+    ( EnumValueDefinition →
+      Maybe { description ∷ (Maybe String), enumValue ∷ EnumValue, directives ∷ (Maybe Directives) }
+    )
+_EnumValueDefinition =
+  Tuple EnumValueDefinition
+    ( case _ of
+        EnumValueDefinition a → Just a
+    )
+
 data EnumValueDefinition
   = EnumValueDefinition { description ∷ (Maybe String), enumValue ∷ EnumValue, directives ∷ (Maybe Directives) }
 
@@ -629,6 +1918,34 @@ instance enumTypeExtensionShow ∷ Show EnumTypeExtension where
   show v = genericShow v
 
 derive instance enumTypeExtensionEq ∷ Eq EnumTypeExtension
+
+_EnumTypeExtension_With_EnumValuesDefinition ∷
+  Tuple
+    ( { name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ EnumValuesDefinition } → EnumTypeExtension
+    )
+    ( EnumTypeExtension →
+      Maybe { name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ EnumValuesDefinition }
+    )
+_EnumTypeExtension_With_EnumValuesDefinition =
+  Tuple EnumTypeExtension_With_EnumValuesDefinition
+    ( case _ of
+        EnumTypeExtension_With_EnumValuesDefinition a → Just a
+        _ → Nothing
+    )
+
+_EnumTypeExtension_With_Directives ∷
+  Tuple
+    ( { name ∷ String, directives ∷ Directives } → EnumTypeExtension
+    )
+    ( EnumTypeExtension →
+      Maybe { name ∷ String, directives ∷ Directives }
+    )
+_EnumTypeExtension_With_Directives =
+  Tuple EnumTypeExtension_With_Directives
+    ( case _ of
+        EnumTypeExtension_With_Directives a → Just a
+        _ → Nothing
+    )
 
 data EnumTypeExtension
   = EnumTypeExtension_With_EnumValuesDefinition { name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ EnumValuesDefinition }
@@ -641,6 +1958,19 @@ instance inputObjectTypeDefinitionShow ∷ Show InputObjectTypeDefinition where
 
 derive instance inputObjectTypeDefinitionEq ∷ Eq InputObjectTypeDefinition
 
+_InputObjectTypeDefinition ∷
+  Tuple
+    ( { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ (Maybe InputFieldsDefinition) } → InputObjectTypeDefinition
+    )
+    ( InputObjectTypeDefinition →
+      Maybe { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ (Maybe InputFieldsDefinition) }
+    )
+_InputObjectTypeDefinition =
+  Tuple InputObjectTypeDefinition
+    ( case _ of
+        InputObjectTypeDefinition a → Just a
+    )
+
 data InputObjectTypeDefinition
   = InputObjectTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ (Maybe InputFieldsDefinition) }
 
@@ -651,6 +1981,19 @@ instance inputFieldsDefinitionShow ∷ Show InputFieldsDefinition where
 
 derive instance inputFieldsDefinitionEq ∷ Eq InputFieldsDefinition
 
+_InputFieldsDefinition ∷
+  Tuple
+    ( (List InputValueDefinition) → InputFieldsDefinition
+    )
+    ( InputFieldsDefinition →
+      Maybe (List InputValueDefinition)
+    )
+_InputFieldsDefinition =
+  Tuple InputFieldsDefinition
+    ( case _ of
+        InputFieldsDefinition a → Just a
+    )
+
 data InputFieldsDefinition
   = InputFieldsDefinition (List InputValueDefinition)
 
@@ -660,6 +2003,34 @@ instance inputObjectTypeExtensionShow ∷ Show InputObjectTypeExtension where
   show v = genericShow v
 
 derive instance inputObjectTypeExtensionEq ∷ Eq InputObjectTypeExtension
+
+_InputObjectTypeExtension_With_InputFieldsDefinition ∷
+  Tuple
+    ( { name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ InputFieldsDefinition } → InputObjectTypeExtension
+    )
+    ( InputObjectTypeExtension →
+      Maybe { name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ InputFieldsDefinition }
+    )
+_InputObjectTypeExtension_With_InputFieldsDefinition =
+  Tuple InputObjectTypeExtension_With_InputFieldsDefinition
+    ( case _ of
+        InputObjectTypeExtension_With_InputFieldsDefinition a → Just a
+        _ → Nothing
+    )
+
+_InputObjectTypeExtension_With_Directives ∷
+  Tuple
+    ( { name ∷ String, directives ∷ Directives } → InputObjectTypeExtension
+    )
+    ( InputObjectTypeExtension →
+      Maybe { name ∷ String, directives ∷ Directives }
+    )
+_InputObjectTypeExtension_With_Directives =
+  Tuple InputObjectTypeExtension_With_Directives
+    ( case _ of
+        InputObjectTypeExtension_With_Directives a → Just a
+        _ → Nothing
+    )
 
 data InputObjectTypeExtension
   = InputObjectTypeExtension_With_InputFieldsDefinition { name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ InputFieldsDefinition }
@@ -672,6 +2043,19 @@ instance directiveDefinitionShow ∷ Show DirectiveDefinition where
 
 derive instance directiveDefinitionEq ∷ Eq DirectiveDefinition
 
+_DirectiveDefinition ∷
+  Tuple
+    ( { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), directiveLocations ∷ DirectiveLocations } → DirectiveDefinition
+    )
+    ( DirectiveDefinition →
+      Maybe { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), directiveLocations ∷ DirectiveLocations }
+    )
+_DirectiveDefinition =
+  Tuple DirectiveDefinition
+    ( case _ of
+        DirectiveDefinition a → Just a
+    )
+
 data DirectiveDefinition
   = DirectiveDefinition { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), directiveLocations ∷ DirectiveLocations }
 
@@ -681,6 +2065,19 @@ instance directiveLocationsShow ∷ Show DirectiveLocations where
   show v = genericShow v
 
 derive instance directiveLocationsEq ∷ Eq DirectiveLocations
+
+_DirectiveLocations ∷
+  Tuple
+    ( (List DirectiveLocation) → DirectiveLocations
+    )
+    ( DirectiveLocations →
+      Maybe (List DirectiveLocation)
+    )
+_DirectiveLocations =
+  Tuple DirectiveLocations
+    ( case _ of
+        DirectiveLocations a → Just a
+    )
 
 data DirectiveLocations
   = DirectiveLocations (List DirectiveLocation)
@@ -692,6 +2089,34 @@ instance directiveLocationShow ∷ Show DirectiveLocation where
 
 derive instance directiveLocationEq ∷ Eq DirectiveLocation
 
+_DirectiveLocation_ExecutableDirectiveLocation ∷
+  Tuple
+    ( ExecutableDirectiveLocation → DirectiveLocation
+    )
+    ( DirectiveLocation →
+      Maybe ExecutableDirectiveLocation
+    )
+_DirectiveLocation_ExecutableDirectiveLocation =
+  Tuple DirectiveLocation_ExecutableDirectiveLocation
+    ( case _ of
+        DirectiveLocation_ExecutableDirectiveLocation a → Just a
+        _ → Nothing
+    )
+
+_DirectiveLocation_TypeSystemDirectiveLocation ∷
+  Tuple
+    ( TypeSystemDirectiveLocation → DirectiveLocation
+    )
+    ( DirectiveLocation →
+      Maybe TypeSystemDirectiveLocation
+    )
+_DirectiveLocation_TypeSystemDirectiveLocation =
+  Tuple DirectiveLocation_TypeSystemDirectiveLocation
+    ( case _ of
+        DirectiveLocation_TypeSystemDirectiveLocation a → Just a
+        _ → Nothing
+    )
+
 data DirectiveLocation
   = DirectiveLocation_ExecutableDirectiveLocation ExecutableDirectiveLocation
   | DirectiveLocation_TypeSystemDirectiveLocation TypeSystemDirectiveLocation
@@ -702,6 +2127,104 @@ instance executableDirectiveLocationShow ∷ Show ExecutableDirectiveLocation wh
   show v = genericShow v
 
 derive instance executableDirectiveLocationEq ∷ Eq ExecutableDirectiveLocation
+
+_QUERY ∷
+  Tuple
+    ( Unit → ExecutableDirectiveLocation
+    )
+    ( ExecutableDirectiveLocation →
+      Maybe Unit
+    )
+_QUERY =
+  Tuple (\_ → QUERY)
+    ( case _ of
+        QUERY → Just unit
+        _ → Nothing
+    )
+
+_MUTATION ∷
+  Tuple
+    ( Unit → ExecutableDirectiveLocation
+    )
+    ( ExecutableDirectiveLocation →
+      Maybe Unit
+    )
+_MUTATION =
+  Tuple (\_ → MUTATION)
+    ( case _ of
+        MUTATION → Just unit
+        _ → Nothing
+    )
+
+_SUBSCRIPTION ∷
+  Tuple
+    ( Unit → ExecutableDirectiveLocation
+    )
+    ( ExecutableDirectiveLocation →
+      Maybe Unit
+    )
+_SUBSCRIPTION =
+  Tuple (\_ → SUBSCRIPTION)
+    ( case _ of
+        SUBSCRIPTION → Just unit
+        _ → Nothing
+    )
+
+_FIELD ∷
+  Tuple
+    ( Unit → ExecutableDirectiveLocation
+    )
+    ( ExecutableDirectiveLocation →
+      Maybe Unit
+    )
+_FIELD =
+  Tuple (\_ → FIELD)
+    ( case _ of
+        FIELD → Just unit
+        _ → Nothing
+    )
+
+_FRAGMENT_DEFINITION ∷
+  Tuple
+    ( Unit → ExecutableDirectiveLocation
+    )
+    ( ExecutableDirectiveLocation →
+      Maybe Unit
+    )
+_FRAGMENT_DEFINITION =
+  Tuple (\_ → FRAGMENT_DEFINITION)
+    ( case _ of
+        FRAGMENT_DEFINITION → Just unit
+        _ → Nothing
+    )
+
+_FRAGMENT_SPREAD ∷
+  Tuple
+    ( Unit → ExecutableDirectiveLocation
+    )
+    ( ExecutableDirectiveLocation →
+      Maybe Unit
+    )
+_FRAGMENT_SPREAD =
+  Tuple (\_ → FRAGMENT_SPREAD)
+    ( case _ of
+        FRAGMENT_SPREAD → Just unit
+        _ → Nothing
+    )
+
+_INLINE_FRAGMENT ∷
+  Tuple
+    ( Unit → ExecutableDirectiveLocation
+    )
+    ( ExecutableDirectiveLocation →
+      Maybe Unit
+    )
+_INLINE_FRAGMENT =
+  Tuple (\_ → INLINE_FRAGMENT)
+    ( case _ of
+        INLINE_FRAGMENT → Just unit
+        _ → Nothing
+    )
 
 data ExecutableDirectiveLocation
   = QUERY
@@ -718,6 +2241,160 @@ instance typeSystemDirectiveLocationShow ∷ Show TypeSystemDirectiveLocation wh
   show v = genericShow v
 
 derive instance typeSystemDirectiveLocationEq ∷ Eq TypeSystemDirectiveLocation
+
+_SCHEMA ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_SCHEMA =
+  Tuple (\_ → SCHEMA)
+    ( case _ of
+        SCHEMA → Just unit
+        _ → Nothing
+    )
+
+_SCALAR ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_SCALAR =
+  Tuple (\_ → SCALAR)
+    ( case _ of
+        SCALAR → Just unit
+        _ → Nothing
+    )
+
+_OBJECT ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_OBJECT =
+  Tuple (\_ → OBJECT)
+    ( case _ of
+        OBJECT → Just unit
+        _ → Nothing
+    )
+
+_FIELD_DEFINITION ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_FIELD_DEFINITION =
+  Tuple (\_ → FIELD_DEFINITION)
+    ( case _ of
+        FIELD_DEFINITION → Just unit
+        _ → Nothing
+    )
+
+_ARGUMENT_DEFINITION ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_ARGUMENT_DEFINITION =
+  Tuple (\_ → ARGUMENT_DEFINITION)
+    ( case _ of
+        ARGUMENT_DEFINITION → Just unit
+        _ → Nothing
+    )
+
+_INTERFACE ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_INTERFACE =
+  Tuple (\_ → INTERFACE)
+    ( case _ of
+        INTERFACE → Just unit
+        _ → Nothing
+    )
+
+_UNION ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_UNION =
+  Tuple (\_ → UNION)
+    ( case _ of
+        UNION → Just unit
+        _ → Nothing
+    )
+
+_ENUM ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_ENUM =
+  Tuple (\_ → ENUM)
+    ( case _ of
+        ENUM → Just unit
+        _ → Nothing
+    )
+
+_ENUM_VALUE ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_ENUM_VALUE =
+  Tuple (\_ → ENUM_VALUE)
+    ( case _ of
+        ENUM_VALUE → Just unit
+        _ → Nothing
+    )
+
+_INPUT_OBJECT ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_INPUT_OBJECT =
+  Tuple (\_ → INPUT_OBJECT)
+    ( case _ of
+        INPUT_OBJECT → Just unit
+        _ → Nothing
+    )
+
+_INPUT_FIELD_DEFINITION ∷
+  Tuple
+    ( Unit → TypeSystemDirectiveLocation
+    )
+    ( TypeSystemDirectiveLocation →
+      Maybe Unit
+    )
+_INPUT_FIELD_DEFINITION =
+  Tuple (\_ → INPUT_FIELD_DEFINITION)
+    ( case _ of
+        INPUT_FIELD_DEFINITION → Just unit
+        _ → Nothing
+    )
 
 data TypeSystemDirectiveLocation
   = SCHEMA

@@ -6,6 +6,8 @@ import Control.Lazy (fix)
 import Data.Array (many, singleton, some)
 import Data.Enum (toEnum)
 import Data.Foldable (fold)
+import Data.GraphQL.AST as AST
+import Data.GraphQL.AST as AST
 import Data.Int as DI
 import Data.List as L
 import Data.Maybe (Maybe(..), maybe)
@@ -13,7 +15,6 @@ import Data.Number as DN
 import Data.String.CodePoints as CP
 import Data.String.CodeUnits (fromCharArray)
 import Data.Traversable (sequence)
-import Data.GraphQL.AST as AST
 import Text.Parsing.Parser (Parser, fail)
 import Text.Parsing.Parser.Combinators ((<?>), between, lookAhead, option, optional, sepBy1, try)
 import Text.Parsing.Parser.String (class StringLike, anyChar, char, noneOf, oneOf, string)
@@ -219,7 +220,7 @@ listValue = (<$>) AST.ListValue <<< listish "[" "]"
 
 argument ∷ ∀ s. StringLike s ⇒ Parser s (AST.Value) → Parser s (AST.Argument)
 argument vc =
-  AST.Argument
+  map AST.Argument $ { name: _, value: _ }
     <$> name
     <*> (ignoreMe *> char ':' *> ignoreMe *> vc)
 
@@ -319,9 +320,9 @@ nonNullType v =
 _type ∷ ∀ s. StringLike s ⇒ Parser s AST.Type
 _type =
   fix \p →
-    (try (AST.Type_NamedType <$> namedType))
+    (try (AST.Type_NonNullType <$> nonNullType p))
       <|> (try (AST.Type_ListType <$> listType p))
-      <|> (AST.Type_NonNullType <$> nonNullType p)
+      <|> (AST.Type_NamedType <$> namedType)
       <?> "Could not parse type"
 
 defaultValue ∷ ∀ s. StringLike s ⇒ Parser s AST.DefaultValue
@@ -450,7 +451,7 @@ operationType =
 
 operationTypeDefinition ∷ ∀ s. StringLike s ⇒ Parser s (AST.OperationTypeDefinition)
 operationTypeDefinition =
-  AST.OperationTypeDefinition
+  map AST.OperationTypeDefinition $ { operationType: _, namedType: _ }
     <$> operationType
     <*> (ignoreMe *> char ':' *> ignoreMe *> namedType)
 
@@ -481,7 +482,7 @@ fieldDefinition =
     <$> optDesc
     <*> (ignoreMe *> name)
     <*> (ignoreMe *> ooo argumentsDefinition)
-    <*> (ignoreMe *> _type)
+    <*> (ignoreMe *> char ':' *> ignoreMe *> _type)
     <*> (ignoreMe *> optDir)
 
 fieldsDefinition ∷ ∀ s. StringLike s ⇒ Parser s (AST.FieldsDefinition)
@@ -635,7 +636,10 @@ typeExtension =
     <?> "Could not parse typeExtension"
 
 rootOperationDefinition ∷ ∀ s. StringLike s ⇒ Parser s AST.RootOperationTypeDefinition
-rootOperationDefinition = AST.RootOperationTypeDefinition <$> operationType <*> namedType
+rootOperationDefinition =
+  map AST.RootOperationTypeDefinition $ { operationType: _, namedType: _ }
+    <$> operationType
+    <*> (ignoreMe *> char ':' *> ignoreMe *> namedType)
 
 schemaDefinition ∷ ∀ s. StringLike s ⇒ Parser s AST.SchemaDefinition
 schemaDefinition =

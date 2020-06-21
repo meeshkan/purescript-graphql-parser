@@ -1,17 +1,28 @@
 module Test.Data.GraphQL.ParseFull0 where
 
 import Prelude
-import Control.Monad.Error.Class (class MonadThrow)
 import Data.Either (either)
-import Effect.Exception (Error)
+import Data.GraphQL.AST as AST
 import Data.GraphQL.Parser as GP
-import Test.Spec (SpecT, describe, it)
-import Test.Spec.Assertions (shouldEqual, fail)
-import Text.Parsing.Parser (runParser, Parser)
+import Data.Lens (class Wander)
+import Data.Lens as L
+import Data.Lens.Index as LI
+import Data.Lens.Record as LR
+import Data.List (List, length)
+import Data.Maybe (Maybe(..), maybe)
+import Data.Profunctor.Choice (class Choice)
+import Data.Symbol (SProxy(..))
+import Data.Tuple (uncurry)
+import Effect.Aff (Aff)
+import Effect.Class (liftEffect)
+import Effect.Exception (throw)
+import Test.Spec (SpecT, before, describe, it)
+import Test.Spec.Assertions (shouldEqual, shouldNotEqual, fail)
+import Text.Parsing.Parser (runParser)
 import Text.Parsing.Parser.String (class StringLike)
 
-parseCheck ∷ ∀ s t m. StringLike s ⇒ MonadThrow Error m ⇒ Show t ⇒ Eq t ⇒ Parser s t → s → m Unit
-parseCheck parser toparse = either (fail <<< show) (\_ -> 1 `shouldEqual` 1) (runParser toparse parser)
+parseDocument ∷ ∀ s. StringLike s ⇒ s → Aff (AST.Document)
+parseDocument t = liftEffect (either (throw <<< show) pure (runParser t GP.document))
 
 schema =
   """type Tweet {
@@ -71,11 +82,82 @@ type Mutation {
     ): Tweet
     deleteTweet(id: ID!): Tweet
     markTweetRead(id: ID!): Boolean
-}""" ::
+}""" ∷
     String
 
-testFullDoc ∷ forall e m. Monad m => Bind e => MonadThrow Error e => SpecT e Unit m Unit
+lensToTweetObjectTypeDefinition ∷ ∀ m. Choice m ⇒ Wander m ⇒ m AST.ObjectTypeDefinition AST.ObjectTypeDefinition → m AST.Document AST.Document
+lensToTweetObjectTypeDefinition =
+  ( uncurry L.prism' AST._Document
+      <<< LI.ix 0
+      <<< uncurry L.prism' AST._Definition_TypeSystemDefinition
+      <<< uncurry L.prism' AST._TypeSystemDefinition_TypeDefinition
+      <<< uncurry L.prism' AST._TypeDefinition_ObjectTypeDefinition
+  )
+
+getTweetName ∷ AST.Document → Maybe String
+getTweetName =
+  L.preview
+    $ ( lensToTweetObjectTypeDefinition
+          <<< uncurry L.prism' AST._ObjectTypeDefinition
+          <<< LR.prop (SProxy ∷ SProxy "name")
+      )
+
+getTweetFieldDefinitionList ∷ AST.Document → Maybe (List AST.FieldDefinition)
+getTweetFieldDefinitionList =
+  L.preview
+    $ ( lensToTweetObjectTypeDefinition
+          <<< uncurry L.prism' AST._ObjectTypeDefinition
+          <<< LR.prop (SProxy ∷ SProxy "fieldsDefinition")
+          <<< L._Just
+          <<< uncurry L.prism' AST._FieldsDefinition
+      )
+
+getTweetIdArgName ∷ AST.Document → Maybe String
+getTweetIdArgName =
+  L.preview
+    $ ( lensToTweetObjectTypeDefinition
+          <<< uncurry L.prism' AST._ObjectTypeDefinition
+          <<< LR.prop (SProxy ∷ SProxy "fieldsDefinition")
+          <<< L._Just
+          <<< uncurry L.prism' AST._FieldsDefinition
+          <<< LI.ix 0
+          <<< uncurry L.prism' AST._FieldDefinition
+          <<< LR.prop (SProxy ∷ SProxy "name")
+      )
+
+lensToUserObjectTypeDefinition ∷ ∀ m. Choice m ⇒ Wander m ⇒ m AST.ObjectTypeDefinition AST.ObjectTypeDefinition → m AST.Document AST.Document
+lensToUserObjectTypeDefinition =
+  ( uncurry L.prism' AST._Document
+      <<< LI.ix 1
+      <<< uncurry L.prism' AST._Definition_TypeSystemDefinition
+      <<< uncurry L.prism' AST._TypeSystemDefinition_TypeDefinition
+      <<< uncurry L.prism' AST._TypeDefinition_ObjectTypeDefinition
+  )
+
+getUserFieldDefinitionList ∷ AST.Document → Maybe (List AST.FieldDefinition)
+getUserFieldDefinitionList =
+  L.preview
+    $ ( lensToUserObjectTypeDefinition
+          <<< uncurry L.prism' AST._ObjectTypeDefinition
+          <<< LR.prop (SProxy ∷ SProxy "fieldsDefinition")
+          <<< L._Just
+          <<< uncurry L.prism' AST._FieldsDefinition
+      )
+
+testFullDoc ∷ ∀ m. Monad m ⇒ SpecT Aff Unit m Unit
 testFullDoc =
   describe "test full doc" do
-    it "should parse document correctly" do
-      parseCheck GP.document schema
+    before (parseDocument schema)
+      $ do
+          it "should parse name of Tweet correctly" \doc → do
+            getTweetName doc `shouldEqual` Just "Tweet"
+          it "should have the right number of definitions in the Tweet type" \doc → do
+            let
+              fieldlist = getTweetFieldDefinitionList doc
+            maybe (fail "List should not be empty") (shouldEqual 5 <<< length) fieldlist
+          it "should parse name of Tweet.id correctly" \doc → do
+            getTweetIdArgName doc `shouldEqual` Just "id"
+          it "should have the right number of definitions in the User type" \doc → do
+            let
+              fieldlist = getUserFieldDefinitionList doc
+            maybe (fail "List should not be empty") (shouldEqual 7 <<< length) fieldlist
