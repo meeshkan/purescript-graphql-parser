@@ -1,5 +1,6 @@
 module Data.GraphQL.AST where
 
+-- 105
 import Prelude
 import Data.Tuple (Tuple(..))
 import Data.Generic.Rep (class Generic)
@@ -144,12 +145,15 @@ _OperationDefinition_SelectionSet =
         _ → Nothing
     )
 
+type T_OperationDefinition_OperationType
+  = { operationType ∷ OperationType, name ∷ (Maybe String), variableDefinitions ∷ (Maybe VariableDefinitions), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+
 _OperationDefinition_OperationType ∷
   Tuple
-    ( { operationType ∷ OperationType, name ∷ (Maybe String), variableDefinitions ∷ (Maybe VariableDefinitions), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet } → OperationDefinition
+    ( T_OperationDefinition_OperationType → OperationDefinition
     )
     ( OperationDefinition →
-      Maybe { operationType ∷ OperationType, name ∷ (Maybe String), variableDefinitions ∷ (Maybe VariableDefinitions), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+      Maybe T_OperationDefinition_OperationType
     )
 _OperationDefinition_OperationType =
   Tuple OperationDefinition_OperationType
@@ -160,7 +164,7 @@ _OperationDefinition_OperationType =
 
 data OperationDefinition
   = OperationDefinition_SelectionSet SelectionSet
-  | OperationDefinition_OperationType { operationType ∷ OperationType, name ∷ (Maybe String), variableDefinitions ∷ (Maybe VariableDefinitions), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+  | OperationDefinition_OperationType T_OperationDefinition_OperationType
 
 derive instance operationTypeGeneric ∷ Generic OperationType _
 
@@ -300,12 +304,15 @@ instance fieldShow ∷ Show Field where
 
 derive instance fieldEq ∷ Eq Field
 
+type T_Field
+  = { alias ∷ (Maybe String), name ∷ String, arguments ∷ (Maybe Arguments), directives ∷ (Maybe Directives), selectionSet ∷ (Maybe SelectionSet) }
+
 _Field ∷
   Tuple
-    ( { alias ∷ (Maybe String), name ∷ String, arguments ∷ (Maybe Arguments), directives ∷ (Maybe Directives), selectionSet ∷ (Maybe SelectionSet) } → Field
+    ( T_Field → Field
     )
     ( Field →
-      Maybe { alias ∷ (Maybe String), name ∷ String, arguments ∷ (Maybe Arguments), directives ∷ (Maybe Directives), selectionSet ∷ (Maybe SelectionSet) }
+      Maybe T_Field
     )
 _Field =
   Tuple Field
@@ -314,7 +321,7 @@ _Field =
     )
 
 data Field
-  = Field { alias ∷ (Maybe String), name ∷ String, arguments ∷ (Maybe Arguments), directives ∷ (Maybe Directives), selectionSet ∷ (Maybe SelectionSet) }
+  = Field T_Field
 
 derive instance argumentsGeneric ∷ Generic Arguments _
 
@@ -346,12 +353,15 @@ instance argumentShow ∷ Show Argument where
 
 derive instance argumentEq ∷ Eq Argument
 
+type T_Argument
+  = { name :: String, value :: Value }
+
 _Argument ∷
   Tuple
-    ( { name :: String, value :: Value } → Argument
+    ( T_Argument → Argument
     )
     ( Argument →
-      Maybe { name :: String, value :: Value }
+      Maybe T_Argument
     )
 _Argument =
   Tuple Argument
@@ -360,7 +370,7 @@ _Argument =
     )
 
 data Argument
-  = Argument { name :: String, value :: Value }
+  = Argument T_Argument
 
 derive instance fragmentSpreadGeneric ∷ Generic FragmentSpread _
 
@@ -369,12 +379,15 @@ instance fragmentSpreadShow ∷ Show FragmentSpread where
 
 derive instance fragmentSpreadEq ∷ Eq FragmentSpread
 
+type T_FragmentSpread
+  = { fragmentName ∷ String, directives ∷ Maybe Directives }
+
 _FragmentSpread ∷
   Tuple
-    ( { fragmentName ∷ String, directives ∷ Maybe Directives } → FragmentSpread
+    ( T_FragmentSpread → FragmentSpread
     )
     ( FragmentSpread →
-      Maybe { fragmentName ∷ String, directives ∷ Maybe Directives }
+      Maybe T_FragmentSpread
     )
 _FragmentSpread =
   Tuple FragmentSpread
@@ -383,7 +396,7 @@ _FragmentSpread =
     )
 
 data FragmentSpread
-  = FragmentSpread { fragmentName ∷ String, directives ∷ Maybe Directives }
+  = FragmentSpread T_FragmentSpread
 
 derive instance inlineFragmentGeneric ∷ Generic InlineFragment _
 
@@ -392,12 +405,15 @@ instance inlineFragmentShow ∷ Show InlineFragment where
 
 derive instance inlineFragmentEq ∷ Eq InlineFragment
 
+type T_InlineFragment
+  = { typeCondition ∷ (Maybe TypeCondition), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+
 _InlineFragment ∷
   Tuple
-    ( { typeCondition ∷ (Maybe TypeCondition), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet } → InlineFragment
+    ( T_InlineFragment → InlineFragment
     )
     ( InlineFragment →
-      Maybe { typeCondition ∷ (Maybe TypeCondition), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+      Maybe T_InlineFragment
     )
 _InlineFragment =
   Tuple InlineFragment
@@ -406,7 +422,7 @@ _InlineFragment =
     )
 
 data InlineFragment
-  = InlineFragment { typeCondition ∷ (Maybe TypeCondition), directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+  = InlineFragment T_InlineFragment
 
 derive instance fragmentDefinitionGeneric ∷ Generic FragmentDefinition _
 
@@ -415,12 +431,15 @@ instance fragmentDefinitionShow ∷ Show FragmentDefinition where
 
 derive instance fragmentDefinitionEq ∷ Eq FragmentDefinition
 
+type T_FragmentDefinition
+  = { fragmentName ∷ String, typeCondition ∷ TypeCondition, directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+
 _FragmentDefinition ∷
   Tuple
-    ( { fragmentName ∷ String, typeCondition ∷ TypeCondition, directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet } → FragmentDefinition
+    ( T_FragmentDefinition → FragmentDefinition
     )
     ( FragmentDefinition →
-      Maybe { fragmentName ∷ String, typeCondition ∷ TypeCondition, directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+      Maybe T_FragmentDefinition
     )
 _FragmentDefinition =
   Tuple FragmentDefinition
@@ -429,7 +448,7 @@ _FragmentDefinition =
     )
 
 data FragmentDefinition
-  = FragmentDefinition { fragmentName ∷ String, typeCondition ∷ TypeCondition, directives ∷ (Maybe Directives), selectionSet ∷ SelectionSet }
+  = FragmentDefinition T_FragmentDefinition
 
 derive instance typeConditionGeneric ∷ Generic TypeCondition _
 
@@ -812,12 +831,15 @@ instance variableDefinitionShow ∷ Show VariableDefinition where
 
 derive instance variableDefinitionEq ∷ Eq VariableDefinition
 
+type T_VariableDefinition
+  = { variable ∷ Variable, type ∷ Type, defaultValue ∷ (Maybe DefaultValue) }
+
 _VariableDefinition ∷
   Tuple
-    ( { variable ∷ Variable, type ∷ Type, defaultValue ∷ (Maybe DefaultValue) } → VariableDefinition
+    ( T_VariableDefinition → VariableDefinition
     )
     ( VariableDefinition →
-      Maybe { variable ∷ Variable, type ∷ Type, defaultValue ∷ (Maybe DefaultValue) }
+      Maybe T_VariableDefinition
     )
 _VariableDefinition =
   Tuple VariableDefinition
@@ -826,7 +848,7 @@ _VariableDefinition =
     )
 
 data VariableDefinition
-  = VariableDefinition { variable ∷ Variable, type ∷ Type, defaultValue ∷ (Maybe DefaultValue) }
+  = VariableDefinition T_VariableDefinition
 
 derive instance variableGeneric ∷ Generic Variable _
 
@@ -1043,12 +1065,15 @@ instance directiveShow ∷ Show Directive where
 
 derive instance directiveEq ∷ Eq Directive
 
+type T_Directive
+  = { name ∷ String, arguments ∷ (Maybe Arguments) }
+
 _Directive ∷
   Tuple
-    ( { name ∷ String, arguments ∷ (Maybe Arguments) } → Directive
+    ( T_Directive → Directive
     )
     ( Directive →
-      Maybe { name ∷ String, arguments ∷ (Maybe Arguments) }
+      Maybe T_Directive
     )
 _Directive =
   Tuple Directive
@@ -1057,7 +1082,7 @@ _Directive =
     )
 
 data Directive
-  = Directive { name ∷ String, arguments ∷ (Maybe Arguments) }
+  = Directive T_Directive
 
 derive instance typeSystemDefinitionGeneric ∷ Generic TypeSystemDefinition _
 
@@ -1159,12 +1184,15 @@ instance schemaDefinitionShow ∷ Show SchemaDefinition where
 
 derive instance schemaDefinitionEq ∷ Eq SchemaDefinition
 
+type T_SchemaDefinition
+  = { directives ∷ (Maybe Directives), rootOperationTypeDefinition ∷ (List RootOperationTypeDefinition) }
+
 _SchemaDefinition ∷
   Tuple
-    ( { directives ∷ (Maybe Directives), rootOperationTypeDefinition ∷ (List RootOperationTypeDefinition) } → SchemaDefinition
+    ( T_SchemaDefinition → SchemaDefinition
     )
     ( SchemaDefinition →
-      Maybe { directives ∷ (Maybe Directives), rootOperationTypeDefinition ∷ (List RootOperationTypeDefinition) }
+      Maybe T_SchemaDefinition
     )
 _SchemaDefinition =
   Tuple SchemaDefinition
@@ -1173,7 +1201,7 @@ _SchemaDefinition =
     )
 
 data SchemaDefinition
-  = SchemaDefinition { directives ∷ (Maybe Directives), rootOperationTypeDefinition ∷ (List RootOperationTypeDefinition) }
+  = SchemaDefinition T_SchemaDefinition
 
 derive instance rootOperationTypeDefinitionGeneric ∷ Generic RootOperationTypeDefinition _
 
@@ -1182,12 +1210,15 @@ instance rootOperationTypeDefinitionShow ∷ Show RootOperationTypeDefinition wh
 
 derive instance rootOperationTypeDefinitionEq ∷ Eq RootOperationTypeDefinition
 
+type T_RootOperationTypeDefinition
+  = { operationType ∷ OperationType, namedType ∷ NamedType }
+
 _RootOperationTypeDefinition ∷
   Tuple
-    ( { operationType ∷ OperationType, namedType ∷ NamedType } → RootOperationTypeDefinition
+    ( T_RootOperationTypeDefinition → RootOperationTypeDefinition
     )
     ( RootOperationTypeDefinition →
-      Maybe { operationType ∷ OperationType, namedType ∷ NamedType }
+      Maybe T_RootOperationTypeDefinition
     )
 _RootOperationTypeDefinition =
   Tuple RootOperationTypeDefinition
@@ -1196,7 +1227,7 @@ _RootOperationTypeDefinition =
     )
 
 data RootOperationTypeDefinition
-  = RootOperationTypeDefinition { operationType ∷ OperationType, namedType ∷ NamedType }
+  = RootOperationTypeDefinition T_RootOperationTypeDefinition
 
 derive instance schemaExtensionGeneric ∷ Generic SchemaExtension _
 
@@ -1205,12 +1236,15 @@ instance schemaExtensionShow ∷ Show SchemaExtension where
 
 derive instance schemaExtensionEq ∷ Eq SchemaExtension
 
+type T_SchemaExtension_With_OperationTypeDefinition
+  = { directives ∷ (Maybe Directives), operationTypesDefinition ∷ (List OperationTypeDefinition) }
+
 _SchemaExtension_With_OperationTypeDefinition ∷
   Tuple
-    ( { directives ∷ (Maybe Directives), operationTypesDefinition ∷ (List OperationTypeDefinition) } → SchemaExtension
+    ( T_SchemaExtension_With_OperationTypeDefinition → SchemaExtension
     )
     ( SchemaExtension →
-      Maybe { directives ∷ (Maybe Directives), operationTypesDefinition ∷ (List OperationTypeDefinition) }
+      Maybe T_SchemaExtension_With_OperationTypeDefinition
     )
 _SchemaExtension_With_OperationTypeDefinition =
   Tuple SchemaExtension_With_OperationTypeDefinition
@@ -1219,12 +1253,15 @@ _SchemaExtension_With_OperationTypeDefinition =
         _ → Nothing
     )
 
+type T_SchemaExtension_With_Directives
+  = { directives ∷ Directives }
+
 _SchemaExtension_With_Directives ∷
   Tuple
-    ( { directives ∷ Directives } → SchemaExtension
+    ( T_SchemaExtension_With_Directives → SchemaExtension
     )
     ( SchemaExtension →
-      Maybe { directives ∷ Directives }
+      Maybe T_SchemaExtension_With_Directives
     )
 _SchemaExtension_With_Directives =
   Tuple SchemaExtension_With_Directives
@@ -1234,8 +1271,8 @@ _SchemaExtension_With_Directives =
     )
 
 data SchemaExtension
-  = SchemaExtension_With_OperationTypeDefinition { directives ∷ (Maybe Directives), operationTypesDefinition ∷ (List OperationTypeDefinition) }
-  | SchemaExtension_With_Directives { directives ∷ Directives }
+  = SchemaExtension_With_OperationTypeDefinition T_SchemaExtension_With_OperationTypeDefinition
+  | SchemaExtension_With_Directives T_SchemaExtension_With_Directives
 
 derive instance operationTypeDefinitionGeneric ∷ Generic OperationTypeDefinition _
 
@@ -1244,12 +1281,15 @@ instance operationTypeDefinitionShow ∷ Show OperationTypeDefinition where
 
 derive instance operationTypeDefinitionEq ∷ Eq OperationTypeDefinition
 
+type T_OperationTypeDefinition
+  = { operationType ∷ OperationType, namedType ∷ NamedType }
+
 _OperationTypeDefinition ∷
   Tuple
-    ( { operationType ∷ OperationType, namedType ∷ NamedType } → OperationTypeDefinition
+    ( T_OperationTypeDefinition → OperationTypeDefinition
     )
     ( OperationTypeDefinition →
-      Maybe { operationType ∷ OperationType, namedType ∷ NamedType }
+      Maybe T_OperationTypeDefinition
     )
 _OperationTypeDefinition =
   Tuple OperationTypeDefinition
@@ -1258,7 +1298,7 @@ _OperationTypeDefinition =
     )
 
 data OperationTypeDefinition
-  = OperationTypeDefinition { operationType ∷ OperationType, namedType ∷ NamedType }
+  = OperationTypeDefinition T_OperationTypeDefinition
 
 derive instance typeDefinitionGeneric ∷ Generic TypeDefinition _
 
@@ -1465,12 +1505,15 @@ instance scalarTypeDefinitionShow ∷ Show ScalarTypeDefinition where
 
 derive instance scalarTypeDefinitionEq ∷ Eq ScalarTypeDefinition
 
+type T_ScalarTypeDefinition
+  = { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives) }
+
 _ScalarTypeDefinition ∷
   Tuple
-    ( { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives) } → ScalarTypeDefinition
+    ( T_ScalarTypeDefinition → ScalarTypeDefinition
     )
     ( ScalarTypeDefinition →
-      Maybe { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives) }
+      Maybe T_ScalarTypeDefinition
     )
 _ScalarTypeDefinition =
   Tuple ScalarTypeDefinition
@@ -1479,7 +1522,7 @@ _ScalarTypeDefinition =
     )
 
 data ScalarTypeDefinition
-  = ScalarTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives) }
+  = ScalarTypeDefinition T_ScalarTypeDefinition
 
 derive instance scalarTypeExtensionGeneric ∷ Generic ScalarTypeExtension _
 
@@ -1488,12 +1531,15 @@ instance scalarTypeExtensionShow ∷ Show ScalarTypeExtension where
 
 derive instance scalarTypeExtensionEq ∷ Eq ScalarTypeExtension
 
+type T_ScalarTypeExtension
+  = { name ∷ String, directives ∷ Directives }
+
 _ScalarTypeExtension ∷
   Tuple
-    ( { name ∷ String, directives ∷ Directives } → ScalarTypeExtension
+    ( T_ScalarTypeExtension → ScalarTypeExtension
     )
     ( ScalarTypeExtension →
-      Maybe { name ∷ String, directives ∷ Directives }
+      Maybe T_ScalarTypeExtension
     )
 _ScalarTypeExtension =
   Tuple ScalarTypeExtension
@@ -1502,7 +1548,7 @@ _ScalarTypeExtension =
     )
 
 data ScalarTypeExtension
-  = ScalarTypeExtension { name ∷ String, directives ∷ Directives }
+  = ScalarTypeExtension T_ScalarTypeExtension
 
 derive instance objectTypeDefinitionGeneric ∷ Generic ObjectTypeDefinition _
 
@@ -1511,12 +1557,15 @@ instance objectTypeDefinitionShow ∷ Show ObjectTypeDefinition where
 
 derive instance objectTypeDefinitionEq ∷ Eq ObjectTypeDefinition
 
+type T_ObjectTypeDefinition
+  = { description ∷ (Maybe String), name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
+
 _ObjectTypeDefinition ∷
   Tuple
-    ( { description ∷ (Maybe String), name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) } → ObjectTypeDefinition
+    ( T_ObjectTypeDefinition → ObjectTypeDefinition
     )
     ( ObjectTypeDefinition →
-      Maybe { description ∷ (Maybe String), name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
+      Maybe T_ObjectTypeDefinition
     )
 _ObjectTypeDefinition =
   Tuple ObjectTypeDefinition
@@ -1525,7 +1574,7 @@ _ObjectTypeDefinition =
     )
 
 data ObjectTypeDefinition
-  = ObjectTypeDefinition { description ∷ (Maybe String), name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
+  = ObjectTypeDefinition T_ObjectTypeDefinition
 
 derive instance objectTypeExtensionGeneric ∷ Generic ObjectTypeExtension _
 
@@ -1534,12 +1583,15 @@ instance objectTypeExtensionShow ∷ Show ObjectTypeExtension where
 
 derive instance objectTypeExtensionEq ∷ Eq ObjectTypeExtension
 
+type T_ObjectTypeExtension_With_FieldsDefinition
+  = { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
+
 _ObjectTypeExtension_With_FieldsDefinition ∷
   Tuple
-    ( { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition } → ObjectTypeExtension
+    ( T_ObjectTypeExtension_With_FieldsDefinition → ObjectTypeExtension
     )
     ( ObjectTypeExtension →
-      Maybe { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
+      Maybe T_ObjectTypeExtension_With_FieldsDefinition
     )
 _ObjectTypeExtension_With_FieldsDefinition =
   Tuple ObjectTypeExtension_With_FieldsDefinition
@@ -1548,12 +1600,15 @@ _ObjectTypeExtension_With_FieldsDefinition =
         _ → Nothing
     )
 
+type T_ObjectTypeExtension_With_Directives
+  = { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ Directives }
+
 _ObjectTypeExtension_With_Directives ∷
   Tuple
-    ( { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ Directives } → ObjectTypeExtension
+    ( T_ObjectTypeExtension_With_Directives → ObjectTypeExtension
     )
     ( ObjectTypeExtension →
-      Maybe { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ Directives }
+      Maybe T_ObjectTypeExtension_With_Directives
     )
 _ObjectTypeExtension_With_Directives =
   Tuple ObjectTypeExtension_With_Directives
@@ -1562,12 +1617,15 @@ _ObjectTypeExtension_With_Directives =
         _ → Nothing
     )
 
+type T_ObjectTypeExtension_With_ImplementsInterfaces
+  = { name ∷ String, implementsInterfaces ∷ ImplementsInterfaces }
+
 _ObjectTypeExtension_With_ImplementsInterfaces ∷
   Tuple
-    ( { name ∷ String, implementsInterfaces ∷ ImplementsInterfaces } → ObjectTypeExtension
+    ( T_ObjectTypeExtension_With_ImplementsInterfaces → ObjectTypeExtension
     )
     ( ObjectTypeExtension →
-      Maybe { name ∷ String, implementsInterfaces ∷ ImplementsInterfaces }
+      Maybe T_ObjectTypeExtension_With_ImplementsInterfaces
     )
 _ObjectTypeExtension_With_ImplementsInterfaces =
   Tuple ObjectTypeExtension_With_ImplementsInterfaces
@@ -1577,9 +1635,9 @@ _ObjectTypeExtension_With_ImplementsInterfaces =
     )
 
 data ObjectTypeExtension
-  = ObjectTypeExtension_With_FieldsDefinition { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
-  | ObjectTypeExtension_With_Directives { name ∷ String, implementsInterfaces ∷ (Maybe ImplementsInterfaces), directives ∷ Directives }
-  | ObjectTypeExtension_With_ImplementsInterfaces { name ∷ String, implementsInterfaces ∷ ImplementsInterfaces }
+  = ObjectTypeExtension_With_FieldsDefinition T_ObjectTypeExtension_With_FieldsDefinition
+  | ObjectTypeExtension_With_Directives T_ObjectTypeExtension_With_Directives
+  | ObjectTypeExtension_With_ImplementsInterfaces T_ObjectTypeExtension_With_ImplementsInterfaces
 
 derive instance implementsInterfacesGeneric ∷ Generic ImplementsInterfaces _
 
@@ -1634,12 +1692,15 @@ instance fieldDefinitionShow ∷ Show FieldDefinition where
 
 derive instance fieldDefinitionEq ∷ Eq FieldDefinition
 
+type T_FieldDefinition
+  = { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), type ∷ Type, directives ∷ (Maybe Directives) }
+
 _FieldDefinition ∷
   Tuple
-    ( { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), type ∷ Type, directives ∷ (Maybe Directives) } → FieldDefinition
+    ( T_FieldDefinition → FieldDefinition
     )
     ( FieldDefinition →
-      Maybe { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), type ∷ Type, directives ∷ (Maybe Directives) }
+      Maybe T_FieldDefinition
     )
 _FieldDefinition =
   Tuple FieldDefinition
@@ -1648,7 +1709,7 @@ _FieldDefinition =
     )
 
 data FieldDefinition
-  = FieldDefinition { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), type ∷ Type, directives ∷ (Maybe Directives) }
+  = FieldDefinition T_FieldDefinition
 
 derive instance argumentsDefinitionGeneric ∷ Generic ArgumentsDefinition _
 
@@ -1680,12 +1741,15 @@ instance inputValueDefinitionShow ∷ Show InputValueDefinition where
 
 derive instance inputValueDefinitionEq ∷ Eq InputValueDefinition
 
+type T_InputValueDefinition
+  = { description ∷ (Maybe String), name ∷ String, type ∷ Type, defaultValue ∷ (Maybe DefaultValue), directives ∷ (Maybe Directives) }
+
 _InputValueDefinition ∷
   Tuple
-    ( { description ∷ (Maybe String), name ∷ String, type ∷ Type, defaultValue ∷ (Maybe DefaultValue), directives ∷ (Maybe Directives) } → InputValueDefinition
+    ( T_InputValueDefinition → InputValueDefinition
     )
     ( InputValueDefinition →
-      Maybe { description ∷ (Maybe String), name ∷ String, type ∷ Type, defaultValue ∷ (Maybe DefaultValue), directives ∷ (Maybe Directives) }
+      Maybe T_InputValueDefinition
     )
 _InputValueDefinition =
   Tuple InputValueDefinition
@@ -1694,7 +1758,7 @@ _InputValueDefinition =
     )
 
 data InputValueDefinition
-  = InputValueDefinition { description ∷ (Maybe String), name ∷ String, type ∷ Type, defaultValue ∷ (Maybe DefaultValue), directives ∷ (Maybe Directives) }
+  = InputValueDefinition T_InputValueDefinition
 
 derive instance interfaceTypeDefinitionGeneric ∷ Generic InterfaceTypeDefinition _
 
@@ -1703,12 +1767,15 @@ instance interfaceTypeDefinitionShow ∷ Show InterfaceTypeDefinition where
 
 derive instance interfaceTypeDefinitionEq ∷ Eq InterfaceTypeDefinition
 
+type T_InterfaceTypeDefinition
+  = { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
+
 _InterfaceTypeDefinition ∷
   Tuple
-    ( { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) } → InterfaceTypeDefinition
+    ( T_InterfaceTypeDefinition → InterfaceTypeDefinition
     )
     ( InterfaceTypeDefinition →
-      Maybe { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
+      Maybe T_InterfaceTypeDefinition
     )
 _InterfaceTypeDefinition =
   Tuple InterfaceTypeDefinition
@@ -1717,7 +1784,7 @@ _InterfaceTypeDefinition =
     )
 
 data InterfaceTypeDefinition
-  = InterfaceTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ (Maybe FieldsDefinition) }
+  = InterfaceTypeDefinition T_InterfaceTypeDefinition
 
 derive instance interfaceTypeExtensionGeneric ∷ Generic InterfaceTypeExtension _
 
@@ -1726,12 +1793,15 @@ instance interfaceTypeExtensionShow ∷ Show InterfaceTypeExtension where
 
 derive instance interfaceTypeExtensionEq ∷ Eq InterfaceTypeExtension
 
+type T_InterfaceTypeExtension_With_FieldsDefinition
+  = { name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
+
 _InterfaceTypeExtension_With_FieldsDefinition ∷
   Tuple
-    ( { name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition } → InterfaceTypeExtension
+    ( T_InterfaceTypeExtension_With_FieldsDefinition → InterfaceTypeExtension
     )
     ( InterfaceTypeExtension →
-      Maybe { name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
+      Maybe T_InterfaceTypeExtension_With_FieldsDefinition
     )
 _InterfaceTypeExtension_With_FieldsDefinition =
   Tuple InterfaceTypeExtension_With_FieldsDefinition
@@ -1740,12 +1810,15 @@ _InterfaceTypeExtension_With_FieldsDefinition =
         _ → Nothing
     )
 
+type T_InterfaceTypeExtension_With_Directives
+  = { name ∷ String, directives ∷ Directives }
+
 _InterfaceTypeExtension_With_Directives ∷
   Tuple
-    ( { name ∷ String, directives ∷ Directives } → InterfaceTypeExtension
+    ( T_InterfaceTypeExtension_With_Directives → InterfaceTypeExtension
     )
     ( InterfaceTypeExtension →
-      Maybe { name ∷ String, directives ∷ Directives }
+      Maybe T_InterfaceTypeExtension_With_Directives
     )
 _InterfaceTypeExtension_With_Directives =
   Tuple InterfaceTypeExtension_With_Directives
@@ -1755,8 +1828,8 @@ _InterfaceTypeExtension_With_Directives =
     )
 
 data InterfaceTypeExtension
-  = InterfaceTypeExtension_With_FieldsDefinition { name ∷ String, directives ∷ (Maybe Directives), fieldsDefinition ∷ FieldsDefinition }
-  | InterfaceTypeExtension_With_Directives { name ∷ String, directives ∷ Directives }
+  = InterfaceTypeExtension_With_FieldsDefinition T_InterfaceTypeExtension_With_FieldsDefinition
+  | InterfaceTypeExtension_With_Directives T_InterfaceTypeExtension_With_Directives
 
 derive instance unionTypeDefinitionGeneric ∷ Generic UnionTypeDefinition _
 
@@ -1765,12 +1838,15 @@ instance unionTypeDefinitionShow ∷ Show UnionTypeDefinition where
 
 derive instance unionTypeDefinitionEq ∷ Eq UnionTypeDefinition
 
+type T_UnionTypeDefinition
+  = { description ∷ Maybe String, name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ (Maybe UnionMemberTypes) }
+
 _UnionTypeDefinition ∷
   Tuple
-    ( { description ∷ Maybe String, name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ (Maybe UnionMemberTypes) } → UnionTypeDefinition
+    ( T_UnionTypeDefinition → UnionTypeDefinition
     )
     ( UnionTypeDefinition →
-      Maybe { description ∷ Maybe String, name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ (Maybe UnionMemberTypes) }
+      Maybe T_UnionTypeDefinition
     )
 _UnionTypeDefinition =
   Tuple UnionTypeDefinition
@@ -1779,7 +1855,7 @@ _UnionTypeDefinition =
     )
 
 data UnionTypeDefinition
-  = UnionTypeDefinition { description ∷ Maybe String, name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ (Maybe UnionMemberTypes) }
+  = UnionTypeDefinition T_UnionTypeDefinition
 
 derive instance unionMemberTypesGeneric ∷ Generic UnionMemberTypes _
 
@@ -1811,12 +1887,15 @@ instance unionTypeExtensionShow ∷ Show UnionTypeExtension where
 
 derive instance unionTypeExtensionEq ∷ Eq UnionTypeExtension
 
+type T_UnionTypeExtension_With_UnionMemberTypes
+  = { name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ UnionMemberTypes }
+
 _UnionTypeExtension_With_UnionMemberTypes ∷
   Tuple
-    ( { name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ UnionMemberTypes } → UnionTypeExtension
+    ( T_UnionTypeExtension_With_UnionMemberTypes → UnionTypeExtension
     )
     ( UnionTypeExtension →
-      Maybe { name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ UnionMemberTypes }
+      Maybe T_UnionTypeExtension_With_UnionMemberTypes
     )
 _UnionTypeExtension_With_UnionMemberTypes =
   Tuple UnionTypeExtension_With_UnionMemberTypes
@@ -1825,12 +1904,15 @@ _UnionTypeExtension_With_UnionMemberTypes =
         _ → Nothing
     )
 
+type T_UnionTypeExtension_With_Directives
+  = { name ∷ String, directives ∷ Directives }
+
 _UnionTypeExtension_With_Directives ∷
   Tuple
-    ( { name ∷ String, directives ∷ Directives } → UnionTypeExtension
+    ( T_UnionTypeExtension_With_Directives → UnionTypeExtension
     )
     ( UnionTypeExtension →
-      Maybe { name ∷ String, directives ∷ Directives }
+      Maybe T_UnionTypeExtension_With_Directives
     )
 _UnionTypeExtension_With_Directives =
   Tuple UnionTypeExtension_With_Directives
@@ -1840,8 +1922,8 @@ _UnionTypeExtension_With_Directives =
     )
 
 data UnionTypeExtension
-  = UnionTypeExtension_With_UnionMemberTypes { name ∷ String, directives ∷ (Maybe Directives), unionMemberTypes ∷ UnionMemberTypes }
-  | UnionTypeExtension_With_Directives { name ∷ String, directives ∷ Directives }
+  = UnionTypeExtension_With_UnionMemberTypes T_UnionTypeExtension_With_UnionMemberTypes
+  | UnionTypeExtension_With_Directives T_UnionTypeExtension_With_Directives
 
 derive instance enumTypeDefinitionGeneric ∷ Generic EnumTypeDefinition _
 
@@ -1850,12 +1932,15 @@ instance enumTypeDefinitionShow ∷ Show EnumTypeDefinition where
 
 derive instance enumTypeDefinitionEq ∷ Eq EnumTypeDefinition
 
+type T_EnumTypeDefinition
+  = { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ (Maybe EnumValuesDefinition) }
+
 _EnumTypeDefinition ∷
   Tuple
-    ( { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ (Maybe EnumValuesDefinition) } → EnumTypeDefinition
+    ( T_EnumTypeDefinition → EnumTypeDefinition
     )
     ( EnumTypeDefinition →
-      Maybe { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ (Maybe EnumValuesDefinition) }
+      Maybe T_EnumTypeDefinition
     )
 _EnumTypeDefinition =
   Tuple EnumTypeDefinition
@@ -1864,7 +1949,7 @@ _EnumTypeDefinition =
     )
 
 data EnumTypeDefinition
-  = EnumTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ (Maybe EnumValuesDefinition) }
+  = EnumTypeDefinition T_EnumTypeDefinition
 
 derive instance enumValuesDefinitionGeneric ∷ Generic EnumValuesDefinition _
 
@@ -1896,12 +1981,15 @@ instance enumValueDefinitionShow ∷ Show EnumValueDefinition where
 
 derive instance enumValueDefinitionEq ∷ Eq EnumValueDefinition
 
+type T_EnumValueDefinition
+  = { description ∷ (Maybe String), enumValue ∷ EnumValue, directives ∷ (Maybe Directives) }
+
 _EnumValueDefinition ∷
   Tuple
-    ( { description ∷ (Maybe String), enumValue ∷ EnumValue, directives ∷ (Maybe Directives) } → EnumValueDefinition
+    ( T_EnumValueDefinition → EnumValueDefinition
     )
     ( EnumValueDefinition →
-      Maybe { description ∷ (Maybe String), enumValue ∷ EnumValue, directives ∷ (Maybe Directives) }
+      Maybe T_EnumValueDefinition
     )
 _EnumValueDefinition =
   Tuple EnumValueDefinition
@@ -1910,7 +1998,7 @@ _EnumValueDefinition =
     )
 
 data EnumValueDefinition
-  = EnumValueDefinition { description ∷ (Maybe String), enumValue ∷ EnumValue, directives ∷ (Maybe Directives) }
+  = EnumValueDefinition T_EnumValueDefinition
 
 derive instance enumTypeExtensionGeneric ∷ Generic EnumTypeExtension _
 
@@ -1919,12 +2007,15 @@ instance enumTypeExtensionShow ∷ Show EnumTypeExtension where
 
 derive instance enumTypeExtensionEq ∷ Eq EnumTypeExtension
 
+type T_EnumTypeExtension_With_EnumValuesDefinition
+  = { name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ EnumValuesDefinition }
+
 _EnumTypeExtension_With_EnumValuesDefinition ∷
   Tuple
-    ( { name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ EnumValuesDefinition } → EnumTypeExtension
+    ( T_EnumTypeExtension_With_EnumValuesDefinition → EnumTypeExtension
     )
     ( EnumTypeExtension →
-      Maybe { name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ EnumValuesDefinition }
+      Maybe T_EnumTypeExtension_With_EnumValuesDefinition
     )
 _EnumTypeExtension_With_EnumValuesDefinition =
   Tuple EnumTypeExtension_With_EnumValuesDefinition
@@ -1933,12 +2024,15 @@ _EnumTypeExtension_With_EnumValuesDefinition =
         _ → Nothing
     )
 
+type T_EnumTypeExtension_With_Directives
+  = { name ∷ String, directives ∷ Directives }
+
 _EnumTypeExtension_With_Directives ∷
   Tuple
-    ( { name ∷ String, directives ∷ Directives } → EnumTypeExtension
+    ( T_EnumTypeExtension_With_Directives → EnumTypeExtension
     )
     ( EnumTypeExtension →
-      Maybe { name ∷ String, directives ∷ Directives }
+      Maybe T_EnumTypeExtension_With_Directives
     )
 _EnumTypeExtension_With_Directives =
   Tuple EnumTypeExtension_With_Directives
@@ -1948,8 +2042,8 @@ _EnumTypeExtension_With_Directives =
     )
 
 data EnumTypeExtension
-  = EnumTypeExtension_With_EnumValuesDefinition { name ∷ String, directives ∷ (Maybe Directives), enumValuesDefinition ∷ EnumValuesDefinition }
-  | EnumTypeExtension_With_Directives { name ∷ String, directives ∷ Directives }
+  = EnumTypeExtension_With_EnumValuesDefinition T_EnumTypeExtension_With_EnumValuesDefinition
+  | EnumTypeExtension_With_Directives T_EnumTypeExtension_With_Directives
 
 derive instance inputObjectTypeDefinitionGeneric ∷ Generic InputObjectTypeDefinition _
 
@@ -1958,12 +2052,15 @@ instance inputObjectTypeDefinitionShow ∷ Show InputObjectTypeDefinition where
 
 derive instance inputObjectTypeDefinitionEq ∷ Eq InputObjectTypeDefinition
 
+type T_InputObjectTypeDefinition
+  = { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ (Maybe InputFieldsDefinition) }
+
 _InputObjectTypeDefinition ∷
   Tuple
-    ( { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ (Maybe InputFieldsDefinition) } → InputObjectTypeDefinition
+    ( T_InputObjectTypeDefinition → InputObjectTypeDefinition
     )
     ( InputObjectTypeDefinition →
-      Maybe { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ (Maybe InputFieldsDefinition) }
+      Maybe T_InputObjectTypeDefinition
     )
 _InputObjectTypeDefinition =
   Tuple InputObjectTypeDefinition
@@ -1972,7 +2069,7 @@ _InputObjectTypeDefinition =
     )
 
 data InputObjectTypeDefinition
-  = InputObjectTypeDefinition { description ∷ (Maybe String), name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ (Maybe InputFieldsDefinition) }
+  = InputObjectTypeDefinition T_InputObjectTypeDefinition
 
 derive instance inputFieldsDefinitionGeneric ∷ Generic InputFieldsDefinition _
 
@@ -2004,12 +2101,15 @@ instance inputObjectTypeExtensionShow ∷ Show InputObjectTypeExtension where
 
 derive instance inputObjectTypeExtensionEq ∷ Eq InputObjectTypeExtension
 
+type T_InputObjectTypeExtension_With_InputFieldsDefinition
+  = { name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ InputFieldsDefinition }
+
 _InputObjectTypeExtension_With_InputFieldsDefinition ∷
   Tuple
-    ( { name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ InputFieldsDefinition } → InputObjectTypeExtension
+    ( T_InputObjectTypeExtension_With_InputFieldsDefinition → InputObjectTypeExtension
     )
     ( InputObjectTypeExtension →
-      Maybe { name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ InputFieldsDefinition }
+      Maybe T_InputObjectTypeExtension_With_InputFieldsDefinition
     )
 _InputObjectTypeExtension_With_InputFieldsDefinition =
   Tuple InputObjectTypeExtension_With_InputFieldsDefinition
@@ -2018,12 +2118,15 @@ _InputObjectTypeExtension_With_InputFieldsDefinition =
         _ → Nothing
     )
 
+type T_InputObjectTypeExtension_With_Directives
+  = { name ∷ String, directives ∷ Directives }
+
 _InputObjectTypeExtension_With_Directives ∷
   Tuple
-    ( { name ∷ String, directives ∷ Directives } → InputObjectTypeExtension
+    ( T_InputObjectTypeExtension_With_Directives → InputObjectTypeExtension
     )
     ( InputObjectTypeExtension →
-      Maybe { name ∷ String, directives ∷ Directives }
+      Maybe T_InputObjectTypeExtension_With_Directives
     )
 _InputObjectTypeExtension_With_Directives =
   Tuple InputObjectTypeExtension_With_Directives
@@ -2033,8 +2136,8 @@ _InputObjectTypeExtension_With_Directives =
     )
 
 data InputObjectTypeExtension
-  = InputObjectTypeExtension_With_InputFieldsDefinition { name ∷ String, directives ∷ (Maybe Directives), inputFieldsDefinition ∷ InputFieldsDefinition }
-  | InputObjectTypeExtension_With_Directives { name ∷ String, directives ∷ Directives }
+  = InputObjectTypeExtension_With_InputFieldsDefinition T_InputObjectTypeExtension_With_InputFieldsDefinition
+  | InputObjectTypeExtension_With_Directives T_InputObjectTypeExtension_With_Directives
 
 derive instance directiveDefinitionGeneric ∷ Generic DirectiveDefinition _
 
@@ -2043,12 +2146,15 @@ instance directiveDefinitionShow ∷ Show DirectiveDefinition where
 
 derive instance directiveDefinitionEq ∷ Eq DirectiveDefinition
 
+type T_DirectiveDefinition
+  = { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), directiveLocations ∷ DirectiveLocations }
+
 _DirectiveDefinition ∷
   Tuple
-    ( { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), directiveLocations ∷ DirectiveLocations } → DirectiveDefinition
+    ( T_DirectiveDefinition → DirectiveDefinition
     )
     ( DirectiveDefinition →
-      Maybe { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), directiveLocations ∷ DirectiveLocations }
+      Maybe T_DirectiveDefinition
     )
 _DirectiveDefinition =
   Tuple DirectiveDefinition
@@ -2057,7 +2163,7 @@ _DirectiveDefinition =
     )
 
 data DirectiveDefinition
-  = DirectiveDefinition { description ∷ (Maybe String), name ∷ String, argumentsDefinition ∷ (Maybe ArgumentsDefinition), directiveLocations ∷ DirectiveLocations }
+  = DirectiveDefinition T_DirectiveDefinition
 
 derive instance directiveLocationsGeneric ∷ Generic DirectiveLocations _
 
