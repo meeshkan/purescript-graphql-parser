@@ -2,11 +2,12 @@ module Data.GraphQL.AST where
 
 -- 105
 import Prelude
-import Data.Tuple (Tuple(..))
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)
 import Data.List (List)
 import Data.Maybe (Maybe(..))
+import Data.Newtype (class Newtype)
+import Data.Tuple (Tuple(..))
 
 derive instance documentGeneric ∷ Generic Document _
 
@@ -27,6 +28,8 @@ _Document =
     ( case _ of
         Document a → Just a
     )
+
+derive instance documentNewtype ∷ Newtype Document _
 
 newtype Document
   = Document (List Definition)
@@ -240,6 +243,8 @@ _SelectionSet =
         SelectionSet a → Just a
     )
 
+derive instance selectionSetNewtype ∷ Newtype SelectionSet _
+
 newtype SelectionSet
   = SelectionSet (List Selection)
 
@@ -320,6 +325,8 @@ _Field =
         Field a → Just a
     )
 
+derive instance fieldNewtype ∷ Newtype Field _
+
 newtype Field
   = Field T_Field
 
@@ -342,6 +349,8 @@ _Arguments =
     ( case _ of
         Arguments a → Just a
     )
+
+derive instance argumentsNewtype ∷ Newtype Arguments _
 
 newtype Arguments
   = Arguments (List Argument)
@@ -369,6 +378,8 @@ _Argument =
         Argument a → Just a
     )
 
+derive instance argumentNewtype ∷ Newtype Argument _
+
 newtype Argument
   = Argument T_Argument
 
@@ -394,6 +405,8 @@ _FragmentSpread =
     ( case _ of
         FragmentSpread a → Just a
     )
+
+derive instance fragmentSpreadNewtype ∷ Newtype FragmentSpread _
 
 newtype FragmentSpread
   = FragmentSpread T_FragmentSpread
@@ -421,6 +434,8 @@ _InlineFragment =
         InlineFragment a → Just a
     )
 
+derive instance inlineFragmentNewtype ∷ Newtype InlineFragment _
+
 newtype InlineFragment
   = InlineFragment T_InlineFragment
 
@@ -447,6 +462,8 @@ _FragmentDefinition =
         FragmentDefinition a → Just a
     )
 
+derive instance fragmentDefinitionNewtype ∷ Newtype FragmentDefinition _
+
 newtype FragmentDefinition
   = FragmentDefinition T_FragmentDefinition
 
@@ -469,6 +486,8 @@ _TypeCondition =
     ( case _ of
         TypeCondition a → Just a
     )
+
+derive instance typeConditionNewtype ∷ Newtype TypeCondition _
 
 newtype TypeCondition
   = TypeCondition NamedType
@@ -637,6 +656,8 @@ _IntValue =
         IntValue a → Just a
     )
 
+derive instance intValueNewtype ∷ Newtype IntValue _
+
 newtype IntValue
   = IntValue Int
 
@@ -659,6 +680,8 @@ _FloatValue =
     ( case _ of
         FloatValue a → Just a
     )
+
+derive instance floatValueNewtype ∷ Newtype FloatValue _
 
 newtype FloatValue
   = FloatValue Number
@@ -683,6 +706,8 @@ _BooleanValue =
         BooleanValue a → Just a
     )
 
+derive instance booleanValueNewtype ∷ Newtype BooleanValue _
+
 newtype BooleanValue
   = BooleanValue Boolean
 
@@ -705,6 +730,8 @@ _StringValue =
     ( case _ of
         StringValue a → Just a
     )
+
+derive instance stringValueNewtype ∷ Newtype StringValue _
 
 newtype StringValue
   = StringValue String
@@ -752,6 +779,8 @@ _EnumValue =
         EnumValue a → Just a
     )
 
+derive instance enumValueNewtype ∷ Newtype EnumValue _
+
 newtype EnumValue
   = EnumValue String
 
@@ -774,6 +803,8 @@ _ListValue =
     ( case _ of
         ListValue a → Just a
     )
+
+derive instance listValueNewtype ∷ Newtype ListValue _
 
 newtype ListValue
   = ListValue (List Value)
@@ -798,6 +829,8 @@ _ObjectValue =
         ObjectValue a → Just a
     )
 
+derive instance objectValueNewtype ∷ Newtype ObjectValue _
+
 newtype ObjectValue
   = ObjectValue (List Argument)
 
@@ -820,6 +853,8 @@ _VariableDefinitions =
     ( case _ of
         VariableDefinitions a → Just a
     )
+
+derive instance variableDefinitionsNewtype ∷ Newtype VariableDefinitions _
 
 newtype VariableDefinitions
   = VariableDefinitions (List VariableDefinition)
@@ -847,6 +882,8 @@ _VariableDefinition =
         VariableDefinition a → Just a
     )
 
+derive instance variableDefinitionNewtype ∷ Newtype VariableDefinition _
+
 newtype VariableDefinition
   = VariableDefinition T_VariableDefinition
 
@@ -870,6 +907,8 @@ _Variable =
         Variable a → Just a
     )
 
+derive instance variableNewtype ∷ Newtype Variable _
+
 newtype Variable
   = Variable String
 
@@ -892,6 +931,8 @@ _DefaultValue =
     ( case _ of
         DefaultValue a → Just a
     )
+
+derive instance defaultValueNewtype ∷ Newtype DefaultValue _
 
 newtype DefaultValue
   = DefaultValue Value
@@ -970,6 +1011,8 @@ _NamedType =
         NamedType a → Just a
     )
 
+derive instance namedTypeNewtype ∷ Newtype NamedType _
+
 newtype NamedType
   = NamedType String
 
@@ -992,6 +1035,8 @@ _ListType =
     ( case _ of
         ListType a → Just a
     )
+
+derive instance listTypeNewtype ∷ Newtype ListType _
 
 newtype ListType
   = ListType (List Type)
@@ -1055,6 +1100,8 @@ _Directives =
         Directives a → Just a
     )
 
+derive instance directivesNewtype ∷ Newtype Directives _
+
 newtype Directives
   = Directives (List Directive)
 
@@ -1080,6 +1127,8 @@ _Directive =
     ( case _ of
         Directive a → Just a
     )
+
+derive instance directiveNewtype ∷ Newtype Directive _
 
 newtype Directive
   = Directive T_Directive
@@ -1200,6 +1249,8 @@ _SchemaDefinition =
         SchemaDefinition a → Just a
     )
 
+derive instance schemaDefinitionNewtype ∷ Newtype SchemaDefinition _
+
 newtype SchemaDefinition
   = SchemaDefinition T_SchemaDefinition
 
@@ -1225,6 +1276,8 @@ _RootOperationTypeDefinition =
     ( case _ of
         RootOperationTypeDefinition a → Just a
     )
+
+derive instance rootOperationTypeDefinitionNewtype ∷ Newtype RootOperationTypeDefinition _
 
 newtype RootOperationTypeDefinition
   = RootOperationTypeDefinition T_RootOperationTypeDefinition
@@ -1296,6 +1349,8 @@ _OperationTypeDefinition =
     ( case _ of
         OperationTypeDefinition a → Just a
     )
+
+derive instance operationTypeDefinitionNewtype ∷ Newtype OperationTypeDefinition _
 
 newtype OperationTypeDefinition
   = OperationTypeDefinition T_OperationTypeDefinition
@@ -1521,6 +1576,8 @@ _ScalarTypeDefinition =
         ScalarTypeDefinition a → Just a
     )
 
+derive instance scalarTypeDefinitionNewtype ∷ Newtype ScalarTypeDefinition _
+
 newtype ScalarTypeDefinition
   = ScalarTypeDefinition T_ScalarTypeDefinition
 
@@ -1547,6 +1604,8 @@ _ScalarTypeExtension =
         ScalarTypeExtension a → Just a
     )
 
+derive instance scalarTypeExtensionNewtype ∷ Newtype ScalarTypeExtension _
+
 newtype ScalarTypeExtension
   = ScalarTypeExtension T_ScalarTypeExtension
 
@@ -1572,6 +1631,8 @@ _ObjectTypeDefinition =
     ( case _ of
         ObjectTypeDefinition a → Just a
     )
+
+derive instance objectTypeDefinitionNewtype ∷ Newtype ObjectTypeDefinition _
 
 newtype ObjectTypeDefinition
   = ObjectTypeDefinition T_ObjectTypeDefinition
@@ -1659,6 +1720,8 @@ _ImplementsInterfaces =
         ImplementsInterfaces a → Just a
     )
 
+derive instance implementsInterfacesNewtype ∷ Newtype ImplementsInterfaces _
+
 newtype ImplementsInterfaces
   = ImplementsInterfaces (List NamedType)
 
@@ -1681,6 +1744,8 @@ _FieldsDefinition =
     ( case _ of
         FieldsDefinition a → Just a
     )
+
+derive instance fieldsDefinitionNewtype ∷ Newtype FieldsDefinition _
 
 newtype FieldsDefinition
   = FieldsDefinition (List FieldDefinition)
@@ -1708,6 +1773,8 @@ _FieldDefinition =
         FieldDefinition a → Just a
     )
 
+derive instance fieldDefinitionNewtype ∷ Newtype FieldDefinition _
+
 newtype FieldDefinition
   = FieldDefinition T_FieldDefinition
 
@@ -1730,6 +1797,8 @@ _ArgumentsDefinition =
     ( case _ of
         ArgumentsDefinition a → Just a
     )
+
+derive instance argumentsDefinitionNewtype ∷ Newtype ArgumentsDefinition _
 
 newtype ArgumentsDefinition
   = ArgumentsDefinition (List InputValueDefinition)
@@ -1757,6 +1826,8 @@ _InputValueDefinition =
         InputValueDefinition a → Just a
     )
 
+derive instance inputValueDefinitionNewtype ∷ Newtype InputValueDefinition _
+
 newtype InputValueDefinition
   = InputValueDefinition T_InputValueDefinition
 
@@ -1782,6 +1853,8 @@ _InterfaceTypeDefinition =
     ( case _ of
         InterfaceTypeDefinition a → Just a
     )
+
+derive instance interfaceTypeDefinitionNewtype ∷ Newtype InterfaceTypeDefinition _
 
 newtype InterfaceTypeDefinition
   = InterfaceTypeDefinition T_InterfaceTypeDefinition
@@ -1854,6 +1927,8 @@ _UnionTypeDefinition =
         UnionTypeDefinition a → Just a
     )
 
+derive instance unionTypeDefinitionNewtype ∷ Newtype UnionTypeDefinition _
+
 newtype UnionTypeDefinition
   = UnionTypeDefinition T_UnionTypeDefinition
 
@@ -1876,6 +1951,8 @@ _UnionMemberTypes =
     ( case _ of
         UnionMemberTypes a → Just a
     )
+
+derive instance unionMemberTypesNewtype ∷ Newtype UnionMemberTypes _
 
 newtype UnionMemberTypes
   = UnionMemberTypes (List NamedType)
@@ -1948,6 +2025,8 @@ _EnumTypeDefinition =
         EnumTypeDefinition a → Just a
     )
 
+derive instance enumTypeDefinitionNewtype ∷ Newtype EnumTypeDefinition _
+
 newtype EnumTypeDefinition
   = EnumTypeDefinition T_EnumTypeDefinition
 
@@ -1970,6 +2049,8 @@ _EnumValuesDefinition =
     ( case _ of
         EnumValuesDefinition a → Just a
     )
+
+derive instance enumValuesDefinitionNewtype ∷ Newtype EnumValuesDefinition _
 
 newtype EnumValuesDefinition
   = EnumValuesDefinition (List EnumValueDefinition)
@@ -1996,6 +2077,8 @@ _EnumValueDefinition =
     ( case _ of
         EnumValueDefinition a → Just a
     )
+
+derive instance enumValueDefinitionNewtype ∷ Newtype EnumValueDefinition _
 
 newtype EnumValueDefinition
   = EnumValueDefinition T_EnumValueDefinition
@@ -2068,6 +2151,8 @@ _InputObjectTypeDefinition =
         InputObjectTypeDefinition a → Just a
     )
 
+derive instance inputObjectTypeDefinitionNewtype ∷ Newtype InputObjectTypeDefinition _
+
 newtype InputObjectTypeDefinition
   = InputObjectTypeDefinition T_InputObjectTypeDefinition
 
@@ -2090,6 +2175,8 @@ _InputFieldsDefinition =
     ( case _ of
         InputFieldsDefinition a → Just a
     )
+
+derive instance inputFieldsDefinitionNewtype ∷ Newtype InputFieldsDefinition _
 
 newtype InputFieldsDefinition
   = InputFieldsDefinition (List InputValueDefinition)
@@ -2162,6 +2249,8 @@ _DirectiveDefinition =
         DirectiveDefinition a → Just a
     )
 
+derive instance directiveDefinitionNewtype ∷ Newtype DirectiveDefinition _
+
 newtype DirectiveDefinition
   = DirectiveDefinition T_DirectiveDefinition
 
@@ -2184,6 +2273,8 @@ _DirectiveLocations =
     ( case _ of
         DirectiveLocations a → Just a
     )
+
+derive instance directiveLocationsNewtype ∷ Newtype DirectiveLocations _
 
 newtype DirectiveLocations
   = DirectiveLocations (List DirectiveLocation)
