@@ -28,7 +28,7 @@ _Document =
         Document a → Just a
     )
 
-data Document
+newtype Document
   = Document (List Definition)
 
 derive instance definitionGeneric ∷ Generic Definition _
@@ -240,7 +240,7 @@ _SelectionSet =
         SelectionSet a → Just a
     )
 
-data SelectionSet
+newtype SelectionSet
   = SelectionSet (List Selection)
 
 derive instance selectionGeneric ∷ Generic Selection _
@@ -320,7 +320,7 @@ _Field =
         Field a → Just a
     )
 
-data Field
+newtype Field
   = Field T_Field
 
 derive instance argumentsGeneric ∷ Generic Arguments _
@@ -343,7 +343,7 @@ _Arguments =
         Arguments a → Just a
     )
 
-data Arguments
+newtype Arguments
   = Arguments (List Argument)
 
 derive instance argumentGeneric ∷ Generic Argument _
@@ -369,7 +369,7 @@ _Argument =
         Argument a → Just a
     )
 
-data Argument
+newtype Argument
   = Argument T_Argument
 
 derive instance fragmentSpreadGeneric ∷ Generic FragmentSpread _
@@ -395,7 +395,7 @@ _FragmentSpread =
         FragmentSpread a → Just a
     )
 
-data FragmentSpread
+newtype FragmentSpread
   = FragmentSpread T_FragmentSpread
 
 derive instance inlineFragmentGeneric ∷ Generic InlineFragment _
@@ -421,7 +421,7 @@ _InlineFragment =
         InlineFragment a → Just a
     )
 
-data InlineFragment
+newtype InlineFragment
   = InlineFragment T_InlineFragment
 
 derive instance fragmentDefinitionGeneric ∷ Generic FragmentDefinition _
@@ -447,7 +447,7 @@ _FragmentDefinition =
         FragmentDefinition a → Just a
     )
 
-data FragmentDefinition
+newtype FragmentDefinition
   = FragmentDefinition T_FragmentDefinition
 
 derive instance typeConditionGeneric ∷ Generic TypeCondition _
@@ -470,7 +470,7 @@ _TypeCondition =
         TypeCondition a → Just a
     )
 
-data TypeCondition
+newtype TypeCondition
   = TypeCondition NamedType
 
 derive instance valueGeneric ∷ Generic Value _
@@ -637,7 +637,7 @@ _IntValue =
         IntValue a → Just a
     )
 
-data IntValue
+newtype IntValue
   = IntValue Int
 
 derive instance floatValueGeneric ∷ Generic FloatValue _
@@ -660,7 +660,7 @@ _FloatValue =
         FloatValue a → Just a
     )
 
-data FloatValue
+newtype FloatValue
   = FloatValue Number
 
 derive instance booleanValueGeneric ∷ Generic BooleanValue _
@@ -683,7 +683,7 @@ _BooleanValue =
         BooleanValue a → Just a
     )
 
-data BooleanValue
+newtype BooleanValue
   = BooleanValue Boolean
 
 derive instance stringValueGeneric ∷ Generic StringValue _
@@ -706,7 +706,7 @@ _StringValue =
         StringValue a → Just a
     )
 
-data StringValue
+newtype StringValue
   = StringValue String
 
 derive instance nullValueGeneric ∷ Generic NullValue _
@@ -752,7 +752,7 @@ _EnumValue =
         EnumValue a → Just a
     )
 
-data EnumValue
+newtype EnumValue
   = EnumValue String
 
 derive instance listValueGeneric ∷ Generic ListValue _
@@ -775,7 +775,7 @@ _ListValue =
         ListValue a → Just a
     )
 
-data ListValue
+newtype ListValue
   = ListValue (List Value)
 
 derive instance objectValueGeneric ∷ Generic ObjectValue _
@@ -798,7 +798,7 @@ _ObjectValue =
         ObjectValue a → Just a
     )
 
-data ObjectValue
+newtype ObjectValue
   = ObjectValue (List Argument)
 
 derive instance variableDefinitionsGeneric ∷ Generic VariableDefinitions _
@@ -821,7 +821,7 @@ _VariableDefinitions =
         VariableDefinitions a → Just a
     )
 
-data VariableDefinitions
+newtype VariableDefinitions
   = VariableDefinitions (List VariableDefinition)
 
 derive instance variableDefinitionGeneric ∷ Generic VariableDefinition _
@@ -847,7 +847,7 @@ _VariableDefinition =
         VariableDefinition a → Just a
     )
 
-data VariableDefinition
+newtype VariableDefinition
   = VariableDefinition T_VariableDefinition
 
 derive instance variableGeneric ∷ Generic Variable _
@@ -870,7 +870,7 @@ _Variable =
         Variable a → Just a
     )
 
-data Variable
+newtype Variable
   = Variable String
 
 derive instance defaultValueGeneric ∷ Generic DefaultValue _
@@ -893,7 +893,7 @@ _DefaultValue =
         DefaultValue a → Just a
     )
 
-data DefaultValue
+newtype DefaultValue
   = DefaultValue Value
 
 derive instance typeGeneric ∷ Generic Type _
@@ -970,7 +970,7 @@ _NamedType =
         NamedType a → Just a
     )
 
-data NamedType
+newtype NamedType
   = NamedType String
 
 derive instance listTypeGeneric ∷ Generic ListType _
@@ -993,7 +993,7 @@ _ListType =
         ListType a → Just a
     )
 
-data ListType
+newtype ListType
   = ListType (List Type)
 
 derive instance nonNullTypeGeneric ∷ Generic NonNullType _
@@ -1055,7 +1055,7 @@ _Directives =
         Directives a → Just a
     )
 
-data Directives
+newtype Directives
   = Directives (List Directive)
 
 derive instance directiveGeneric ∷ Generic Directive _
@@ -1081,7 +1081,7 @@ _Directive =
         Directive a → Just a
     )
 
-data Directive
+newtype Directive
   = Directive T_Directive
 
 derive instance typeSystemDefinitionGeneric ∷ Generic TypeSystemDefinition _
@@ -1200,7 +1200,7 @@ _SchemaDefinition =
         SchemaDefinition a → Just a
     )
 
-data SchemaDefinition
+newtype SchemaDefinition
   = SchemaDefinition T_SchemaDefinition
 
 derive instance rootOperationTypeDefinitionGeneric ∷ Generic RootOperationTypeDefinition _
@@ -1226,7 +1226,7 @@ _RootOperationTypeDefinition =
         RootOperationTypeDefinition a → Just a
     )
 
-data RootOperationTypeDefinition
+newtype RootOperationTypeDefinition
   = RootOperationTypeDefinition T_RootOperationTypeDefinition
 
 derive instance schemaExtensionGeneric ∷ Generic SchemaExtension _
@@ -1297,7 +1297,7 @@ _OperationTypeDefinition =
         OperationTypeDefinition a → Just a
     )
 
-data OperationTypeDefinition
+newtype OperationTypeDefinition
   = OperationTypeDefinition T_OperationTypeDefinition
 
 derive instance typeDefinitionGeneric ∷ Generic TypeDefinition _
@@ -1521,7 +1521,7 @@ _ScalarTypeDefinition =
         ScalarTypeDefinition a → Just a
     )
 
-data ScalarTypeDefinition
+newtype ScalarTypeDefinition
   = ScalarTypeDefinition T_ScalarTypeDefinition
 
 derive instance scalarTypeExtensionGeneric ∷ Generic ScalarTypeExtension _
@@ -1547,7 +1547,7 @@ _ScalarTypeExtension =
         ScalarTypeExtension a → Just a
     )
 
-data ScalarTypeExtension
+newtype ScalarTypeExtension
   = ScalarTypeExtension T_ScalarTypeExtension
 
 derive instance objectTypeDefinitionGeneric ∷ Generic ObjectTypeDefinition _
@@ -1573,7 +1573,7 @@ _ObjectTypeDefinition =
         ObjectTypeDefinition a → Just a
     )
 
-data ObjectTypeDefinition
+newtype ObjectTypeDefinition
   = ObjectTypeDefinition T_ObjectTypeDefinition
 
 derive instance objectTypeExtensionGeneric ∷ Generic ObjectTypeExtension _
@@ -1659,7 +1659,7 @@ _ImplementsInterfaces =
         ImplementsInterfaces a → Just a
     )
 
-data ImplementsInterfaces
+newtype ImplementsInterfaces
   = ImplementsInterfaces (List NamedType)
 
 derive instance fieldsDefinitionGeneric ∷ Generic FieldsDefinition _
@@ -1682,7 +1682,7 @@ _FieldsDefinition =
         FieldsDefinition a → Just a
     )
 
-data FieldsDefinition
+newtype FieldsDefinition
   = FieldsDefinition (List FieldDefinition)
 
 derive instance fieldDefinitionGeneric ∷ Generic FieldDefinition _
@@ -1708,7 +1708,7 @@ _FieldDefinition =
         FieldDefinition a → Just a
     )
 
-data FieldDefinition
+newtype FieldDefinition
   = FieldDefinition T_FieldDefinition
 
 derive instance argumentsDefinitionGeneric ∷ Generic ArgumentsDefinition _
@@ -1731,7 +1731,7 @@ _ArgumentsDefinition =
         ArgumentsDefinition a → Just a
     )
 
-data ArgumentsDefinition
+newtype ArgumentsDefinition
   = ArgumentsDefinition (List InputValueDefinition)
 
 derive instance inputValueDefinitionGeneric ∷ Generic InputValueDefinition _
@@ -1757,7 +1757,7 @@ _InputValueDefinition =
         InputValueDefinition a → Just a
     )
 
-data InputValueDefinition
+newtype InputValueDefinition
   = InputValueDefinition T_InputValueDefinition
 
 derive instance interfaceTypeDefinitionGeneric ∷ Generic InterfaceTypeDefinition _
@@ -1783,7 +1783,7 @@ _InterfaceTypeDefinition =
         InterfaceTypeDefinition a → Just a
     )
 
-data InterfaceTypeDefinition
+newtype InterfaceTypeDefinition
   = InterfaceTypeDefinition T_InterfaceTypeDefinition
 
 derive instance interfaceTypeExtensionGeneric ∷ Generic InterfaceTypeExtension _
@@ -1854,7 +1854,7 @@ _UnionTypeDefinition =
         UnionTypeDefinition a → Just a
     )
 
-data UnionTypeDefinition
+newtype UnionTypeDefinition
   = UnionTypeDefinition T_UnionTypeDefinition
 
 derive instance unionMemberTypesGeneric ∷ Generic UnionMemberTypes _
@@ -1877,7 +1877,7 @@ _UnionMemberTypes =
         UnionMemberTypes a → Just a
     )
 
-data UnionMemberTypes
+newtype UnionMemberTypes
   = UnionMemberTypes (List NamedType)
 
 derive instance unionTypeExtensionGeneric ∷ Generic UnionTypeExtension _
@@ -1948,7 +1948,7 @@ _EnumTypeDefinition =
         EnumTypeDefinition a → Just a
     )
 
-data EnumTypeDefinition
+newtype EnumTypeDefinition
   = EnumTypeDefinition T_EnumTypeDefinition
 
 derive instance enumValuesDefinitionGeneric ∷ Generic EnumValuesDefinition _
@@ -1971,7 +1971,7 @@ _EnumValuesDefinition =
         EnumValuesDefinition a → Just a
     )
 
-data EnumValuesDefinition
+newtype EnumValuesDefinition
   = EnumValuesDefinition (List EnumValueDefinition)
 
 derive instance enumValueDefinitionGeneric ∷ Generic EnumValueDefinition _
@@ -1997,7 +1997,7 @@ _EnumValueDefinition =
         EnumValueDefinition a → Just a
     )
 
-data EnumValueDefinition
+newtype EnumValueDefinition
   = EnumValueDefinition T_EnumValueDefinition
 
 derive instance enumTypeExtensionGeneric ∷ Generic EnumTypeExtension _
@@ -2068,7 +2068,7 @@ _InputObjectTypeDefinition =
         InputObjectTypeDefinition a → Just a
     )
 
-data InputObjectTypeDefinition
+newtype InputObjectTypeDefinition
   = InputObjectTypeDefinition T_InputObjectTypeDefinition
 
 derive instance inputFieldsDefinitionGeneric ∷ Generic InputFieldsDefinition _
@@ -2091,7 +2091,7 @@ _InputFieldsDefinition =
         InputFieldsDefinition a → Just a
     )
 
-data InputFieldsDefinition
+newtype InputFieldsDefinition
   = InputFieldsDefinition (List InputValueDefinition)
 
 derive instance inputObjectTypeExtensionGeneric ∷ Generic InputObjectTypeExtension _
@@ -2162,7 +2162,7 @@ _DirectiveDefinition =
         DirectiveDefinition a → Just a
     )
 
-data DirectiveDefinition
+newtype DirectiveDefinition
   = DirectiveDefinition T_DirectiveDefinition
 
 derive instance directiveLocationsGeneric ∷ Generic DirectiveLocations _
@@ -2185,7 +2185,7 @@ _DirectiveLocations =
         DirectiveLocations a → Just a
     )
 
-data DirectiveLocations
+newtype DirectiveLocations
   = DirectiveLocations (List DirectiveLocation)
 
 derive instance directiveLocationGeneric ∷ Generic DirectiveLocation _
