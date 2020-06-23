@@ -1,6 +1,5 @@
 module Data.GraphQL.AST where
 
--- 105
 import Prelude
 import Data.Generic.Rep (class Generic)
 import Data.Generic.Rep.Show (genericShow)

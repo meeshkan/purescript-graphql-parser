@@ -5,7 +5,7 @@ import Control.Monad.Error.Class (class MonadThrow)
 import Data.Either (either)
 import Data.GraphQL.AST as AST
 import Data.GraphQL.Parser as GP
-import Data.List (List(..), (:))
+import Data.List (List(..), (:), singleton)
 import Data.Maybe (Maybe(..))
 import Data.String.CodeUnits (fromCharArray)
 import Effect.Exception (Error)
@@ -74,3 +74,12 @@ testParser =
     describe "test variable definition" do
       it "should parse a variable definition" do
         parseSuccess GP.variableDefinition "$id:ID!" (AST.VariableDefinition { variable: AST.Variable "id", type: AST.Type_NonNullType (AST.NonNullType_NamedType $ AST.NamedType "ID"), defaultValue: Nothing })
+    describe "test parse an alias correclty" do
+      it "should parse a simple alias correctly" do
+        parseSuccess GP.alias "z3  :" "z3"
+        parseSuccess (GP.field GP.selectionSet) "z9: Z" $ AST.Field { alias: Just "z9", name: "Z", arguments: Nothing, directives: Nothing, selectionSet: Nothing }
+        parseSuccess (GP.selection GP.selectionSet) "z9: Z" (AST.Selection_Field (AST.Field { alias: Just "z9", name: "Z", arguments: Nothing, directives: Nothing, selectionSet: Nothing }))
+        parseSuccess GP.selectionSet "{ z9: Z }" $ AST.SelectionSet (singleton (AST.Selection_Field (AST.Field { alias: Just "z9", name: "Z", arguments: Nothing, directives: Nothing, selectionSet: Nothing })))
+    describe "should parse selection set correctly" do
+      it "should parse a selection set with multiple values" do
+        parseSuccess GP.selectionSet "{ id user }" $ AST.SelectionSet ((AST.Selection_Field (AST.Field { alias: Nothing, name: "id", arguments: Nothing, directives: Nothing, selectionSet: Nothing })) : (AST.Selection_Field (AST.Field { alias: Nothing, name: "user", arguments: Nothing, directives: Nothing, selectionSet: Nothing })) : Nil)
