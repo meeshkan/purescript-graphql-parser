@@ -2,7 +2,6 @@ module Test.Data.GraphQL.ParseSadistic0 where
 
 import Prelude
 import Data.Either (either)
-import Data.GraphQL.AST as AST
 import Data.GraphQL.Parser as GP
 import Effect.Aff (Aff)
 import Test.Spec (SpecT, describe, it)
