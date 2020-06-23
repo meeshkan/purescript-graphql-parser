@@ -46,10 +46,6 @@ mutation MyMutation {
 """ ∷
     String
 
-queryx =
-  """query($id: ID!) { id user }""" ∷
-    String
-
 lensToQueryDefinition ∷ ∀ m. Choice m ⇒ Wander m ⇒ m AST.OperationDefinition AST.OperationDefinition → m AST.Document AST.Document
 lensToQueryDefinition =
   ( uncurry L.prism' AST._Document
