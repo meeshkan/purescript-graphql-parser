@@ -311,7 +311,7 @@ namedType ∷ ∀ s. StringLike s ⇒ Parser s AST.NamedType
 namedType = AST.NamedType <$> name
 
 listType ∷ ∀ s. StringLike s ⇒ Parser s AST.Type → Parser s AST.ListType
-listType = (<$>) AST.ListType <<< listish "[" "]"
+listType t = AST.ListType <$> (string "[" *> ignoreMe *> t <* ignoreMe <* string "]")
 
 nonNullType ∷ ∀ s. StringLike s ⇒ Parser s AST.Type → Parser s AST.NonNullType
 nonNullType v =
@@ -323,8 +323,8 @@ _type ∷ ∀ s. StringLike s ⇒ Parser s AST.Type
 _type =
   fix \p →
     (try (AST.Type_NonNullType <$> nonNullType p))
-      <|> (try (AST.Type_ListType <$> listType p))
-      <|> (AST.Type_NamedType <$> namedType)
+      <|> (try (AST.Type_NamedType <$> namedType))
+      <|> (AST.Type_ListType <$> listType p)
       <?> "Could not parse type"
 
 defaultValue ∷ ∀ s. StringLike s ⇒ Parser s AST.DefaultValue

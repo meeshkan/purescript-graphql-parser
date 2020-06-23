@@ -6,7 +6,6 @@ import Effect.Aff (launchAff_)
 import Test.Data.GraphQL.ParseFull0 (testFullDoc)
 import Test.Data.GraphQL.ParseFull1 (testQuery)
 import Test.Data.GraphQL.ParseSimple (testParser)
-import Test.Data.GraphQL.Sadistic (testSadistic)
 import Test.Spec.Reporter.Console (consoleReporter)
 import Test.Spec.Runner (runSpec)
 
@@ -17,4 +16,3 @@ main =
         testParser
         testFullDoc
         testQuery
-        testSadistic

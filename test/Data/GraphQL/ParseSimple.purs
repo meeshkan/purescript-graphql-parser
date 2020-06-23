@@ -69,8 +69,11 @@ testParser =
         parseSuccess GP.selectionSet "{ foo { foo {foo},,,#hello\n} }" (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Nothing }) : Nil)) }) : Nil)) }) : Nil))
         parseSuccess GP.selectionSet "{foo { foo { foo } } }" (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Just (AST.SelectionSet (AST.Selection_Field (AST.Field { alias: Nothing, name: "foo", arguments: Nothing, directives: Nothing, selectionSet: Nothing }) : Nil)) }) : Nil)) }) : Nil))
     describe "test fieldDefinition" do
-      it "should parse a field definition" do
+      it "should parse a non-null field definition" do
         parseSuccess GP.fieldDefinition "id: ID!" (AST.FieldDefinition { description: Nothing, name: "id", argumentsDefinition: Nothing, type: (AST.Type_NonNullType (AST.NonNullType_NamedType (AST.NamedType "ID"))), directives: Nothing })
+    describe "test type" do
+      it "should parse a nullable type" do
+        parseSuccess GP._type "ID" (AST.Type_NamedType (AST.NamedType "ID"))
     describe "test variable definition" do
       it "should parse a variable definition" do
         parseSuccess GP.variableDefinition "$id:ID!" (AST.VariableDefinition { variable: AST.Variable "id", type: AST.Type_NonNullType (AST.NonNullType_NamedType $ AST.NamedType "ID"), defaultValue: Nothing })

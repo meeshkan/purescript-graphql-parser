@@ -1024,10 +1024,10 @@ derive instance listTypeEq ∷ Eq ListType
 
 _ListType ∷
   Tuple
-    ( (List Type) → ListType
+    ( Type → ListType
     )
     ( ListType →
-      Maybe (List Type)
+      Maybe Type
     )
 _ListType =
   Tuple ListType
@@ -1038,7 +1038,7 @@ _ListType =
 derive instance listTypeNewtype ∷ Newtype ListType _
 
 newtype ListType
-  = ListType (List Type)
+  = ListType Type
 
 derive instance nonNullTypeGeneric ∷ Generic NonNullType _
 
