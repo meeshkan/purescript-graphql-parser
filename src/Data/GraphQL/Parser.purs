@@ -613,7 +613,7 @@ interfaceTypeDefinition ∷ ∀ s. StringLike s ⇒ Parser s AST.InterfaceTypeDe
 interfaceTypeDefinition =
   map AST.InterfaceTypeDefinition $ { description: _, name: _, directives: _, fieldsDefinition: _ }
     <$> optDesc
-    <*> (ignoreMe *> name)
+    <*> (ignoreMe *> string "interface" *> ignoreMe *> name)
     <*> (ignoreMe *> optDir)
     <*> (ignoreMe *> ooo fieldsDefinition)
 
