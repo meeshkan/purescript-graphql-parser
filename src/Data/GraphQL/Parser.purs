@@ -67,6 +67,9 @@ ignorable = lineTerminator <|> comma <|> comment <|> whitespace
 ignoreMe ∷ ∀ s. StringLike s ⇒ Parser s Unit
 ignoreMe = void $ many ignorable
 
+ignoreMe' ∷ ∀ s. StringLike s ⇒ Parser s Unit
+ignoreMe' = void $ some ignorable
+
 --------------
 -- primitives
 --------------
@@ -360,7 +363,7 @@ ignorableExtension s =
     *> pure unit
 
 unionMemberTypes ∷ ∀ s. StringLike s ⇒ Parser s AST.UnionMemberTypes
-unionMemberTypes = AST.UnionMemberTypes <$> sepBy1 namedType (ignoreMe *> char '|' *> ignoreMe)
+unionMemberTypes = AST.UnionMemberTypes <$> sepBy1 (ignoreMe *> namedType <* ignoreMe) (char '|')
 
 unionTypeExtensionWithDirectives ∷ ∀ s. StringLike s ⇒ Parser s AST.UnionTypeExtension
 unionTypeExtensionWithDirectives =
