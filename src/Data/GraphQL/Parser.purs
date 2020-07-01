@@ -390,7 +390,7 @@ unionTypeDefinition =
     <$> optDesc
     <*> (ignoreMe *> string "union" *> ignoreMe *> name)
     <*> (ignoreMe *> optDir)
-    <*> (ignoreMe *> ooo unionMemberTypes)
+    <*> (ignoreMe *> char '=' *> ignoreMe *> ooo unionMemberTypes)
 
 enumValueDefinition ∷ ∀ s. StringLike s ⇒ Parser s AST.EnumValueDefinition
 enumValueDefinition =
@@ -448,7 +448,7 @@ operationType ∷ ∀ s. StringLike s ⇒ Parser s (AST.OperationType)
 operationType =
   (try $ string "query" *> pure AST.Query)
     <|> (try $ string "mutation" *> pure AST.Mutation)
-    <|> (try $ string "subscription" *> pure AST.Subscription)
+    <|> (string "subscription" *> pure AST.Subscription)
     <?> "Could not parse operation type"
 
 operationTypeDefinition ∷ ∀ s. StringLike s ⇒ Parser s (AST.OperationTypeDefinition)
@@ -732,4 +732,4 @@ definition =
     <?> "Could not parse definition"
 
 document ∷ ∀ s. StringLike s ⇒ Parser s AST.Document
-document = AST.Document <$> _listish definition
+document = AST.Document <$> (ignoreMe *> _listish definition)

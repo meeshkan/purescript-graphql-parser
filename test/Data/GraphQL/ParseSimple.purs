@@ -96,3 +96,11 @@ testParser =
       --parseSuccess (GP._listish (GP.selection GP.selectionSet)) "id user" $ ((AST.Selection_Field (AST.Field { alias: Nothing, name: "id", arguments: Nothing, directives: Nothing, selectionSet: Nothing })) : (AST.Selection_Field (AST.Field { alias: Nothing, name: "user", arguments: Nothing, directives: Nothing, selectionSet: Nothing })) : Nil)
       it "should parse a selection set with alias multiple values" do
         parseSuccess GP.selectionSet "{ id {} a: user {} }" $ AST.SelectionSet ((AST.Selection_Field (AST.Field { alias: Nothing, name: "id", arguments: Nothing, directives: Nothing, selectionSet: Just $ AST.SelectionSet Nil })) : (AST.Selection_Field (AST.Field { alias: Just "a", name: "user", arguments: Nothing, directives: Nothing, selectionSet: Just $ AST.SelectionSet Nil })) : Nil)
+    describe "schema definition" do
+      it "should parse schema definition correctly" do
+        parseSuccess GP.typeSystemDefinition "schema { query: A\nmutation: B }" $ AST.TypeSystemDefinition_SchemaDefinition (AST.SchemaDefinition { directives: Nothing, rootOperationTypeDefinition: ((AST.RootOperationTypeDefinition { namedType: (AST.NamedType "A"), operationType: AST.Query }) : (AST.RootOperationTypeDefinition { namedType: (AST.NamedType "B"), operationType: AST.Mutation }) : Nil) })
+      it "should parse schema definition when is document" do
+        parseSuccess GP.document "  schema { query: A\nmutation: B }" $ AST.Document (AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_SchemaDefinition (AST.SchemaDefinition { directives: Nothing, rootOperationTypeDefinition: ((AST.RootOperationTypeDefinition { namedType: (AST.NamedType "A"), operationType: AST.Query }) : (AST.RootOperationTypeDefinition { namedType: (AST.NamedType "B"), operationType: AST.Mutation }) : Nil) })) : Nil)
+    describe "union definition" do
+      it "should parse schema definition correctly" do
+        parseSuccess GP.unionTypeDefinition "union Foo = A | B" (AST.UnionTypeDefinition { description: Nothing, directives: Nothing, name: "Foo", unionMemberTypes: (Just (AST.UnionMemberTypes ((AST.NamedType "A") : (AST.NamedType "B") : Nil))) })
