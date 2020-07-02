@@ -141,6 +141,6 @@ query =
 
 testSadistic1 ∷ ∀ m. Monad m ⇒ SpecT Aff Unit m Unit
 testSadistic1 =
-  describe "test full query" do
+  describe "test complicated query 1" do
     it "should parse" do
       either (\s -> fail $ "Bad :: " <> (show s)) (\_ -> 1 `shouldEqual` 1) $ runParser query GP.operationDefinition
