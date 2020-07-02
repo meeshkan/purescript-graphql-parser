@@ -376,7 +376,7 @@ unionTypeExtensionWithUnionMemberTypes =
   map AST.UnionTypeExtension_With_UnionMemberTypes $ { name: _, directives: _, unionMemberTypes: _ }
     <$> name
     <*> (ignoreMe *> optDir)
-    <*> (ignoreMe *> unionMemberTypes)
+    <*> (ignoreMe *> char '=' *> ignoreMe *> unionMemberTypes)
 
 unionTypeExtension ∷ ∀ s. StringLike s ⇒ Parser s AST.UnionTypeExtension
 unionTypeExtension =
