@@ -14,6 +14,8 @@ import Text.Parsing.Parser.String (class StringLike)
 parseDocument ∷ ∀ s. StringLike s ⇒ s → Aff (AST.Document)
 parseDocument t = liftEffect (either (throw <<< show) pure (runParser t GP.document))
 
+-- uses a more full featured schema
+-- in this case, the publically available code sandbox schema
 query =
   """
 schema {
