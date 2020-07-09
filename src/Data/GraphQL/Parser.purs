@@ -299,7 +299,7 @@ directiveLocation =
     <?> "Could not parse directiveLocation"
 
 directiveLocations ∷ ∀ s. StringLike s ⇒ Parser s AST.DirectiveLocations
-directiveLocations = AST.DirectiveLocations <$> sepBy1 directiveLocation (ignoreMe *> char '|' *> ignoreMe)
+directiveLocations = AST.DirectiveLocations <$> sepBy1 (ignoreMe *> directiveLocation <* ignoreMe) (char '|')
 
 directive ∷ ∀ s. StringLike s ⇒ Parser s AST.Directive
 directive =

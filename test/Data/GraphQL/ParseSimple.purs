@@ -5,7 +5,7 @@ import Control.Monad.Error.Class (class MonadThrow)
 import Data.Either (either)
 import Data.GraphQL.AST as AST
 import Data.GraphQL.Parser as GP
-import Data.List (List(..), (:), singleton)
+import Data.List (List(..), singleton, (:))
 import Data.Maybe (Maybe(..))
 import Data.String.CodeUnits (fromCharArray)
 import Effect.Exception (Error)
@@ -102,9 +102,23 @@ testParser =
       it "should parse schema definition when is document" do
         parseSuccess GP.document "  schema { query: A\nmutation: B }" $ AST.Document (AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_SchemaDefinition (AST.SchemaDefinition { directives: Nothing, rootOperationTypeDefinition: ((AST.RootOperationTypeDefinition { namedType: (AST.NamedType "A"), operationType: AST.Query }) : (AST.RootOperationTypeDefinition { namedType: (AST.NamedType "B"), operationType: AST.Mutation }) : Nil) })) : Nil)
     describe "union definition" do
-      it "should parse schema definition correctly" do
+      it "should parse union definition correctly" do
         parseSuccess GP.unionTypeDefinition "union Foo = A | B" (AST.UnionTypeDefinition { description: Nothing, directives: Nothing, name: "Foo", unionMemberTypes: (Just (AST.UnionMemberTypes ((AST.NamedType "A") : (AST.NamedType "B") : Nil))) })
-      it "should parse schema definition when is document" do
+      it "should parse schunionema definition when is document" do
         parseSuccess GP.document "union Foo = A | B  \nunion Foo = A     |  B\nunion Foo = A | B" (AST.Document ((AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_TypeDefinition (AST.TypeDefinition_UnionTypeDefinition (AST.UnionTypeDefinition { description: Nothing, directives: Nothing, name: "Foo", unionMemberTypes: (Just (AST.UnionMemberTypes ((AST.NamedType "A") : (AST.NamedType "B") : Nil))) })))) : (AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_TypeDefinition (AST.TypeDefinition_UnionTypeDefinition (AST.UnionTypeDefinition { description: Nothing, directives: Nothing, name: "Foo", unionMemberTypes: (Just (AST.UnionMemberTypes ((AST.NamedType "A") : (AST.NamedType "B") : Nil))) })))) : (AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_TypeDefinition (AST.TypeDefinition_UnionTypeDefinition (AST.UnionTypeDefinition { description: Nothing, directives: Nothing, name: "Foo", unionMemberTypes: (Just (AST.UnionMemberTypes ((AST.NamedType "A") : (AST.NamedType "B") : Nil))) })))) : Nil))
-      it "should parse schema definition when is document and there is whitespace" do
+      it "should parse union definition when is document and there is whitespace" do
         parseSuccess GP.document "  union Foo = A | B  \nunion Foo = A     |  B\nunion Foo = A | B" (AST.Document ((AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_TypeDefinition (AST.TypeDefinition_UnionTypeDefinition (AST.UnionTypeDefinition { description: Nothing, directives: Nothing, name: "Foo", unionMemberTypes: (Just (AST.UnionMemberTypes ((AST.NamedType "A") : (AST.NamedType "B") : Nil))) })))) : (AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_TypeDefinition (AST.TypeDefinition_UnionTypeDefinition (AST.UnionTypeDefinition { description: Nothing, directives: Nothing, name: "Foo", unionMemberTypes: (Just (AST.UnionMemberTypes ((AST.NamedType "A") : (AST.NamedType "B") : Nil))) })))) : (AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_TypeDefinition (AST.TypeDefinition_UnionTypeDefinition (AST.UnionTypeDefinition { description: Nothing, directives: Nothing, name: "Foo", unionMemberTypes: (Just (AST.UnionMemberTypes ((AST.NamedType "A") : (AST.NamedType "B") : Nil))) })))) : Nil))
+    describe "directive definition" do
+      it "should parse directive definition correctly" do
+        parseSuccess GP.directiveDefinition "directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE" (AST.DirectiveDefinition { argumentsDefinition: (Just (AST.ArgumentsDefinition ((AST.InputValueDefinition { defaultValue: Nothing, description: Nothing, directives: Nothing, name: "maxAge", type: (AST.Type_NamedType (AST.NamedType "Int")) }) : (AST.InputValueDefinition { defaultValue: Nothing, description: Nothing, directives: Nothing, name: "scope", type: (AST.Type_NamedType (AST.NamedType "CacheControlScope")) }) : Nil))), description: Nothing, directiveLocations: (AST.DirectiveLocations ((AST.DirectiveLocation_TypeSystemDirectiveLocation AST.FIELD_DEFINITION) : (AST.DirectiveLocation_TypeSystemDirectiveLocation AST.OBJECT) : (AST.DirectiveLocation_TypeSystemDirectiveLocation AST.INTERFACE) : Nil)), name: "cacheControl" })
+      it "should parse directive definition followed by enum correctly" do
+        ( parseSuccess GP.document
+            """directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+"""
+            (AST.Document ((AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_DirectiveDefinition (AST.DirectiveDefinition { argumentsDefinition: (Just (AST.ArgumentsDefinition ((AST.InputValueDefinition { defaultValue: Nothing, description: Nothing, directives: Nothing, name: "maxAge", type: (AST.Type_NamedType (AST.NamedType "Int")) }) : (AST.InputValueDefinition { defaultValue: Nothing, description: Nothing, directives: Nothing, name: "scope", type: (AST.Type_NamedType (AST.NamedType "CacheControlScope")) }) : Nil))), description: Nothing, directiveLocations: (AST.DirectiveLocations ((AST.DirectiveLocation_TypeSystemDirectiveLocation AST.FIELD_DEFINITION) : (AST.DirectiveLocation_TypeSystemDirectiveLocation AST.OBJECT) : (AST.DirectiveLocation_TypeSystemDirectiveLocation AST.INTERFACE) : Nil)), name: "cacheControl" })) : (AST.Definition_TypeSystemDefinition (AST.TypeSystemDefinition_TypeDefinition (AST.TypeDefinition_EnumTypeDefinition (AST.EnumTypeDefinition { description: Nothing, directives: Nothing, enumValuesDefinition: (Just (AST.EnumValuesDefinition ((AST.EnumValueDefinition { description: Nothing, directives: Nothing, enumValue: (AST.EnumValue "PUBLIC") }) : (AST.EnumValueDefinition { description: Nothing, directives: Nothing, enumValue: (AST.EnumValue "PRIVATE") }) : Nil))), name: "CacheControlScope" })))) : Nil)))
+        )
