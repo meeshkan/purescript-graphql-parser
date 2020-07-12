@@ -472,7 +472,7 @@ implementsInterfaces =
     *> ignoreMe
     *> optional (char '&')
     *> ignoreMe
-    *> (AST.ImplementsInterfaces <$> sepBy1 namedType (ignoreMe *> char '&' *> ignoreMe))
+    *> (AST.ImplementsInterfaces <$> sepBy1 (ignoreMe *> namedType <* ignoreMe) (char '&'))
 
 scalarTypeDefinition ∷ ∀ s. StringLike s ⇒ Parser s (AST.ScalarTypeDefinition)
 scalarTypeDefinition =

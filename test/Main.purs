@@ -6,6 +6,7 @@ import Effect.Aff (launchAff_)
 import Test.Data.GraphQL.ParseFull0 (testFullDoc)
 import Test.Data.GraphQL.ParseFull1 (testQuery)
 import Test.Data.GraphQL.ParseFull2 (testCS)
+import Test.Data.GraphQL.ParseFull3 (testSwapi)
 import Test.Data.GraphQL.ParseSadistic0 (testSadistic0)
 import Test.Data.GraphQL.ParseSadistic1 (testSadistic1)
 import Test.Data.GraphQL.ParseSimple (testParser)
@@ -21,6 +22,7 @@ main =
         testFullDoc
         testQuery
         testCS
+        testSwapi
         retrieveStringTypes
         testSadistic0
         testSadistic1
