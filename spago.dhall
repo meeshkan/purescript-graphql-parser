@@ -8,5 +8,5 @@ You can edit this file as you like.
 , dependencies =
   [ "console", "effect", "generics-rep", "numbers", "parsing", "psci-support" ]
 , packages = ./packages.dhall
-, sources = [ "src/**/*.purs", "test/**/*.purs" ]
+, sources = [ "src/**/*.purs" ]
 }
