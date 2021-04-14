@@ -227,7 +227,7 @@ _listish ∷ ∀ s p. StringLike s ⇒ Parser s p → Parser s (L.List p)
 _listish p = sepEndBy p ignoreMe
 
 _listish1 ∷ ∀ s p. StringLike s ⇒ Parser s p → Parser s (L.List p)
-_listish1 p = sepEndBy1 p ignoreMe
+_listish1 p = L.fromFoldable <$> sepEndBy1 p ignoreMe
 
 listish ∷ ∀ s p. StringLike s ⇒ String → String → Parser s p → Parser s (L.List p)
 listish o c p = string o *> ignoreMe *> _listish p <* string c
@@ -300,7 +300,7 @@ directiveLocation =
 
 directiveLocations ∷ ∀ s. StringLike s ⇒ Parser s AST.DirectiveLocations
 directiveLocations =
-  AST.DirectiveLocations
+  AST.DirectiveLocations <<< L.fromFoldable
     <$> ( ignoreMe
           *> optional (char '|')
           *> sepBy1 (ignoreMe *> directiveLocation <* ignoreMe) (char '|')
@@ -368,7 +368,7 @@ ignorableExtension s =
     *> pure unit
 
 unionMemberTypes ∷ ∀ s. StringLike s ⇒ Parser s AST.UnionMemberTypes
-unionMemberTypes = AST.UnionMemberTypes <$> sepBy1 (ignoreMe *> namedType <* ignoreMe) (char '|')
+unionMemberTypes = AST.UnionMemberTypes <<< L.fromFoldable <$> sepBy1 (ignoreMe *> namedType <* ignoreMe) (char '|')
 
 unionTypeExtensionWithDirectives ∷ ∀ s. StringLike s ⇒ Parser s AST.UnionTypeExtension
 unionTypeExtensionWithDirectives =
@@ -477,7 +477,7 @@ implementsInterfaces =
     *> ignoreMe
     *> optional (char '&')
     *> ignoreMe
-    *> (AST.ImplementsInterfaces <$> sepBy1 (ignoreMe *> namedType <* ignoreMe) (char '&'))
+    *> (AST.ImplementsInterfaces <<< L.fromFoldable <$> sepBy1 (ignoreMe *> namedType <* ignoreMe) (char '&'))
 
 scalarTypeDefinition ∷ ∀ s. StringLike s ⇒ Parser s (AST.ScalarTypeDefinition)
 scalarTypeDefinition =
