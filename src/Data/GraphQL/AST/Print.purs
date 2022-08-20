@@ -5,7 +5,7 @@ import Prelude
 import Data.Foldable (foldMap, intercalate)
 import Data.GraphQL.AST as AST
 import Data.List (List)
-import Data.Maybe (Maybe, maybe)
+import Data.Maybe (Maybe(..), maybe)
 
 --  | Display a GraphQL AST as a graphql string.
 class PrintAst a where
@@ -49,7 +49,7 @@ instance PrintAst AST.SchemaExtension where
       printAst directives
 
 instance PrintAst (List AST.OperationTypeDefinition) where
-  printAst t = "{" <> intercalate " " (map printAst t) <> "}"
+  printAst t = "{\n  " <> intercalate "\n  " (map printAst t) <> "\n}"
 
 instance PrintAst (AST.OperationTypeDefinition) where
   printAst (AST.OperationTypeDefinition { operationType, namedType }) =
@@ -69,7 +69,7 @@ instance PrintAst AST.SchemaDefinition where
       <> printAst directives
       <> " "
       <>
-        ("{" <> intercalate " " (map printAst rootOperationTypeDefinition) <> "}")
+        ("{\n  " <> intercalate "\n  " (map printAst rootOperationTypeDefinition) <> "\n}")
 
 instance PrintAst AST.RootOperationTypeDefinition where
   printAst (AST.RootOperationTypeDefinition { operationType, namedType }) =
@@ -243,11 +243,11 @@ instance PrintAst AST.ImplementsInterfaces where
 
 instance PrintAst AST.InputFieldsDefinition where
   printAst (AST.InputFieldsDefinition fields) =
-    "{" <> intercalate "\n  " (map printAst fields) <> "}"
+    "{\n  " <> intercalate "\n  " (map printAst fields) <> "\n}"
 
 instance PrintAst AST.EnumValuesDefinition where
   printAst (AST.EnumValuesDefinition fields) =
-    "{" <> intercalate "\n  " (map printAst fields) <> "}"
+    "{\n  " <> intercalate "\n  " (map printAst fields) <> "\n}"
 
 instance PrintAst AST.DirectiveLocations where
   printAst (AST.DirectiveLocations fields) =
@@ -269,7 +269,7 @@ instance PrintAst AST.ExecutableDirectiveLocation where
   printAst = show
 
 instance PrintAst AST.EnumValueDefinition where
-  printAst (AST.EnumValueDefinition t@{ description, enumValue, directives }) =
+  printAst (AST.EnumValueDefinition { description, enumValue, directives }) =
     printDescription description
       <> printAst enumValue
       <> printAst directives
@@ -279,15 +279,15 @@ instance PrintAst AST.EnumValue where
 
 instance PrintAst AST.FieldsDefinition where
   printAst (AST.FieldsDefinition fields) =
-    "{" <> intercalate "\n  " (map printAst fields) <> "}"
+    "{\n  " <> intercalate "\n  " (map printAst fields) <> "\n}"
 
 instance PrintAst AST.FieldDefinition where
   printAst (AST.FieldDefinition t@{ description, name, argumentsDefinition, directives }) =
     printDescription description
       <> " "
       <> printAst name
-      <> " "
       <> printAst argumentsDefinition
+      <> ": "
       <> printAst t.type
       <> printAst directives
 
@@ -319,7 +319,7 @@ instance PrintAst AST.TypeCondition where
 
 instance PrintAst AST.SelectionSet where
   printAst (AST.SelectionSet t) =
-    "{" <> intercalate "\n  " (map printAst t) <> "}"
+    "{\n  " <> intercalate "\n  " (map printAst t) <> "\n}\n"
 
 instance PrintAst AST.Selection where
   printAst = case _ of
@@ -329,7 +329,7 @@ instance PrintAst AST.Selection where
 
 instance PrintAst AST.Field where
   printAst (AST.Field { alias, name, arguments, directives, selectionSet }) =
-    printAst alias
+    printAlias alias
       <> " "
       <> printAst name
       <> " "
@@ -338,6 +338,11 @@ instance PrintAst AST.Field where
       <> printAst directives
       <> " "
       <> printAst selectionSet
+
+    where
+    printAlias = case _ of 
+      Just s -> s <> ": "
+      Nothing -> ""
 
 instance PrintAst AST.FragmentSpread where
   printAst (AST.FragmentSpread { fragmentName, directives }) =
@@ -366,7 +371,7 @@ instance PrintAst AST.Directive where
 
 instance PrintAst AST.Arguments where
   printAst (AST.Arguments t) =
-    "(" <> foldMap printAst t <> ")"
+    "(" <> intercalate ", " (map printAst t) <> ")"
 
 instance PrintAst AST.Argument where
   printAst (AST.Argument { name, value }) =
@@ -395,11 +400,11 @@ instance PrintAst AST.ListType where
   printAst (AST.ListType t) = "[" <> printAst t <> "]"
 
 instance PrintAst AST.NonNullType where
-  printAst t =
-    ( case t of
+  printAst t_ =
+    ( case t_ of
         (AST.NonNullType_NamedType t) -> printAst t
         (AST.NonNullType_ListType t) -> printAst t
-    ) <> "!"
+    ) <> "! "
 
 -- values 
 
@@ -434,7 +439,7 @@ instance PrintAst AST.ListValue where
   printAst (AST.ListValue t) =  "[" <> (intercalate " " $ map printAst t) <> "]"
 
 instance PrintAst AST.ObjectValue where 
-  printAst (AST.ObjectValue t) =  "{" <> (intercalate " " $ map printAst t) <> "}"
+  printAst (AST.ObjectValue t) =  "{ " <> (intercalate " " $ map printAst t) <> " }"
 
 instance PrintAst AST.NullValue where 
   printAst AST.NullValue = "null"
@@ -442,7 +447,7 @@ instance PrintAst AST.NullValue where
 -- names 
 
 instance PrintAst AST.NamedType where
-  printAst (AST.NamedType a) = a <> " "
+  printAst (AST.NamedType a) = a
 
 -- maybes
 
