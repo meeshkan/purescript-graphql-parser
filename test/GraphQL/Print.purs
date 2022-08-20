@@ -19,6 +19,10 @@ import Test.Data.GraphQL.ParseFull0 as ParseFull0
 import Test.Data.GraphQL.ParseFull1 as ParseFull1
 import Test.Data.GraphQL.ParseFull2 as ParseFull2
 import Test.Data.GraphQL.ParseFull3 as ParseFull3
+import Test.Data.GraphQL.ParseSadistic0 as ParseSadistic0
+import Test.Data.GraphQL.ParseSadistic1 as ParseSadistic1
+import Test.Data.GraphQL.RetrieveStringTypes as RetrieveStringTypes
+
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual)
 
@@ -34,7 +38,12 @@ spec =
       checkPrintAndReparse ParseFull2.query
     describe "swapi" do
       checkPrintAndReparse_ $ ParseFull3.parseDocument "schemas/swapi.graphql"
-
+    describe "ParseSadistic0" do
+      checkPrintAndReparse ParseSadistic0.query
+    describe "ParseSadistic1" do
+      checkPrintAndReparse ParseSadistic1.query
+    describe "RetrieveStringTypes" do
+      checkPrintAndReparse RetrieveStringTypes.query
   where
   checkPrintAndReparse schema = checkPrintAndReparse_ (parseDocument schema)
   checkPrintAndReparse_ getInput = do
