@@ -1,4 +1,4 @@
-module Data.GraphQL.ParseFull1.Test where
+module Test.Data.GraphQL.ParseFull1 where
 
 import Prelude
 
