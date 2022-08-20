@@ -3,10 +3,9 @@ module Test.Data.GraphQL.ParseSadistic1 where
 import Prelude
 import Data.Either (either)
 import Data.GraphQL.Parser as GP
-import Effect.Aff (Aff)
-import Test.Spec (SpecT, describe, it)
+import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual, fail)
-import Text.Parsing.Parser (runParser)
+import Parsing (runParser)
 
 query =
   """subscription Z9
@@ -139,8 +138,8 @@ query =
       }""" ∷
     String
 
-testSadistic1 ∷ ∀ m. Monad m ⇒ SpecT Aff Unit m Unit
-testSadistic1 =
+spec ∷ Spec Unit
+spec =
   describe "test complicated query 1" do
     it "should parse" do
       either (\s -> fail $ "Bad :: " <> (show s)) (\_ -> 1 `shouldEqual` 1) $ runParser query GP.operationDefinition

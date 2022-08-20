@@ -1,6 +1,7 @@
-module Test.Data.GraphQL.ParseFull1 where
+module Data.GraphQL.ParseFull1.Test where
 
 import Prelude
+
 import Data.Either (either)
 import Data.GraphQL.AST (ObjectValue(..))
 import Data.GraphQL.AST as AST
@@ -12,17 +13,16 @@ import Data.Lens.Record as LR
 import Data.List (singleton)
 import Data.Maybe (Maybe(..))
 import Data.Profunctor.Choice (class Choice)
-import Data.Symbol (SProxy(..))
+import Type.Proxy (Proxy(..))
 import Data.Tuple (uncurry)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
 import Effect.Exception (throw)
-import Test.Spec (SpecT, before, describe, it)
+import Test.Spec (Spec, before, describe, it)
 import Test.Spec.Assertions (shouldEqual)
-import Text.Parsing.Parser (runParser)
-import Text.Parsing.Parser.String (class StringLike)
+import Parsing (runParser)
 
-parseDocument ∷ ∀ s. StringLike s ⇒ s → Aff (AST.Document)
+parseDocument ∷ String → Aff (AST.Document)
 parseDocument t = liftEffect (either (throw <<< show) pure (runParser t GP.document))
 
 query =
@@ -59,7 +59,7 @@ getFirstQueryVarDef =
   L.preview
     $ ( lensToQueryDefinition
           <<< uncurry L.prism' AST._OperationDefinition_OperationType
-          <<< LR.prop (SProxy ∷ SProxy "variableDefinitions")
+          <<< LR.prop (Proxy ∷ Proxy "variableDefinitions")
           <<< L._Just
           <<< uncurry L.prism' AST._VariableDefinitions
           <<< LI.ix 0
@@ -70,19 +70,19 @@ getNameDef =
   L.preview
     $ ( lensToQueryDefinition
           <<< uncurry L.prism' AST._OperationDefinition_OperationType
-          <<< LR.prop (SProxy ∷ SProxy "selectionSet")
+          <<< LR.prop (Proxy ∷ Proxy "selectionSet")
           <<< uncurry L.prism' AST._SelectionSet
           <<< LI.ix 1
           <<< uncurry L.prism' AST._Selection_Field
           <<< uncurry L.prism' AST._Field
-          <<< LR.prop (SProxy ∷ SProxy "arguments")
+          <<< LR.prop (Proxy ∷ Proxy "arguments")
           <<< _Just
           <<< uncurry L.prism' AST._Arguments
           <<< LI.ix 1
       )
 
-testQuery ∷ ∀ m. Monad m ⇒ SpecT Aff Unit m Unit
-testQuery =
+spec ∷ Spec Unit
+spec =
   describe "test full query" do
     before (parseDocument query)
       $ do
