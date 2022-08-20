@@ -52,7 +52,7 @@ testSwapi =
           -- 52 was confirmed by a quick n' dirty parsing of the document in python
           it "should get 52 type definitions" \doc → do
             (length (toListOf lensToObjectDefinitions doc)) `shouldEqual` 52
-          it "should hvae a type Film that implements an interface called Node" \doc → do
+          it "should have a type Film that implements an interface called Node" \doc → do
             preview
               ( simple _Newtype
                   <<< peel

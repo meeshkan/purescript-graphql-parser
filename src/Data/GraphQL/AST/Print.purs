@@ -6,6 +6,7 @@ import Data.Foldable (foldMap, intercalate)
 import Data.GraphQL.AST as AST
 import Data.List (List)
 import Data.Maybe (Maybe(..), maybe)
+import Data.String.CodeUnits (fromCharArray)
 
 --  | Display a GraphQL AST as a graphql string.
 class PrintAst a where
@@ -340,7 +341,7 @@ instance PrintAst AST.Field where
       <> printAst selectionSet
 
     where
-    printAlias = case _ of 
+    printAlias = case _ of
       Just s -> s <> ": "
       Nothing -> ""
 
@@ -381,12 +382,10 @@ instance PrintAst AST.VariableDefinition where
   printAst (AST.VariableDefinition t@{ variable, defaultValue }) =
     printAst variable <> ": " <> printAst t.type <> printAst defaultValue
 
-
-instance PrintAst AST.DefaultValue where 
+instance PrintAst AST.DefaultValue where
   printAst a = "=" <> printAst a
+
 -- VariableDefinition
-
-
 
 -- types 
 
@@ -420,28 +419,28 @@ instance PrintAst AST.Value where
     AST.Value_ListValue a -> printAst a
     AST.Value_ObjectValue a -> printAst a
 
-instance PrintAst AST.Variable where 
+instance PrintAst AST.Variable where
   printAst (AST.Variable t) = "$" <> printAst t
 
-instance PrintAst AST.IntValue where 
+instance PrintAst AST.IntValue where
   printAst (AST.IntValue t) = show t
 
-instance PrintAst AST.FloatValue where 
+instance PrintAst AST.FloatValue where
   printAst (AST.FloatValue t) = show t
 
-instance PrintAst AST.StringValue where 
+instance PrintAst AST.StringValue where
   printAst (AST.StringValue t) = show t
 
-instance PrintAst AST.BooleanValue where 
+instance PrintAst AST.BooleanValue where
   printAst (AST.BooleanValue t) = show t
 
-instance PrintAst AST.ListValue where 
-  printAst (AST.ListValue t) =  "[" <> (intercalate " " $ map printAst t) <> "]"
+instance PrintAst AST.ListValue where
+  printAst (AST.ListValue t) = "[" <> (intercalate " " $ map printAst t) <> "]"
 
-instance PrintAst AST.ObjectValue where 
-  printAst (AST.ObjectValue t) =  "{ " <> (intercalate " " $ map printAst t) <> " }"
+instance PrintAst AST.ObjectValue where
+  printAst (AST.ObjectValue t) = "{ " <> (intercalate " " $ map printAst t) <> " }"
 
-instance PrintAst AST.NullValue where 
+instance PrintAst AST.NullValue where
   printAst AST.NullValue = "null"
 
 -- names 
@@ -456,11 +455,13 @@ instance PrintAst a => PrintAst (Maybe a) where
 
 instance PrintAst String where
   printAst a = a
-  
+
 -- utils 
 
 printDescription :: Maybe String -> String
 printDescription = maybe "" tripleQuote
 
-tripleQuote :: String -> String 
-tripleQuote = show >>> show >>> show
+tripleQuote :: String -> String
+tripleQuote s = q3 <> s <> q3
+  where
+  q3 = "\"\"\""

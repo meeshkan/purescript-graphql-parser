@@ -2,7 +2,7 @@ module Test.GraphQL.Print where
 
 import Prelude
 
-import Control.Monad.Error.Class (class MonadThrow, catchError, throwError)
+import Control.Monad.Error.Class (catchError, throwError)
 import Data.Either (either)
 import Data.Foldable (for_)
 import Data.GraphQL.AST (Document(..))
@@ -11,14 +11,16 @@ import Data.GraphQL.AST.Print (printAst)
 import Data.GraphQL.Parser as GP
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
-import Effect.Class.Console (log, logShow)
-import Effect.Exception (Error, throw)
-import Parsing (runParser, Parser)
+import Effect.Class.Console (log)
+import Effect.Exception (throw)
+import Parsing (runParser)
 import Test.Data.GraphQL.ParseFull0 (parseDocument)
 import Test.Data.GraphQL.ParseFull0 as ParseFull0
 import Test.Data.GraphQL.ParseFull1 as ParseFull1
+import Test.Data.GraphQL.ParseFull2 as ParseFull2
+import Test.Data.GraphQL.ParseFull3 as ParseFull3
 import Test.Spec (Spec, describe, it)
-import Test.Spec.Assertions (fail, shouldEqual)
+import Test.Spec.Assertions (shouldEqual)
 
 spec ∷ Spec Unit
 spec =
@@ -28,11 +30,16 @@ spec =
       checkPrintAndReparse ParseFull0.schema
     describe "ParseFull1" do
       checkPrintAndReparse ParseFull1.query
+    describe "ParseFull2" do
+      checkPrintAndReparse ParseFull2.query
+    describe "swapi" do
+      checkPrintAndReparse_ $ ParseFull3.parseDocument "schemas/swapi.graphql"
 
   where
-  checkPrintAndReparse input = do
+  checkPrintAndReparse schema = checkPrintAndReparse_ (parseDocument schema)
+  checkPrintAndReparse_ getInput = do
     it "should parse each definition" do
-      (Document defs) <- parseDocument input
+      (Document defs) <- getInput
       for_ defs \def -> do
         let printed = printAst def
         catchError
@@ -46,11 +53,10 @@ spec =
             throwError err
 
     it "should parse the full schema" do
-      doc <- parseDocument input
+      doc <- getInput
       let printed = printAst doc
       reparsed <- parseDocument printed
       doc `shouldEqual` reparsed
-
 
 parseDefinition ∷ String → Aff (AST.Definition)
 parseDefinition t = liftEffect (either (throw <<< show) pure (runParser t GP.definition))
