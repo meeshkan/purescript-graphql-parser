@@ -37,24 +37,35 @@ spec =
     describe "ParseFull2" do
       checkPrintAndReparse ParseFull2.query
     describe "swapi" do
-      checkPrintAndReparse_ $ ParseFull3.parseDocument "schemas/swapi.graphql"
+      checkPrintAndReparseWithDoc $ ParseFull3.parseDocument "schemas/swapi.graphql"
     describe "ParseSadistic0" do
       checkPrintAndReparse ParseSadistic0.query
     describe "ParseSadistic1" do
       checkPrintAndReparse ParseSadistic1.query
     describe "RetrieveStringTypes" do
       checkPrintAndReparse RetrieveStringTypes.query
+    describe "Directive definition" do
+      checkPrintAndReparse "directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE"
+    describe "Directive definition followed by an enum" do
+      checkPrintAndReparse """directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+"""
   where
-  checkPrintAndReparse schema = checkPrintAndReparse_ (parseDocument schema)
-  checkPrintAndReparse_ getInput = do
+  checkPrintAndReparse schema = checkPrintAndReparseWithDoc (parseDocument schema)
+
+  checkPrintAndReparseWithDoc getDoc = do
     it "should parse each definition" do
-      (Document defs) <- getInput
+      (Document defs) <- getDoc
       for_ defs \def -> do
         let printed = printAst def
         catchError
           ( do
-              defReprinted <- parseDefinition printed
-              def `shouldEqual` defReprinted
+              defReparsed <- parseDefinition printed
+              def `shouldEqual` defReparsed
           )
           \err -> do
             log $ "Failed at: "
@@ -62,16 +73,10 @@ spec =
             throwError err
 
     it "should parse the full schema" do
-      doc <- getInput
+      doc <- getDoc
       let printed = printAst doc
       reparsed <- parseDocument printed
       doc `shouldEqual` reparsed
 
 parseDefinition ∷ String → Aff (AST.Definition)
 parseDefinition t = liftEffect (either (throw <<< show) pure (runParser t GP.definition))
-
--- rountripTest input = do 
---         doc1 <- parseDocument input
---         doc2 <- parseDocument $ printAst doc1
---         doc1 `shouldEqual` doc1
-

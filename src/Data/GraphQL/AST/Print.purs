@@ -2,11 +2,10 @@ module Data.GraphQL.AST.Print where
 
 import Prelude
 
-import Data.Foldable (foldMap, intercalate)
+import Data.Foldable (intercalate)
 import Data.GraphQL.AST as AST
 import Data.List (List)
 import Data.Maybe (Maybe(..), maybe)
-import Data.String.CodeUnits (fromCharArray)
 
 --  | Display a GraphQL AST as a graphql string.
 class PrintAst a where
