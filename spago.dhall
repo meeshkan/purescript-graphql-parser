@@ -6,7 +6,34 @@ You can edit this file as you like.
 , repository = "https://github.com/meeshkan/purescript-graphql-parser"
 , license = "Apache-2.0"
 , dependencies =
-  [ "console", "effect", "numbers", "parsing", "psci-support" ]
+  [ "aff"
+  , "arrays"
+  , "console"
+  , "control"
+  , "effect"
+  , "either"
+  , "enums"
+  , "exceptions"
+  , "foldable-traversable"
+  , "integers"
+  , "lists"
+  , "maybe"
+  , "newtype"
+  , "node-buffer"
+  , "node-fs"
+  , "numbers"
+  , "ordered-collections"
+  , "parsing"
+  , "prelude"
+  , "profunctor"
+  , "profunctor-lenses"
+  , "psci-support"
+  , "spec"
+  , "spec-discovery"
+  , "strings"
+  , "transformers"
+  , "tuples"
+  ]
 , packages = ./packages.dhall
-, sources = [ "src/**/*.purs" ]
+, sources = [ "src/**/*.purs", "test/**/*.purs" ]
 }

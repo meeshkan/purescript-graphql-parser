@@ -1,6 +1,7 @@
 module Test.Data.GraphQL.ParseSimple where
 
 import Prelude
+
 import Control.Monad.Error.Class (class MonadThrow)
 import Data.Either (either)
 import Data.GraphQL.AST as AST
@@ -9,16 +10,15 @@ import Data.List (List(..), singleton, (:))
 import Data.Maybe (Maybe(..))
 import Data.String.CodeUnits (fromCharArray)
 import Effect.Exception (Error)
-import Test.Spec (SpecT, describe, it)
+import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual, fail)
-import Text.Parsing.Parser (runParser, Parser)
-import Text.Parsing.Parser.String (class StringLike)
+import Parsing (runParser, Parser)
 
-parseSuccess ∷ ∀ s t m. StringLike s ⇒ MonadThrow Error m ⇒ Show t ⇒ Eq t ⇒ Parser s t → s → t → m Unit
+parseSuccess ∷ ∀ t m. MonadThrow Error m ⇒ Show t ⇒ Eq t ⇒ Parser String t → String → t → m Unit
 parseSuccess parser toparse tocomp = either (fail <<< show) (shouldEqual tocomp) (runParser toparse parser)
 
-testParser ∷ forall e m. Monad m => Bind e => MonadThrow Error e => SpecT e Unit m Unit
-testParser =
+spec ∷ Spec Unit
+spec =
   describe "test parser" do
     describe "test tokens" do
       it "should correctly parse comments" do
@@ -45,6 +45,8 @@ testParser =
         parseSuccess (GP.listValue GP.value) "[]" (AST.ListValue (Nil))
         parseSuccess (GP.listValue GP.value) "[1]" (AST.ListValue (AST.Value_IntValue (AST.IntValue 1) : Nil))
         parseSuccess (GP.listValue GP.value) "[\n\n#hello\n\n]" (AST.ListValue (Nil))
+        parseSuccess (GP.listValue GP.value) "[1 2]" (AST.ListValue (AST.Value_IntValue (AST.IntValue 1) : AST.Value_IntValue (AST.IntValue 2) : Nil))
+        parseSuccess (GP.listValue GP.value) "[1 2 ]" (AST.ListValue (AST.Value_IntValue (AST.IntValue 1) : AST.Value_IntValue (AST.IntValue 2) : Nil))
         parseSuccess (GP.listValue GP.value) "[\t\t1 2  \t,,  \"3\" ]" (AST.ListValue (AST.Value_IntValue (AST.IntValue 1) : AST.Value_IntValue (AST.IntValue 2) : AST.Value_StringValue (AST.StringValue "3") : Nil))
         parseSuccess (GP.listValue GP.value) "[1 2 \"3\"]" (AST.ListValue (AST.Value_IntValue (AST.IntValue 1) : AST.Value_IntValue (AST.IntValue 2) : AST.Value_StringValue (AST.StringValue "3") : Nil))
       it "should correctly parse objects" do

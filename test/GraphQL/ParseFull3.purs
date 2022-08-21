@@ -3,7 +3,6 @@ module Test.Data.GraphQL.ParseFull3 where
 import Prelude
 import Data.Either (either)
 import Data.GraphQL.AST as AST
-import Data.GraphQL.Parser (implementsInterfaces)
 import Data.GraphQL.Parser as GP
 import Data.Lens (class Wander, Prism', _2, _Just, preview, prism', toListOf, traversed)
 import Data.Lens.Common (simple)
@@ -12,7 +11,7 @@ import Data.Lens.Record (prop)
 import Data.List (List(..), length, (:))
 import Data.Maybe (Maybe(..))
 import Data.Profunctor.Choice (class Choice)
-import Data.Symbol (SProxy(..))
+import Type.Proxy (Proxy(..))
 import Data.Tuple (Tuple(..), uncurry)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
@@ -21,7 +20,7 @@ import Node.Encoding (Encoding(..))
 import Node.FS.Sync (readTextFile)
 import Test.Spec (SpecT, before, describe, it)
 import Test.Spec.Assertions (shouldEqual)
-import Text.Parsing.Parser (runParser)
+import Parsing (runParser)
 
 parseDocument :: String -> Aff AST.Document
 parseDocument t = do
@@ -53,7 +52,7 @@ testSwapi =
           -- 52 was confirmed by a quick n' dirty parsing of the document in python
           it "should get 52 type definitions" \doc → do
             (length (toListOf lensToObjectDefinitions doc)) `shouldEqual` 52
-          it "should hvae a type Film that implements an interface called Node" \doc → do
+          it "should have a type Film that implements an interface called Node" \doc → do
             preview
               ( simple _Newtype
                   <<< peel
@@ -63,7 +62,7 @@ testSwapi =
                   <<< uncurry prism' AST._TypeSystemDefinition_TypeDefinition
                   <<< uncurry prism' AST._TypeDefinition_ObjectTypeDefinition
                   <<< simple _Newtype
-                  <<< (prop (SProxy :: SProxy "implementsInterfaces"))
+                  <<< (prop (Proxy :: Proxy "implementsInterfaces"))
                   <<< _Just
               )
               doc
